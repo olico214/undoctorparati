@@ -89,7 +89,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
 
 
-const paciente = {};
+let paciente = {};
 const flowMenu = addKeyword('Menu').addAnswer([
   `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
   `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )\n`,
