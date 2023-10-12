@@ -9,7 +9,7 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 
 const doctor = {};
-const paciente = {};
+let paciente = {};
 
 
 const dataEspecialidades = {};
@@ -75,7 +75,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     if (valorBuscado === ban) {
       const tel = ctx.from
       console.log(tel)
-      paciente[tel].tipo = cadena
+      paciente[tel].specialyst = cadena
       await flowDynamic({body:`Especialista Seleccionado: ${cadena}`})
       nombresEspecialidades = []
       estado = true
@@ -113,6 +113,8 @@ const flowMenu = addKeyword('Menu').addAnswer([
   const tel = phone.slice(3)
   if(!paciente[tel]){
     paciente[tel] = {}
+    paciente[tel].specialyst = ""
+    
   }
   paciente[tel].tel = tel
   paciente[tel].seleccion = seleccion
