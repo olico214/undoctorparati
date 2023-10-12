@@ -30,6 +30,14 @@ async function getData() {
   }
 }
 
+
+
+const flowespecialista = addKeyword('especialista1').addAction(async(ctx,{flow})=>{
+
+})
+
+
+
 const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flowDynamic, gotoFlow, fallBack }) => {
   await getData();
   const especialidades = {};
@@ -43,7 +51,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
   });
   
-  paciente[tel] = { listEspecialidad: especial };
+  
   await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
 
   await flowDynamic({ body: especial });
@@ -65,9 +73,10 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     const cadena = nombresEspecialidades[i]
 
     if (valorBuscado === ban) {
-
+      paciente[tel] = { listEspecialidad: especial };
       await flowDynamic({body:`Especialista Seleccionado: ${cadena}`})
       nombresEspecialidades = []
+      return;
 
     }
   }
