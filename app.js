@@ -40,9 +40,6 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     dataEspecialidades[`${index + 1}`] = nombreEspecialidad
     let i = index + 1;
     especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
-
-    
-    
   });
   paciente[tel] = { listEspecialidad: especial };
   await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
@@ -53,18 +50,23 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   const tel = ctx.from
   const valorBuscado = ctx.body
 
-console.log(paciente[tel].listEspecialidad)
-
-for (const key in paciente[tel].listEspecialidad) {
-  const value = paciente[tel].listEspecialidad[key];
-
+  for (let i = 0; i < paciente[tel].listEspecialidad.length; i++) {
+    const value = paciente[tel].listEspecialidad[i];
+ 
   
-  if (value === valorBuscado) {
-    // Valor encontrado
-    console.log(`Valor encontrado: ${value}`);
-    break; // Terminar el bucle una vez que se encuentre el valor
+    // Extraer el número de la cadena value (asumiendo que siempre tiene el formato ⭐️ » número: especialidad)
+    const match = value.match(/⭐️ » (\d+):/);
+    if (match) {
+      const numero = match[1]; // El número encontrado
+  
+      if (valorBuscado === numero) {
+        // El valor buscado coincide con el número
+        console.log(`Coincidencia encontrada: ${value}`);
+      }
+    }
   }
-}
+  
+
 
   
 })
