@@ -7,21 +7,20 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 
 
-const paciente = {};
+
 const doctor = {};
-const especialidades = {};
 const dataEspecialidades = {};
-let especial = ""; // Cambiar a let para poder modificarlo
+
 
 
 // Definir la URL del endpoint
 const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
 
-// Inicializar un array para almacenar los nombres de especialidades
+
 const nombresEspecialidades = [];
 
 // Realizar una solicitud GET al endpoint
-axios.get(apiUrl)
+await axios.get(apiUrl)
   .then(response => {
     // Los datos de la respuesta se encuentran en response.data
     const especialidades = response.data;
@@ -31,13 +30,15 @@ axios.get(apiUrl)
       nombresEspecialidades.push(especialidad.specialty);
     }
 
-    console.log('Nombres de especialidades:', nombresEspecialidades);
+    
   })
   .catch(error => {
     console.error('Error al consultar la API:', error);
   });
 
-// Luego, puedes recorrer el array y asignar dinámicamente las propiedades al objeto especialidades
+const especialidades = {};
+let especial = "";
+
 nombresEspecialidades.forEach((nombreEspecialidad, index) => {
   especialidades[`${index + 1}`] = nombreEspecialidad;
   let i =index+1;
@@ -52,7 +53,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async(ctx, { flow
 
 
 
-
+const paciente = {};
 const flowMenu = addKeyword('Menu').addAnswer([
   `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
   `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )\n`,
