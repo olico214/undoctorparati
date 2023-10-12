@@ -12,7 +12,8 @@ const paciente = {};
 const doctor = {}
 const especialidad = {}
 
-const flowEspecialidad =addAction({capture:true},(ctx,{flowDynamic,gotoFlow,fallBack})=>{
+const flowEspecialidad =addKeyword('especialidad1').
+addAction({capture:true},(ctx,{flowDynamic,gotoFlow,fallBack})=>{
   
 })
 
