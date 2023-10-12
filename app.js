@@ -13,7 +13,29 @@ const especialidades = {};
 const dataEspecialidades = {};
 let especial = ""; // Cambiar a let para poder modificarlo
 
-const nombresEspecialidades = ['urologia', 'endocrinologia', 'trauma', 'pediatria', 'necrologia', 'familiar'];
+
+// Definir la URL del endpoint
+const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
+
+// Inicializar un array para almacenar los nombres de especialidades
+const nombresEspecialidades = [];
+
+// Realizar una solicitud GET al endpoint
+axios.get(apiUrl)
+  .then(response => {
+    // Los datos de la respuesta se encuentran en response.data
+    const especialidades = response.data;
+
+    // Extraer los nombres de especialidades y almacenarlos en el array
+    for (const especialidad of especialidades) {
+      nombresEspecialidades.push(especialidad.specialty);
+    }
+
+    console.log('Nombres de especialidades:', nombresEspecialidades);
+  })
+  .catch(error => {
+    console.error('Error al consultar la API:', error);
+  });
 
 // Luego, puedes recorrer el array y asignar dinámicamente las propiedades al objeto especialidades
 nombresEspecialidades.forEach((nombreEspecialidad, index) => {
