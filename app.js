@@ -16,7 +16,7 @@ const dataEspecialidades = {};
 const nombresEspecialidades = [];
 
 async function getData() {
-  nombresEspecialidades = [];
+
   try {
     const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
     const response = await axios.get(apiUrl);
@@ -46,6 +46,8 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
 
   await flowDynamic({ body: especial });
+  especial = "";
+
 })
 .addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
   const tel = ctx.from
