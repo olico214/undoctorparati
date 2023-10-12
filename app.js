@@ -16,6 +16,7 @@ const dataEspecialidades = {};
 const nombresEspecialidades = [];
 
 async function getData() {
+  nombresEspecialidades = [];
   try {
     const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
     const response = await axios.get(apiUrl);
@@ -48,23 +49,30 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 })
 .addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
   const tel = ctx.from
-  const valorBuscado = ctx.body
 
   for (let i = 0; i < paciente[tel].listEspecialidad.length; i++) {
     const value = paciente[tel].listEspecialidad[i];
- 
+    // Valor buscado
+    const valorBuscado = ctx.body;
   
-    // Extraer el número de la cadena value (asumiendo que siempre tiene el formato ⭐️ » número: especialidad)
-    const match = value.match(/⭐️ » (\d+):/);
-    if (match) {
-      const numero = match[1]; // El número encontrado
+    // Dividir la cadena en elementos utilizando '\n' como separador
+    const especialidades = value.split('\n');
   
-      if (valorBuscado === numero) {
-        // El valor buscado coincide con el número
-        console.log(`Coincidencia encontrada: ${value}`);
+    // Iterar sobre las especialidades y buscar coincidencias
+    for (const especialidad of especialidades) {
+      // Utilizar una expresión regular para extraer el número
+      const match = especialidad.match(/⭐️ » (\d+):/);
+      if (match) {
+        const numero = match[1]; // El número encontrado
+  
+        if (valorBuscado === numero) {
+          // El valor buscado coincide con el número
+          console.log(`Coincidencia encontrada: ${especialidad}`);
+        }
       }
     }
   }
+  
   
 
 
