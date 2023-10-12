@@ -28,7 +28,7 @@ async function getData(){
     // Extraer los nombres de especialidades y almacenarlos en el array
     for (const especialidad of especialidades) {
       nombresEspecialidades.push(especialidad.specialty);
-      console.log(especialidad.specialty)
+      
     }
 
     
@@ -47,6 +47,7 @@ nombresEspecialidades.forEach((nombreEspecialidad, index) => {
   especialidades[`${index + 1}`] = nombreEspecialidad;
   let i =index+1;
   especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
+  console.log(nombreEspecialidad)
 });
 
 const flowEspecialidad = addKeyword('especialidad1').addAction(async(ctx, { flowDynamic, gotoFlow, fallBack }) => {
