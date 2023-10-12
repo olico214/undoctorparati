@@ -35,7 +35,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
   paciente[tel].tel = tel
   paciente[tel].seleccion = seleccion
   
-  flowDynamic({body:`Tu seleccion: ${seleccion} tu numero de telefono: ${phone}`})
+  flowDynamic({body:`Tu seleccion: ${seleccion} tu numero de telefono: ${phone} `})
 
 
 
