@@ -17,12 +17,13 @@ const nombresEspecialidades = ['urologia', 'endocrinologia', 'trauma', 'pediatri
 
 // Luego, puedes recorrer el array y asignar dinámicamente las propiedades al objeto especialidades
 nombresEspecialidades.forEach((nombreEspecialidad, index) => {
-  especialidades[`val${index + 1}`] = nombreEspecialidad;
-  especial += `${especialidades[`val${index + 1}`]} ${nombreEspecialidad}\n`; // Concatenar valores
+  especialidades[`${index + 1}`] = nombreEspecialidad;
+  let i =index+1;
+  especial += `${i}: ${nombreEspecialidad}\n`; // Concatenar valores
 });
 
-const flowEspecialidad = addKeyword('especialidad1').addAction((ctx, { flowDynamic, gotoFlow, fallBack }) => {
-  flowDynamic({ body: 'Escribe el numero de la especialidad:\n\n' });
+const flowEspecialidad = addKeyword('especialidad1').addAction(async(ctx, { flowDynamic, gotoFlow, fallBack }) => {
+  await flowDynamic({ body: 'Escribe el numero de la especialidad:\n\n' });
   return flowDynamic({ body: especial });
 });
 
@@ -55,7 +56,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
   paciente[tel].seleccion = seleccion
   console.log(paciente[tel])
   
-  flowDynamic({body:`Tu seleccion: ${seleccion} tu numero de telefono: ${phone} `})
+  //flowDynamic({body:`Tu seleccion: ${seleccion} tu numero de telefono: ${phone} `})
   if(paciente[tel].seleccion == '1'){
     return gotoFlow(flowEspecialidad)
   }
