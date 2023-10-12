@@ -6,9 +6,6 @@ const axios = require('axios')
 const { EVENTS } = require('@bot-whatsapp/bot')
 
 
-
-const axios = require('axios');
-
 const conversationData = {
   paciente: {},
   doctor: {},
