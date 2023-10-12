@@ -105,7 +105,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
 
   
   
-],{capture:true},(ctx,{fallBack,flowDynamic,gotoFlow})=>{
+],{capture:true},async (ctx,{fallBack,flowDynamic,gotoFlow})=>{
   const seleccion = ctx.body;
   const phone = ctx.from;
   const tel = phone.slice(3)
@@ -114,7 +114,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
   }
   paciente[tel].tel = tel
   paciente[tel].seleccion = seleccion
-  console.log(paciente[tel])
+  await console.log(paciente[tel])
   
   //flowDynamic({body:`Tu seleccion: ${seleccion} tu numero de telefono: ${phone} `})
   if(paciente[tel].seleccion == '1'){
