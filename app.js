@@ -57,6 +57,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
   for (const especialidad of paciente[tel].listEspecialidad) {
     // Comparar el valor buscado con la especialidad
+    console.log(especialidad)
     if (valorBuscado === especialidad.numero) {
       console.log(`Coincidencia encontrada: ${especialidad.especialidad}`);
     }
