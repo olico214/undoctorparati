@@ -47,8 +47,9 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   paciente[tel] = { listEspecialidad: especial };
   await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
 
-  return flowDynamic({ body: especial });
-}).addAction({capture:true},(ctx,{flowDynamic,gotoFlow})=>{
+  await flowDynamic({ body: especial });
+})
+.addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
   const tel = ctx.from
   const valorBuscado = ctx.body
 
