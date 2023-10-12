@@ -97,7 +97,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
     await state.update({captura:seleccion})
     await state.update({telefono:tel})
     
-    if (tel == '1') {
+    if (seleccion == '1') {
       return gotoFlow(flowEspecialidad);
     }
 
