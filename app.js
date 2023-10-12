@@ -7,21 +7,20 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 
 
-
-const doctor = {};
-
-
+const conversationData = {
+  paciente: {},
+  doctor: {},
+};
 
 const dataEspecialidades = {};
 let nombresEspecialidades = [];
 
 async function getData() {
-
   try {
     const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
     const response = await axios.get(apiUrl);
     const especialidades = response.data;
-    
+
     for (const especialidad of especialidades) {
       nombresEspecialidades.push(especialidad.specialty);
     }
@@ -30,66 +29,55 @@ async function getData() {
   }
 }
 
-
-
-
-
-const paciente = {};
-const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flowDynamic, gotoFlow, fallBack }) => {
+const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flowDynamic }) => {
   await getData();
   const especialidades = {};
   let especial = "";
 
-
   nombresEspecialidades.forEach((nombreEspecialidad, index) => {
     especialidades[`${index + 1}`] = nombreEspecialidad;
-    dataEspecialidades[`${index + 1}`] = nombreEspecialidad
+    dataEspecialidades[`${index + 1}`] = nombreEspecialidad;
     let i = index + 1;
-    especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
+    especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`;
   });
-  
-  
-  await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
+
+  await flowDynamic({
+    body: '¡Genial!\n_Por favor escribe el número de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menú principal escribe *Menu*',
+  });
 
   await flowDynamic({ body: especial });
-
-
 })
-.addAnswer("Escribe el especialista a continuación:",{capture:true},async (ctx,{flowDynamic,fallBack,gotoFlow,endFlow})=>{
-  const tel = ctx.from
-  console.log(paciente[tel])
 
-  const valorBuscado = ctx.body;
-  const evaluate = valorBuscado.toLowerCase()
+  .addAnswer("Escribe el especialista a continuación:", { capture: true }, async (ctx, { flowDynamic, fallBack, gotoFlow, endFlow }) => {
+    const tel = ctx.from;
+    console.log(conversationData.paciente[tel]);
 
-  let estado = false
+    const valorBuscado = ctx.body;
+    const evaluate = valorBuscado.toLowerCase();
 
-  if(evaluate ==="menu" || evaluate ==="menú"){
-    return gotoFlow(flowMenu)
-  }
-  for (let i = 0;i<nombresEspecialidades.length;i++){
-    const ban = (i + 1).toString();
-    const cadena = nombresEspecialidades[i]
+    let estado = false;
 
-    if (valorBuscado === ban) {
-      
-      
-      nombresEspecialidades = []
-      paciente[tel].specialyst = cadena
-      
-      await flowDynamic({body:`Especialista Seleccionado: ${cadena}`})
-      return endFlow()
+    if (evaluate === "menu" || evaluate === "menú") {
+      return gotoFlow(flowMenu);
     }
-  }
-  if(!estado){
-    await flowDynamic({body:'Seleccione un especilista valido'})
-    return fallBack()
-  }
-})
 
+    for (let i = 0; i < nombresEspecialidades.length; i++) {
+      const ban = (i + 1).toString();
+      const cadena = nombresEspecialidades[i];
 
+      if (valorBuscado === ban) {
+        nombresEspecialidades = [];
+        conversationData.paciente[tel].specialyst = cadena;
+        await flowDynamic({ body: `Especialista Seleccionado: ${cadena}` });
+        return endFlow();
+      }
+    }
 
-
+    if (!estado) {
+      await flowDynamic({ body: 'Seleccione un especialista válido' });
+      return fallBack();
+    }
+  });
 
 const flowMenu = addKeyword('Menu').addAnswer([
   `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
@@ -103,29 +91,25 @@ const flowMenu = addKeyword('Menu').addAnswer([
   `〰️〰️〰️〰️〰️〰️〰️〰️〰️`,
   ` www.undoctorparati.com`,
   ` ¡Te conectamos con los Doctores!`,
+], { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
+    const seleccion = ctx.body;
+    const phone = ctx.from;
+    const tel = phone.slice(3);
 
-  
-  
-],{capture:true},async (ctx,{fallBack,flowDynamic,gotoFlow})=>{
-  const seleccion = ctx.body;
-  const phone = ctx.from;
-  const tel = phone.slice(3)
-  if(!paciente[tel]){
-    paciente[tel] = {}
-  }
-  paciente[tel].tel = tel
-  paciente[tel].seleccion = seleccion
-  console.log(paciente[tel])
-  
-  //flowDynamic({body:`Tu seleccion: ${seleccion} tu numero de telefono: ${phone} `})
-  if(paciente[tel].seleccion == '1'){
-    return gotoFlow(flowEspecialidad)
-  }
+    if (!conversationData.paciente[tel]) {
+      conversationData.paciente[tel] = {};
+    }
 
+    conversationData.paciente[tel].tel = tel;
+    conversationData.paciente[tel].seleccion = seleccion;
+    console.log(conversationData.paciente[tel]);
 
-
-})
-
+    if (conversationData.paciente[tel].seleccion == '1') {
+      return gotoFlow(flowEspecialidad);
+    }
+    // Resto del flujo
+    // ...
+  });
 
 const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynamic,gotoFlow})=>{
   const ciudad = 'Guadalajara'
