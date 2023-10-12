@@ -115,8 +115,6 @@ const flowMenu = addKeyword('Menu').addAnswer([
   const tel = phone.slice(3)
   if(!paciente[tel]){
     paciente[tel] = {}
-    paciente[tel].specialyst = ""
-    
   }
   paciente[tel].tel = tel
   paciente[tel].seleccion = seleccion
