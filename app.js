@@ -14,13 +14,13 @@ const dataEspecialidades = {};
 
 
 // Definir la URL del endpoint
-const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
 
 
-const nombresEspecialidades = [];
 
-// Realizar una solicitud GET al endpoint
-await axios.get(apiUrl)
+const nombresEspecialidades = []
+async function getData(){
+  const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
+  axios.get(apiUrl)
   .then(response => {
     // Los datos de la respuesta se encuentran en response.data
     const especialidades = response.data;
@@ -35,6 +35,9 @@ await axios.get(apiUrl)
   .catch(error => {
     console.error('Error al consultar la API:', error);
   });
+}
+
+getData()
 
 const especialidades = {};
 let especial = "";
