@@ -93,8 +93,6 @@ const flowMenu = addKeyword('Menu').addAnswer([
     const seleccion = ctx.body;
     const phone = ctx.from;
     const tel = phone.slice(3);
-
-    await state.update({captura:seleccion})
     await state.update({telefono:tel})
     
     if (seleccion == '1') {
