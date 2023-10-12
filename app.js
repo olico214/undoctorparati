@@ -9,12 +9,10 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 
 const doctor = {};
+
+
+
 const dataEspecialidades = {};
-
-
-
-// Definir la URL del endpoint
-
 const nombresEspecialidades = [];
 
 async function getData() {
@@ -35,18 +33,40 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   await getData();
   const especialidades = {};
   let especial = "";
+  const tel = ctx.from
 
   nombresEspecialidades.forEach((nombreEspecialidad, index) => {
     especialidades[`${index + 1}`] = nombreEspecialidad;
+    dataEspecialidades[`${index + 1}`] = nombreEspecialidad
     let i = index + 1;
     especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
+
+    
     
   });
-
+  paciente[tel] = { listEspecialidad: especial };
   await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
 
   return flowDynamic({ body: especial });
-});
+}).addAction({capture:true},(ctx,{flowDynamic,gotoFlow})=>{
+  const tel = ctx.from
+  const valorBuscado = ctx.body
+
+
+
+for (const key in paciente[tel].listEspecialidad) {
+  const value = paciente[tel].listEspecialidad[key];
+  console.log(value)
+  
+  if (value === valorBuscado) {
+    // Valor encontrado
+    console.log(`Valor encontrado: ${value}`);
+    break; // Terminar el bucle una vez que se encuentre el valor
+  }
+}
+
+  
+})
 
 
 
