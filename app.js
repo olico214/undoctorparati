@@ -19,11 +19,11 @@ const nombresEspecialidades = ['urologia', 'endocrinologia', 'trauma', 'pediatri
 nombresEspecialidades.forEach((nombreEspecialidad, index) => {
   especialidades[`${index + 1}`] = nombreEspecialidad;
   let i =index+1;
-  especial += `${i}: ${nombreEspecialidad}\n`; // Concatenar valores
+  especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
 });
 
 const flowEspecialidad = addKeyword('especialidad1').addAction(async(ctx, { flowDynamic, gotoFlow, fallBack }) => {
-  await flowDynamic({ body: 'Escribe el numero de la especialidad:\n\n' });
+  await flowDynamic({ body: '¡Genial! Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad' });
   return flowDynamic({ body: especial });
 });
 
