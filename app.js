@@ -44,11 +44,9 @@ const flowMenu = addKeyword('Menu').addAnswer([
 
 const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynamic,gotoFlow})=>{
   const ciudad = 'Guadalajara'
-  flowDynamic({body:`💊  ¡Hola!  Soy la asistente virtual de undoctorparati.com en ${ciudad} y estoy disponible 24/7 para poder ayudarte\n〰️〰️〰️〰️〰️〰️〰️〰️〰️\n`})
-  flowDynamic({body:`🚫  Este WhatsApp, no es de urgencias`})
-  flowDynamic({body:`🦾 Soy una asistente Virtual por WhatsApp con respuestas programadas`})
-  flowDynamic({body:`🤳 Este es un servicio gratuito compártelo con quien creas que pueda necesitarlo,`+
-  ` recuerda guardar este whatsapp para tener información de los mejores especialistas en tu ciudad rápidamente sin instalar ninguna app.\n`})
+  flowDynamic({body:`💊  ¡Hola!  Soy la asistente virtual de undoctorparati.com en ${ciudad} y estoy disponible 24/7 para poder ayudarte\n〰️〰️〰️〰️〰️〰️〰️〰️〰️\n🚫  Este WhatsApp, no es de urgencias`+
+`🦾 Soy una asistente Virtual por WhatsApp con respuestas programadas\n🤳 Este es un servicio gratuito compártelo con quien creas que pueda necesitarlo,`+
+` recuerda guardar este whatsapp para tener información de los mejores especialistas en tu ciudad rápidamente sin instalar ninguna app.\n`})
   return gotoFlow(flowMenu)
 })
 
