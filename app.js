@@ -42,7 +42,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     let i = index + 1;
     especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
   });
-  nombresEspecialidades = []
+  nombresEspecialidades = ""
   paciente[tel] = { listEspecialidad: especial };
   await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
 
