@@ -10,6 +10,14 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 const paciente = {};
 const doctor = {}
+const especialidad = {}
+
+const flowEspecialidad =addAction({capture:true},(ctx,{flowDynamic,gotoFlow,fallBack})=>{
+  
+})
+
+
+
 const flowMenu = addKeyword('Menu').addAnswer([
   `💥 Escribe *Especialidad* para conocer las especialidades que tenemos\n`,
   `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )\n`,
@@ -34,6 +42,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
   }
   paciente[tel].tel = tel
   paciente[tel].seleccion = seleccion
+  console.log(paciente[tel])
   
   flowDynamic({body:`Tu seleccion: ${seleccion} tu numero de telefono: ${phone} `})
 
