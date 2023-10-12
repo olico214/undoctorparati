@@ -11,13 +11,13 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 const paciente = {};
 const doctor = {}
 const flowMenu = addKeyword('Menu').addAnswer([
-  `💥 Escribe *Especialidad* para conocer las especialidades que tenemos`,
-  `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )`,
-  `🔅 Escribe la especialidad del médico ( Ejemplo: Cardiólogo, Ginecólogo, etc. )`,
-  `☝️  Escribe Postularme  para formar parte de este Directorio Whatsapp`,
-  `〰️〰️〰️〰️〰️〰️〰️〰️〰️`,
-  `👉 📞 Si deseas agendar una cita por teléfono con algún médico\nLlama a este número  4775820455`,
-  `⌚️ Nuestras agentes con gusto te atenderán en los siguientes horarios:\n*Lunes a Viernes*\n8:00 am - 8:00 pm`,
+  `💥 Escribe *Especialidad* para conocer las especialidades que tenemos\n`,
+  `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )\n`,
+  `🔅 Escribe la especialidad del médico ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n`,
+  `☝️  Escribe Postularme  para formar parte de este Directorio Whatsapp\n\n`,
+  `〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n`,
+  `👉 📞 Si deseas agendar una cita por teléfono con algún médico\nLlama a este número  4775820455\n`,
+  `⌚️ Nuestras agentes con gusto te atenderán en los siguientes horarios:\n*Lunes a Viernes*\n8:00 am - 8:00 pm\n`,
   `*Sábado*\n9:00 am - 3:00 pm`,
   `〰️〰️〰️〰️〰️〰️〰️〰️〰️`,
   ` www.undoctorparati.com`,
