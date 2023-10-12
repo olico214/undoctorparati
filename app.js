@@ -17,9 +17,10 @@ const especialidades = [
   // Agrega más especialidades según tus necesidades
 ];
 const flowEspecialidad =addKeyword('especialidad1').
-addAction({capture:true},(ctx,{flowDynamic,gotoFlow,fallBack})=>{
-  console.log(especialidades[0].nombre);
-  console.log(especialidades[1].descripcion);
+addAction((ctx,{flowDynamic,gotoFlow,fallBack})=>{
+  flowDynamic({body:especialidades[0].nombre});
+  flowDynamic({body:especialidades[0].descripcion});
+  
 })
 
 
