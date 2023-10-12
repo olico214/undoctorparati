@@ -6,10 +6,7 @@ const axios = require('axios')
 const { EVENTS } = require('@bot-whatsapp/bot')
 
 
-const conversationData = {
-  paciente: {},
-  doctor: {},
-};
+
 
 const dataEspecialidades = {};
 let nombresEspecialidades = [];
@@ -49,9 +46,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   await flowDynamic({ body: especial });
 
 })
-  .addAnswer("Escribe el especialista a continuación:", { capture: true }, async (ctx, { flowDynamic, fallBack, gotoFlow, endFlow }) => {
-    const tel = ctx.from;
-
+  .addAnswer("Escribe el especialista a continuación:", { capture: true }, async (ctx, {state, flowDynamic, fallBack, gotoFlow, endFlow }) => {
 
     const valorBuscado = ctx.body;
     const evaluate = valorBuscado.toLowerCase();
@@ -61,18 +56,17 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     if (evaluate === "menu" || evaluate === "menú") {
       return gotoFlow(flowMenu);
     }
+    const myState = state.getMyState()
 
-    if (!conversationData.paciente[tel]) {
-      conversationData.paciente[tel] = {};
-    }
+    
 
     for (let i = 0; i < nombresEspecialidades.length; i++) {
       const ban = (i + 1).toString();
       const cadena = nombresEspecialidades[i];
 
       if (valorBuscado === ban) {
-        conversationData.paciente[tel].specialyst = cadena;
-        await flowDynamic({ body: `Especialista Seleccionado: ${cadena}` });
+        await state.update({especialidad:cadena})
+        await flowDynamic({ body: `Especialista Seleccionado: ${cadena},  ${myState.tel} en breve te compartire mas informacion de` });
         return endFlow();
       }
     }
@@ -95,24 +89,18 @@ const flowMenu = addKeyword('Menu').addAnswer([
   `〰️〰️〰️〰️〰️〰️〰️〰️〰️`,
   ` www.undoctorparati.com`,
   ` ¡Te conectamos con los Doctores!`,
-], { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
+], { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow,state }) => {
     const seleccion = ctx.body;
     const phone = ctx.from;
     const tel = phone.slice(3);
 
-    if (!conversationData.paciente[tel]) {
-      conversationData.paciente[tel] = {};
-    }
-
-    conversationData.paciente[tel].tel = tel;
-    conversationData.paciente[tel].seleccion = seleccion;
-    console.log(conversationData.paciente[tel]);
-
-    if (conversationData.paciente[tel].seleccion == '1') {
+    await state.update({captura:seleccion})
+    await state.update({telefono:tel})
+    
+    if (tel == '1') {
       return gotoFlow(flowEspecialidad);
     }
-    // Resto del flujo
-    // ...
+
   });
 
 
