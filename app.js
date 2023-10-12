@@ -50,18 +50,30 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
 
 })
-.addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
+.addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,fallBack,gotoFlow})=>{
   const tel = ctx.from
   const valorBuscado = ctx.body;
+  const evaluate = valorBuscado.toLowerCase()
 
+  const estado = true
 
+  if(evaluate ==="menu" || evaluate ==="menú"){
+    endFlow()
+  }
   for (let i = 0;i<nombresEspecialidades.length;i++){
     const ban = (i + 1).toString();
     const cadena = nombresEspecialidades[i]
 
     if (valorBuscado === ban) {
-      console.log(`Coincidencia encontrada: ${cadena}`);
+
+      flowDynamic({body:`Especialista Seleccionado: ${cadena}`})
+      nombresEspecialidades = []
+
     }
+  }
+  if(!estado){
+    flowDynamic({body:'Seleccione un especilista valido'})
+    return fallBack()
   }
 })
 
