@@ -42,7 +42,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   await getData();
   const especialidades = {};
   let especial = "";
-  const tel = ctx.from
+
 
   nombresEspecialidades.forEach((nombreEspecialidad, index) => {
     especialidades[`${index + 1}`] = nombreEspecialidad;
@@ -63,7 +63,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   const valorBuscado = ctx.body;
   const evaluate = valorBuscado.toLowerCase()
 
-  const estado = false
+  let estado = false
 
   if(evaluate ==="menu" || evaluate ==="menú"){
     return gotoFlow(flowMenu)
@@ -73,10 +73,10 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     const cadena = nombresEspecialidades[i]
 
     if (valorBuscado === ban) {
-      paciente[tel].especialista = cadena;
+      //paciente[tel].especialista = cadena;
       await flowDynamic({body:`Especialista Seleccionado: ${cadena}`})
       nombresEspecialidades = []
-      return;
+      estado = true
 
     }
   }
