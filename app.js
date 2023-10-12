@@ -84,7 +84,17 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   });
 
 const flowMenu = addKeyword('Menu').addAnswer([
-  // Tu respuesta del menú
+  `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
+  `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )\n`,
+  `🔅 Escribe la especialidad del médico ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n`,
+  `☝️  Escribe Postularme  para formar parte de este Directorio Whatsapp\n\n`,
+  `〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n`,
+  `👉 📞 Si deseas agendar una cita por teléfono con algún médico\nLlama a este número  4775820455\n`,
+  `⌚️ Nuestras agentes con gusto te atenderán en los siguientes horarios:\n*Lunes a Viernes*\n8:00 am - 8:00 pm\n`,
+  `*Sábado*\n9:00 am - 3:00 pm\n`,
+  `〰️〰️〰️〰️〰️〰️〰️〰️〰️`,
+  ` www.undoctorparati.com`,
+  ` ¡Te conectamos con los Doctores!`,
 ], { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
     const seleccion = ctx.body;
     const phone = ctx.from;
