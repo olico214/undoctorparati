@@ -7,21 +7,25 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 
 
-
 const paciente = {};
-const doctor = {}
-const especialidades = [
-  { nombre: 'Especialidad 1', descripcion: 'Descripción de la especialidad 1' },
-  { nombre: 'Especialidad 2', descripcion: 'Descripción de la especialidad 2' },
-  { nombre: 'Especialidad 3', descripcion: 'Descripción de la especialidad 3' },
-  // Agrega más especialidades según tus necesidades
-];
-const flowEspecialidad =addKeyword('especialidad1').
-addAction((ctx,{flowDynamic,gotoFlow,fallBack})=>{
-  flowDynamic({body:especialidades[0].nombre});
-  flowDynamic({body:especialidades[0].descripcion});
-  
-})
+const doctor = {};
+const especialidades = {};
+const dataEspecialidades = {};
+let especial = ""; // Cambiar a let para poder modificarlo
+
+const nombresEspecialidades = ['urologia', 'endocrinologia', 'trauma', 'pediatria', 'necrologia', 'familiar'];
+
+// Luego, puedes recorrer el array y asignar dinámicamente las propiedades al objeto especialidades
+nombresEspecialidades.forEach((nombreEspecialidad, index) => {
+  especialidades[`val${index + 1}`] = nombreEspecialidad;
+  especial += `${especialidades[`val${index + 1}`]} ${nombreEspecialidad}\n`; // Concatenar valores
+});
+
+const flowEspecialidad = addKeyword('especialidad1').addAction((ctx, { flowDynamic, gotoFlow, fallBack }) => {
+  flowDynamic({ body: 'Escribe el numero de la especialidad:\n\n' });
+  return flowDynamic({ body: especial });
+});
+
 
 
 
