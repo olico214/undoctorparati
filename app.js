@@ -39,7 +39,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
 
   
   
-],{capture:true},(ctx,{fallBack,flowDynamic})=>{
+],{capture:true},(ctx,{fallBack,flowDynamic,gotoFlow})=>{
   const seleccion = ctx.body;
   const phone = ctx.from;
   const tel = phone.slice(3)
