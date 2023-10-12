@@ -55,8 +55,8 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   const valorBuscado = ctx.body
 
   for(let item in paciente[tel].listEspecialidad){
-    const match = item.match(/⭐️ » (\d+):/);
-    console.log(match)
+    
+    console.log(item)
     if(match == valorBuscado){
       console.log('valor encontrado')
       return;
