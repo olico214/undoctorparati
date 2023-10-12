@@ -52,9 +52,15 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 })
 .addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
   const tel = ctx.from
-  console.log(paciente[tel].listEspecialidad)
+  const valorBuscado = ctx.body
+
   for(let item in paciente[tel].listEspecialidad){
-    console.log(paciente[tel].listEspecialidad)
+    const match = item.match(/⭐️ » (\d+):/);
+    console.log(match)
+    if(match == valorBuscado){
+      console.log('valor encontrado')
+      return;
+    }
   }
 })
 
