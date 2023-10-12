@@ -23,7 +23,8 @@ nombresEspecialidades.forEach((nombreEspecialidad, index) => {
 });
 
 const flowEspecialidad = addKeyword('especialidad1').addAction(async(ctx, { flowDynamic, gotoFlow, fallBack }) => {
-  await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_' });
+  
+  await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
   return flowDynamic({ body: especial });
 });
 
