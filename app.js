@@ -53,11 +53,11 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   const tel = ctx.from
   const valorBuscado = ctx.body
 
-
+console.log(paciente[tel].listEspecialidad)
 
 for (const key in paciente[tel].listEspecialidad) {
   const value = paciente[tel].listEspecialidad[key];
-  console.log(value)
+
   
   if (value === valorBuscado) {
     // Valor encontrado
