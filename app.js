@@ -56,7 +56,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
 
   for (let i = 0;i<nombresEspecialidades.length;i++){
-    const ban = i + 1 
+    const ban = (i + 1).toString();
     const cadena = nombresEspecialidades[i]
 
     if (valorBuscado === ban) {
