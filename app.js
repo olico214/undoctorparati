@@ -33,7 +33,7 @@ async function getData() {
 
 
 const flowespecialista = addKeyword('especialista1').addAction(async(ctx,{flow})=>{
-
+  paciente[tel].especialista
 })
 
 
@@ -58,7 +58,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
 
 })
-.addAnswer("Escribe el especialista a continuación:",{capture:true},async (ctx,{flowDynamic,fallBack,gotoFlow})=>{
+.addAnswer("Escribe el especialista a continuación:",{capture:true},async (ctx,{flowDynamic,fallBack,gotoFlow,endFlow})=>{
   const tel = ctx.from
   const valorBuscado = ctx.body;
   const evaluate = valorBuscado.toLowerCase()
@@ -73,10 +73,11 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     const cadena = nombresEspecialidades[i]
 
     if (valorBuscado === ban) {
-      paciente[tel] = { listEspecialidad: especial };
+      paciente[tel].especialista = cadena;
       await flowDynamic({body:`Especialista Seleccionado: ${cadena}`})
       nombresEspecialidades = []
-      return;
+      return endFlow();
+
 
     }
   }
