@@ -66,7 +66,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
       if (valorBuscado === ban) {
         await state.update({especialidad:cadena})
-        await flowDynamic({ body: `Especialista Seleccionado: ${cadena},  ${myState.tel} en breve te compartire mas informacion de` });
+        await flowDynamic({ body: `Especialista Seleccionado: ${cadena},  ${myState.telefono} en breve te compartire mas informacion de` });
         return endFlow();
       }
     }
