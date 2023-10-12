@@ -56,6 +56,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
 
   for (let i = 0;i<nombresEspecialidades.length;i++){
+    const cadena = nombresEspecialidades[i]
     const match = cadena.match(/⭐️ » (\d+):/);
     console.log(match)
     if (valorBuscado === match) {
