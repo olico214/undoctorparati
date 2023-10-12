@@ -9,7 +9,7 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 
 const doctor = {};
-const paciente = {};
+let paciente = {};
 
 
 const dataEspecialidades = {};
