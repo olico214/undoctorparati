@@ -142,7 +142,7 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynam
 
 
 
-let paciente = {};
+const paciente = {};
     
 const flowRecibirMedia = addKeyword(EVENTS.MEDIA)
 .addAnswer('Por el momento no puedo recibir archivos multimedia, escribeme por favor, una disculpa')
