@@ -1,0 +1,366 @@
+[handleMsg]:  {
+  key: {
+    remoteJid: '5217774385617@s.whatsapp.net',
+    fromMe: false,
+    id: '3A03043A20644C3B507F',
+    participant: undefined
+  },
+  messageTimestamp: 1695070954,
+  pushName: 'Paliacate Studio',
+  broadcast: false,
+  message: Message {
+    conversation: 'hola',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  verifiedBizName: '‎Desconocido',
+  body: 'hola',
+  from: '5217774385617'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5217774385617@s.whatsapp.net',
+    fromMe: false,
+    id: '3AB72C03958A0D559BF8',
+    participant: undefined
+  },
+  messageTimestamp: 1695071303,
+  pushName: 'Paliacate Studio',
+  broadcast: false,
+  message: Message {
+    conversation: 'me das información',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  verifiedBizName: '‎Desconocido',
+  body: 'me das información',
+  from: '5217774385617'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5217774385617@s.whatsapp.net',
+    fromMe: false,
+    id: '3A89D67B5B6186F51E7C',
+    participant: undefined
+  },
+  messageTimestamp: 1695071327,
+  pushName: 'Paliacate Studio',
+  broadcast: false,
+  message: Message {
+    conversation: 'redes sociales',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  verifiedBizName: '‎Desconocido',
+  body: 'redes sociales',
+  from: '5217774385617'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5217774385617@s.whatsapp.net',
+    fromMe: false,
+    id: '3A47A84F2C2AE597510F',
+    participant: undefined
+  },
+  messageTimestamp: 1695071354,
+  pushName: 'Paliacate Studio',
+  broadcast: false,
+  message: Message {
+    conversation: 'el paquete de dos redes sociales',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  verifiedBizName: '‎Desconocido',
+  body: 'el paquete de dos redes sociales',
+  from: '5217774385617'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5217774385617@s.whatsapp.net',
+    fromMe: false,
+    id: '3AF19EEC52B77F42E079',
+    participant: undefined
+  },
+  messageTimestamp: 1695071411,
+  pushName: 'Paliacate Studio',
+  broadcast: false,
+  message: Message {
+    conversation: 'que incluye facebook',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  verifiedBizName: '‎Desconocido',
+  body: 'que incluye facebook',
+  from: '5217774385617'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB070C3417DA094785D92',
+    participant: undefined
+  },
+  messageTimestamp: 1695071533,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: 'hola',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'hola',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB01E115DBAD3E42C32AE',
+    participant: undefined
+  },
+  messageTimestamp: 1695071538,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: 'gracias',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'gracias',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB03B279796199555D848',
+    participant: undefined
+  },
+  messageTimestamp: 1695071549,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: 'me puedes dar info?',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'me puedes dar info?',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB00046A61C16A30B9F61',
+    participant: undefined
+  },
+  messageTimestamp: 1695071555,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: '0',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '0',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB08799C15BB8BF306FC4',
+    participant: undefined
+  },
+  messageTimestamp: 1695071558,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: 'como estas?',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'como estas?',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0E6CD6DC5D83A362671',
+    participant: undefined
+  },
+  messageTimestamp: 1695071562,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: '0',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '0',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0C934256253C721C6B6',
+    participant: undefined
+  },
+  messageTimestamp: 1695071570,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: 'hola',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'hola',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0B18E6A31D29D471EC7',
+    participant: undefined
+  },
+  messageTimestamp: 1695071574,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: 'como estas?',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'como estas?',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0DD55177E98079F240B',
+    participant: undefined
+  },
+  messageTimestamp: 1695071579,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: '0',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '0',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0FA8346AFCF6153B046',
+    participant: undefined
+  },
+  messageTimestamp: 1695071704,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: 'hola',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'hola',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0C5545990FAF743EA6E',
+    participant: undefined
+  },
+  messageTimestamp: 1695071713,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: 'como estas?',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'como estas?',
+  from: '5213328722353'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5217774385617@s.whatsapp.net',
+    fromMe: false,
+    id: '3AE30E59814089F05C9B',
+    participant: undefined
+  },
+  messageTimestamp: 1695071716,
+  pushName: 'Paliacate Studio',
+  broadcast: false,
+  message: Message {
+    conversation: 'como le hago para contratar',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  verifiedBizName: '‎Desconocido',
+  body: 'como le hago para contratar',
+  from: '5217774385617'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '5213328722353@s.whatsapp.net',
+    fromMe: false,
+    id: '3EB0288BB0FBC889EF3913',
+    participant: undefined
+  },
+  messageTimestamp: 1695071717,
+  pushName: 'oliverromero73',
+  broadcast: false,
+  message: Message {
+    conversation: '0',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: '0',
+  from: '5213328722353'
+}
