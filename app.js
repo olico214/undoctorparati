@@ -58,7 +58,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   const estado = false
 
   if(evaluate ==="menu" || evaluate ==="menú"){
-    endFlow()
+    return gotoFlow(flowMenu)
   }
   for (let i = 0;i<nombresEspecialidades.length;i++){
     const ban = (i + 1).toString();
