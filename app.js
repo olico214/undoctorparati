@@ -9,7 +9,7 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 
 const doctor = {};
-
+const paciente = {};
 
 
 const dataEspecialidades = {};
@@ -59,7 +59,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
 })
 .addAnswer("Escribe el especialista a continuación:",{capture:true},async (ctx,{flowDynamic,fallBack,gotoFlow,endFlow})=>{
-  const tel = ctx.from
+  
   const valorBuscado = ctx.body;
   const evaluate = valorBuscado.toLowerCase()
 
@@ -73,6 +73,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     const cadena = nombresEspecialidades[i]
 
     if (valorBuscado === ban) {
+      const tel = ctx.from
       paciente[tel].especialista = cadena;
       await flowDynamic({body:`Especialista Seleccionado: ${cadena}`})
       nombresEspecialidades = []
@@ -90,7 +91,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
 
 
-const paciente = {};
+
 const flowMenu = addKeyword('Menu').addAnswer([
   `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
   `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )\n`,
