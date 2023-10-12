@@ -74,6 +74,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
     if (valorBuscado === ban) {
       const tel = ctx.from
+      console.log(tel)
       paciente[tel].tipo = cadena
       await flowDynamic({body:`Especialista Seleccionado: ${cadena}`})
       nombresEspecialidades = []
