@@ -55,7 +55,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   const valorBuscado = ctx.body;
   const evaluate = valorBuscado.toLowerCase()
 
-  const estado = true
+  const estado = false
 
   if(evaluate ==="menu" || evaluate ==="menú"){
     endFlow()
