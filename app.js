@@ -40,10 +40,10 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     especialidades[`${index + 1}`] = nombreEspecialidad;
     dataEspecialidades[`${index + 1}`] = nombreEspecialidad
     let i = index + 1;
-    especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
+    especial += `⭐️ » ${i}: ${nombreEspecialidad}\n -`; // Concatenar valores
   });
   nombresEspecialidades = [];
-  paciente[tel] = { listEspecialidad: nombresEspecialidades };
+  paciente[tel] = { listEspecialidad: especial };
   await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
 
   await flowDynamic({ body: especial });
@@ -52,9 +52,15 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 })
 .addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
   const tel = ctx.from
-  console.log(paciente[tel].listEspecialidad)
-  console.log(paciente[tel].listEspecialidad.length)
-  
+  const valorBuscado = ctx.body;
+
+
+  for (const especialidad of paciente[tel].listEspecialidad) {
+    // Comparar el valor buscado con la especialidad
+    if (valorBuscado === especialidad.numero) {
+      console.log(`Coincidencia encontrada: ${especialidad.especialidad}`);
+    }
+  }
 })
 
 
