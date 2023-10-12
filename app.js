@@ -15,46 +15,39 @@ const dataEspecialidades = {};
 
 // Definir la URL del endpoint
 
+const nombresEspecialidades = [];
 
-
-const nombresEspecialidades = []
-async function getData(){
-  const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
-  axios.get(apiUrl)
-  .then(response => {
-    // Los datos de la respuesta se encuentran en response.data
+async function getData() {
+  try {
+    const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
+    const response = await axios.get(apiUrl);
     const especialidades = response.data;
-
-    // Extraer los nombres de especialidades y almacenarlos en el array
+    
     for (const especialidad of especialidades) {
       nombresEspecialidades.push(especialidad.specialty);
-      
     }
-
-    
-  })
-  .catch(error => {
+  } catch (error) {
     console.error('Error al consultar la API:', error);
-  });
+  }
 }
 
-getData()
+const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flowDynamic, gotoFlow, fallBack }) => {
+  await getData();
+  const especialidades = {};
+  let especial = "";
 
-const especialidades = {};
-let especial = "";
+  nombresEspecialidades.forEach((nombreEspecialidad, index) => {
+    especialidades[`${index + 1}`] = nombreEspecialidad;
+    let i = index + 1;
+    especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
+    console.log(nombreEspecialidad);
+  });
 
-nombresEspecialidades.forEach((nombreEspecialidad, index) => {
-  especialidades[`${index + 1}`] = nombreEspecialidad;
-  let i =index+1;
-  especial += `⭐️ » ${i}: ${nombreEspecialidad}\n`; // Concatenar valores
-  console.log(nombreEspecialidad)
-});
-
-const flowEspecialidad = addKeyword('especialidad1').addAction(async(ctx, { flowDynamic, gotoFlow, fallBack }) => {
-  
   await flowDynamic({ body: '¡Genial!\n_Por favor escribe el numero de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menu principal escribe *Menu*' });
+
   return flowDynamic({ body: especial });
 });
+
 
 
 
