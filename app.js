@@ -51,7 +51,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 })
   .addAnswer("Escribe el especialista a continuación:", { capture: true }, async (ctx, { flowDynamic, fallBack, gotoFlow, endFlow }) => {
     const tel = ctx.from;
-    console.log(conversationData.paciente[tel]);
+
 
     const valorBuscado = ctx.body;
     const evaluate = valorBuscado.toLowerCase();
