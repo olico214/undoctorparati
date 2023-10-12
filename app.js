@@ -18,7 +18,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
   `〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n`,
   `👉 📞 Si deseas agendar una cita por teléfono con algún médico\nLlama a este número  4775820455\n`,
   `⌚️ Nuestras agentes con gusto te atenderán en los siguientes horarios:\n*Lunes a Viernes*\n8:00 am - 8:00 pm\n`,
-  `*Sábado*\n9:00 am - 3:00 pm`,
+  `*Sábado*\n9:00 am - 3:00 pm\n`,
   `〰️〰️〰️〰️〰️〰️〰️〰️〰️`,
   ` www.undoctorparati.com`,
   ` ¡Te conectamos con los Doctores!`,
