@@ -51,6 +51,9 @@ const flowMenu = addKeyword('Menu').addAnswer([
   console.log(paciente[tel])
   
   flowDynamic({body:`Tu seleccion: ${seleccion} tu numero de telefono: ${phone} `})
+  if(paciente[tel].seleccion == '1'){
+    return gotoFlow(flowEspecialidad)
+  }
 
 
 
