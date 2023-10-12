@@ -52,13 +52,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 })
 .addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
   const tel = ctx.from
-  const valorBuscado = ctx.body
-
-  for(let item in paciente[tel].listEspecialidad){
-    
-    console.log(item)
-    
-  }
+  console.log(paciente[tel].listEspecialidad)
 })
 
 
