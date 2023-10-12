@@ -7,6 +7,8 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 
 
+const axios = require('axios');
+
 const conversationData = {
   paciente: {},
   doctor: {},
@@ -46,8 +48,8 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   });
 
   await flowDynamic({ body: especial });
-})
 
+})
   .addAnswer("Escribe el especialista a continuación:", { capture: true }, async (ctx, { flowDynamic, fallBack, gotoFlow, endFlow }) => {
     const tel = ctx.from;
     console.log(conversationData.paciente[tel]);
@@ -59,6 +61,10 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
     if (evaluate === "menu" || evaluate === "menú") {
       return gotoFlow(flowMenu);
+    }
+
+    if (!conversationData.paciente[tel]) {
+      conversationData.paciente[tel] = {};
     }
 
     for (let i = 0; i < nombresEspecialidades.length; i++) {
@@ -80,17 +86,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   });
 
 const flowMenu = addKeyword('Menu').addAnswer([
-  `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
-  `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )\n`,
-  `🔅 Escribe la especialidad del médico ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n`,
-  `☝️  Escribe Postularme  para formar parte de este Directorio Whatsapp\n\n`,
-  `〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n`,
-  `👉 📞 Si deseas agendar una cita por teléfono con algún médico\nLlama a este número  4775820455\n`,
-  `⌚️ Nuestras agentes con gusto te atenderán en los siguientes horarios:\n*Lunes a Viernes*\n8:00 am - 8:00 pm\n`,
-  `*Sábado*\n9:00 am - 3:00 pm\n`,
-  `〰️〰️〰️〰️〰️〰️〰️〰️〰️`,
-  ` www.undoctorparati.com`,
-  ` ¡Te conectamos con los Doctores!`,
+  // Tu respuesta del menú
 ], { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow }) => {
     const seleccion = ctx.body;
     const phone = ctx.from;
