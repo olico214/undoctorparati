@@ -33,7 +33,7 @@ async function getData() {
 
 
 const flowespecialista = addKeyword('especialista1').addAction(async(ctx,{flow})=>{
-  paciente[tel].especialista
+  
 })
 
 
