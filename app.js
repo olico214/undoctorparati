@@ -156,7 +156,7 @@ const flowDocumento = addKeyword(EVENTS.DOCUMENT)
 
 const main = async () => {
 const adapterDB = new MockAdapter()
-const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,flowMenu,flowEspecialidad])
+const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,flowMenu,flowEspecialidad,flowespecialista])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
