@@ -10,17 +10,22 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 const paciente = {};
 const doctor = {}
-const especialidad = {}
-
+const especialidades = [
+  { nombre: 'Especialidad 1', descripcion: 'Descripción de la especialidad 1' },
+  { nombre: 'Especialidad 2', descripcion: 'Descripción de la especialidad 2' },
+  { nombre: 'Especialidad 3', descripcion: 'Descripción de la especialidad 3' },
+  // Agrega más especialidades según tus necesidades
+];
 const flowEspecialidad =addKeyword('especialidad1').
 addAction({capture:true},(ctx,{flowDynamic,gotoFlow,fallBack})=>{
-  
+  console.log(especialidades[0].nombre);
+  console.log(especialidades[1].descripcion);
 })
 
 
 
 const flowMenu = addKeyword('Menu').addAnswer([
-  `💥 Escribe *Especialidad* para conocer las especialidades que tenemos\n`,
+  `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
   `🩺 Escribe el nombre del médico que necesitas (nombre y apellido - Ej. Doctor José Almeida - dr. José alvarado - dr José Almeida Alvarado )\n`,
   `🔅 Escribe la especialidad del médico ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n`,
   `☝️  Escribe Postularme  para formar parte de este Directorio Whatsapp\n\n`,
