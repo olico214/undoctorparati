@@ -52,36 +52,10 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 })
 .addAnswer("Escribe el especialista a continuación:",{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
   const tel = ctx.from
-
-  for (let i = 0; i < paciente[tel].listEspecialidad.length; i++) {
-    
-    const value = paciente[tel].listEspecialidad[i];
-    console.log(value)
-    // Valor buscado
-    const valorBuscado = ctx.body;
-  
-    // Dividir la cadena en elementos utilizando '\n' como separador
-    const especialidades = value.split('\n');
-  
-    // Iterar sobre las especialidades y buscar coincidencias
-    for (const especialidad of especialidades) {
-      // Utilizar una expresión regular para extraer el número
-      const match = especialidad.match(/⭐️ » (\d+):/);
-      if (match) {
-        const numero = match[1]; // El número encontrado
-  
-        if (valorBuscado === numero) {
-          // El valor buscado coincide con el número
-          console.log(`Coincidencia encontrada: ${especialidad}`);
-        }
-      }
-    }
+  console.log(paciente[tel].listEspecialidad)
+  for(let item in paciente[tel].listEspecialidad){
+    console.log(paciente[tel].listEspecialidad)
   }
-  
-  
-
-
-  
 })
 
 
