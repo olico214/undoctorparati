@@ -43,7 +43,7 @@ for (let i = 0; i < doctores.length; i++) {
   });
 
   // Agrega una línea al mensaje a mostrar
-  especial += `🏥 » *${indice}*: ${doctor.nameDoc}\n${doctor.HospitalTorre}\n\n`;
+  especial += `🏥 » *${indice}*: ${doctor.nameDoc}\n${doctor.EspecialidadCompleta} - ${doctor.HospitalTorre}\n\n`;
 }
 
 
