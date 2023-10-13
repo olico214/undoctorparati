@@ -22,7 +22,7 @@ async function getDoctor(es, city) {
 
   // Array para almacenar los datos de los médicos
 let doctors = [];
-const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
+const flowEspecialistas = addKeyword('especialista').addAction({capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
