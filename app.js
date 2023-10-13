@@ -9,20 +9,16 @@ const city = 'Guadalajara'
 
 
 
-
-async function getDoctor(es,city) {
+async function getDoctor(es, city) {
   try {
-    console.log(es,city)
-    const apiUrl = 'https://undoctorparami.com/api/get/getCity.php';
-    const response = await axios.get(apiUrl,{especialidad:es,ciudad:city});
-    console.log(response.data)
+    const apiUrl = `https://undoctorparami.com/api/get/getCity.php?ciudad=${city}&especialidad=${es}`;
+    const response = await axios.get(apiUrl);
+    console.log(response.data);
     return response.data;
-
   } catch (error) {
     console.error('Error al consultar la API:', error);
   }
 }
-
 
 
 
