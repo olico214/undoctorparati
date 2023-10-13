@@ -49,6 +49,7 @@ for (let i = 0; i < doctores.length; i++) {
 
 
 await flowDynamic({ body:especial });
+console.log(ctx.body)
 //await state.update({})
 })
 .addAction({capture:true},(ctx,{flowDynamic,state,gotoFlow})=>{
