@@ -13,7 +13,6 @@ async function getDoctor(es, city) {
   try {
     const apiUrl = `https://undoctorparami.com/api/get/getCity.php?ciudad=${city}&especialidad=${es}`;
     const response = await axios.get(apiUrl);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error('Error al consultar la API:', error);
@@ -21,18 +20,39 @@ async function getDoctor(es, city) {
 }
 
 
-
+  // Array para almacenar los datos de los médicos
+let doctors = [];
 const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
-  console.log(doctores)
-  let doctor = {}
-  for(let i =0;i<doctores.length;i++){
-    const indice = i + 1;
-    doctor += `⭐️ » ${indice}: ${doctores[1]}\n🏥 ${doctores[11]}\n\n`
 
-  }
+// Itera a través de los datos de los médicos
+for (let i = 0; i < doctores.length; i++) {
+  const doctor = doctores[i];
+  const indice = i + 1;
+
+  // Agrega los datos del médico al array
+  doctors.push({
+    name: doctor.nameDoc,
+    especialidad: doctor.EspecialidadCompleta,
+    subEspecialidad: doctor.SubEspecialidad,
+    hospital: doctor.HospitalTorre
+  });
+
+  // Agrega una línea al mensaje a mostrar
+  especial += `⭐️ » ${indice}: ${doctor.nameDoc}\n🏥 ${doctor.HospitalTorre}\n\n`;
+}
+
+// Muestra el mensaje de los médicos
+await flowDynamic({
+  body: '¡Genial!\n_Por favor escribe el número de médico que necesitas/deseas conocer y a continuación te presentaremos la información de ese médico_\n\nPara regresar al menú principal escribe *Menu*',
+});
+
+await flowDynamic({ body: especial });
+
+// Ahora tienes los datos de los médicos en el array "doctors"
+
 
   console.log(doctor)
   //await state.update({doctor:cadena})
