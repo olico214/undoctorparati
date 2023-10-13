@@ -38,7 +38,8 @@ for (let i = 0; i < doctores.length; i++) {
     name: doctor.nameDoc,
     especialidad: doctor.EspecialidadCompleta,
     subEspecialidad: doctor.SubEspecialidad,
-    hospital: doctor.HospitalTorre
+    hospital: doctor.HospitalTorre,
+    id:doctor.idDoc
   });
 
   // Agrega una línea al mensaje a mostrar
