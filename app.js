@@ -49,7 +49,7 @@ for (let i = 0; i < doctores.length; i++) {
 
 
 await flowDynamic({ body:especial });
-await state.update({})
+//await state.update({})
 })
 .addAction({capture:true},(ctx,{flowDynamic,state,gotoFlow})=>{
   const seleccion = ctx.body;
