@@ -12,6 +12,7 @@ const city = 'Guadalajara'
 
 async function getDoctor(es,city) {
   try {
+    console.log(es,city)
     const apiUrl = 'https://undoctorparami.com/api/get/getCity.php';
     const response = await axios.post(apiUrl,{especialidad:es,ciudad:city});
     return response.data;
@@ -28,6 +29,7 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   doctores = await getDoctor(es,city)
+  console.log(doctores)
   let doctor = {}
   for(let i =0;i<doctores.length;i++){
     const indice = i + 1;
