@@ -63,7 +63,7 @@ await state.update({motivo:ctx.body})
 
 
 
-const flowConsultorios = addKeyword('getConsultorios').addAction({capture:true},(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
+const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const datosPaciente = state.getMyState()
   const DireccionConsultorios = datosPaciente.DireccionConsultorios;
   const hospital = datosPaciente.hospital;
