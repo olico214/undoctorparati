@@ -65,16 +65,13 @@ await state.update({motivo:ctx.body})
 
 const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const datosPaciente = state.getMyState()
-  console.log(datosPaciente)
+
   const DireccionConsultorios = datosPaciente.DireccionConsultorios;
   const hospital = datosPaciente.hospital;
   
   const direccion = DireccionConsultorios.split('/')
   const hospitalSplit = hospital.split('/')
 
-
-  console.log(direccion)
-  
 
 
 })
