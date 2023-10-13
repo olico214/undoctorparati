@@ -11,12 +11,20 @@ const city = 'Guadalajara'
 
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{flowDynamic,endFlow,state})=>{
 const datosPaciente = state.getMyState()
+const datadoc = datosPaciente.doctor
+const mapa = datadoc.mapaGoogle
+const horario = datadoc.horarios
+const preciocon = datadoc.precioConsulta
+
+
+
 flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
-✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}\n\n
-🏥 Consultorio:\n ${datosPaciente.consultorio[0]} \n\n*Dirección:* ${datosPaciente.consultorio[1]}
+✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
+🏥 Consultorio:\n ${datosPaciente.consultorio[0]} \n\n*Dirección:* ${datosPaciente.consultorio[1]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
+🌍 *Mapa en google:* ${mapa}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n⏰ *Horarios:* ${horario}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n💲*Precio de consulta :* ${preciocon}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio! 😀
 
 `})
-//idDoc en la base de datos
+
 })
 
 
@@ -140,7 +148,10 @@ for (let i = 0; i < doctores.length; i++) {
     hospital: doctor.HospitalTorre,
     DireccionConsultorios: doctor.DireccionConsultorios,
     id:doctor.idDoc,
-    idSeleccion :indice
+    idSeleccion :indice,
+    mapaGoogle:doctor.MapaGoogle,
+    horarios:doctor.HorarioConsulta,
+    precioConsulta:doctor.CostoConsulta
   });
 
   // Agrega una línea al mensaje a mostrar
