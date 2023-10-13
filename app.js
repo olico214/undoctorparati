@@ -24,11 +24,11 @@ async function getDoctor(es,city) {
 
 
 
-let doctores = []
+
 const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const myState = state.getMyState()
   const es = myState.especialidad
-  doctores = await getDoctor(es,city)
+  const doctores = await getDoctor(es,city)
   console.log(doctores)
   let doctor = {}
   for(let i =0;i<doctores.length;i++){
