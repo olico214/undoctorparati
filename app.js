@@ -127,21 +127,26 @@ await flowDynamic({ body:especial });
 
 })
 .addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
-  const seleccion = ctx.body;
+  const idvalue= ctx.body
+  
 for (let j = 0; j < doctors.length; j++) {
-  if (doctors[j].idSeleccion == seleccion) {
-    await state.update({ DireccionConsultorios: doctors[j].DireccionConsultorios });
+  if (doctors[j].idSeleccion == idvalue) {
+    await state.update({ id: doctors[j].id });
+    
     break; // Sal del bucle cuando se encuentra el médico
   }
 }
-
+  
+  
 
 })
 .addAction(async(ctx,{state})=>{
-  const seleccion = ctx.body;
+  const datosPaciente = state.getMyState()
+  const seleccion = datosPaciente.id;
+  console.log('directorios')
   for (let j = 0; j < doctors.length; j++) {
-    if (doctors[j].idSeleccion == seleccion) {
-      await state.update({ idDoc: seleccion });
+    if (doctors[j].id == seleccion) {
+      await state.update({ DireccionConsultorios: doctors[j].DireccionConsultorios });
       
       break; // Sal del bucle cuando se encuentra el médico
     }
@@ -158,7 +163,7 @@ for (let j = 0; j < doctors.length; j++) {
   
   
   for (let j = 0; j < doctors.length; j++) {
-    if (doctors[j].idSeleccion == seleccion) {
+    if (doctors[j].id == seleccion) {
       const hospital = doctors[j].hospital
       await state.update({ torre: hospital});
       namDoc = doctors[j].name;
