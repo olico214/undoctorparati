@@ -22,7 +22,7 @@ async function getDoctor(es, city) {
 
   // Array para almacenar los datos de los médicos
 let doctors = [];
-const flowEspecialistas = addKeyword('especialista').addAction({capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
+const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
@@ -49,10 +49,9 @@ for (let i = 0; i < doctores.length; i++) {
 
 
 await flowDynamic({ body:especial });
-console.log(ctx.body)
-//await state.update({})
+
 })
-.addAction({capture:true},(ctx,{flowDynamic,state,gotoFlow})=>{
+.addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const seleccion = ctx.body;
 
   console.log(doctors)
