@@ -103,8 +103,6 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
-  console.log(doctores)
-
   let especial = `👩🏻‍⚕‍ 👨🏻‍⚕‍ Tenemos a los siguientes ${es}:\n\n`;
   especial += `👉  Escribe el código (las letras en negritas y minúsculas,  Ej. *1* ) del médico para ver su información y poder agendar tu cita:\n\n\n`
 // Itera a través de los datos de los médicos
@@ -133,33 +131,47 @@ await flowDynamic({ body:especial });
 })
 .addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const seleccion = ctx.body;
-
-let namDoc = "";
-let especialidad = "";
-let subEspecialidad = "";
-let hospital = "";
-
-
 for (let j = 0; j < doctors.length; j++) {
   if (doctors[j].idSeleccion == seleccion) {
-
-    
-    
-    await state.update({ idDoc: seleccion });
-    DireccionConsultorios = doctors[j].DireccionConsultorios
-    namDoc = doctors[j].name;
-    especialidad = doctors[j].especialidad;
-    subEspecialidad = doctors[j].subEspecialidad;
-    hospital = doctors[j].hospital;
     await state.update({ DireccionConsultorios: doctors[j].DireccionConsultorios });
-    
     break; // Sal del bucle cuando se encuentra el médico
   }
 }
-await state.update({ torre: hospital});
-const datosPaciente = state.getMyState()
+
+
+})
+.addAction(async(ctx,{state})=>{
+  const seleccion = ctx.body;
+  for (let j = 0; j < doctors.length; j++) {
+    if (doctors[j].idSeleccion == seleccion) {
+      await state.update({ idDoc: seleccion });
+      
+      break; // Sal del bucle cuando se encuentra el médico
+    }
+  }
+  
+})
+.addAction(async(ctx,{state})=>{
+  const seleccion = ctx.body;
+
+  let namDoc = "";
+  let especialidad = "";
+  let subEspecialidad = "";
+  let hospital = "";
+  
+  
+  for (let j = 0; j < doctors.length; j++) {
+    if (doctors[j].idSeleccion == seleccion) {
+      const hospital = doctors[j].hospital
+      await state.update({ torre: hospital});
+      namDoc = doctors[j].name;
+      subEspecialidad = doctors[j].subEspecialidad;
+      break; // Sal del bucle cuando se encuentra el médico
+    }
+  }
+  
+  const datosPaciente = state.getMyState()
   console.log(datosPaciente)
-  return;
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('/')){
     return gotoFlow(flowConsultorios)
