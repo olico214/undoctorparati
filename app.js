@@ -5,8 +5,53 @@ const MockAdapter = require('@bot-whatsapp/database/mock')
 const axios = require('axios')
 const { EVENTS } = require('@bot-whatsapp/bot')
 
+const city = 'Guadalajara' 
 
 
+
+
+async function getDoctor(es,city) {
+  try {
+    const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
+    const response = await axios.post(apiUrl,{especialidad:es,ciudad:city});
+    return response.data;
+
+  } catch (error) {
+    console.error('Error al consultar la API:', error);
+  }
+}
+
+
+
+let doctores = []
+const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
+  const myState = state.getMyState()
+  const es = myState.especialidad
+  doctores = await getDoctor(es,city)
+  const doctor = {}
+  for(let i =0;i<doctores.length;i++){
+    const indice = i + 1;
+    doctor = `⭐️ » ${indice}: ${doctores[1]}\n🏥 ${doctores[11]}\n\n`
+
+  }
+
+  console.log(doctor)
+  //await state.update({doctor:cadena})
+})
+
+
+
+
+
+
+
+
+
+
+//Fin obtener especialistas lista de especialidad///////////////////
+
+
+//Flujo para obtener las especialidades/////////////////////////////
 
 const dataEspecialidades = {};
 let nombresEspecialidades = [];
@@ -67,7 +112,10 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
       if (valorBuscado === ban) {
         await state.update({especialidad:cadena})
         await flowDynamic({ body: `Especialista Seleccionado: ${cadena},  ${myState.telefono} en breve te compartire mas informacion de` });
-        return endFlow();
+        nombresEspecialidades = []
+        
+        return gotoFlow(flowEspecialistas)
+        
       }
     }
 
@@ -76,6 +124,10 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
       return fallBack();
     }
   });
+//Fin de obtener especialidades/////////////////////////
+
+
+
 
 const flowMenu = addKeyword('Menu').addAnswer([
   `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
@@ -131,7 +183,7 @@ const flowDocumento = addKeyword(EVENTS.DOCUMENT)
 
 const main = async () => {
 const adapterDB = new MockAdapter()
-const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,flowMenu,flowEspecialidad])
+const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,flowMenu,flowEspecialidad,flowEspecialistas])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
