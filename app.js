@@ -53,10 +53,11 @@ await flowDynamic({ body:especial });
 })
 .addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const seleccion = ctx.body;
+  let  namDoc= ""; 
   for(let j = 0;j<doctors.length;j++){
     if(doctors[j].id == seleccion){
       await state.update({idDoc:seleccion})
-      const namDoc= doctors[j].nameDoc
+      namDoc= doctors[j].nameDoc
       break;
     }
   }
