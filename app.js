@@ -74,6 +74,8 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
   const direccion = DireccionConsultorios.split('/')
   const hospitalSplit = hospital.split('/')
   console.log(hospitalSplit)
+  console.log(hospitalSplit.length)
+  
   return endFlow()
   let ajuste = "";
   ajuste += `Seleccione una clinica por favor:`
