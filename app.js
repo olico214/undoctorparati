@@ -53,8 +53,14 @@ await flowDynamic({ body:especial });
 })
 .addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const seleccion = ctx.body;
-
-  console.log(doctors)
+  for(let j = 0;j<doctors.length;j++){
+    if(doctors[i].id == seleccion){
+      await state.update({idDoc:seleccion})
+      namDoc= doctors[i].nameDoc
+      break;
+    }
+  }
+  return flowDynamic({body:`Doctor Seleccionado: ${namDoc}`})
 })
 
 
