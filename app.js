@@ -170,8 +170,9 @@ await flowDynamic({ body:especial });
 if(!estadoTmp){
   return endFlow()
 }
+flowDynamic({body:'Selecciona un Doctor:'})
 })
-.addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
+.addAction({capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const idvalue= ctx.body
   let namDoc = "";
   let subEspecialidad = "";
