@@ -62,7 +62,7 @@ await state.update({motivo:ctx.body})
 })
 
 
-
+let selecciodeClinicas = []
 const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const datosPaciente = state.getMyState()
 
@@ -73,11 +73,29 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
   
   const direccion = DireccionConsultorios.split('/')
   const hospitalSplit = hospital.split('/')
-
-  console.log(direccion)
-
-return endFlow()
-
+  let ajuste = "";
+  ajuste += `Seleccione una clinica por favor:`
+  for(let i = 0 ;i<hospital.length;i++){
+    let indice = 1 +i;
+    ajuste += `🏥${indice} -> ${hospitalSplit[i]}\n${direccion[i]}`
+    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i]])
+  }
+flowDynamic({body:ajuste})
+})
+.addAction({capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
+  const seleccion = ctx.body;
+  let estado = true
+for(let i = 0;i<selecciodeClinicas.length;i++){
+  if(selecciodeClinicas[i][0] == seleccion){
+    await state.update({consultorio: [selecciodeClinicas[i][1],selecciodeClinicas[i][2]]})
+    estado = false
+    break
+  }
+}
+if(estado){
+  return fallBack()
+}
+return gotoFlow(flowGetDataPaciente)
 })
 //Fin obtener Datos de pacientes///////////////////
 
@@ -140,6 +158,7 @@ await flowDynamic({ body:especial });
     if (doctors[j].idSeleccion == idvalue) {
       await state.update({ doctor: doctors[j]});
       hospital = doctors[j].hospital
+      dirConsultorio = doctors[j].DireccionConsultorios
       estatus = false
       namDoc = doctors[j].name;
       subEspecialidad = doctors[j].subEspecialidad;
@@ -154,6 +173,7 @@ await flowDynamic({ body:especial });
   if(hospital.includes('/')){
     return gotoFlow(flowConsultorios)
   }
+  await state.update({consultorio: [hospital,dirConsultorio]})
   return gotoFlow(flowGetDataPaciente)
 
 })
