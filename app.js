@@ -60,7 +60,7 @@ let especialidad = "";
 let subEspecialidad = "";
 let hospital = "";
 
-console.log(doctors)
+
 for (let j = 0; j < doctors.length; j++) {
   if (doctors[j].idSeleccion == seleccion) {
     await state.update({ idDoc: seleccion });
