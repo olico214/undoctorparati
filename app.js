@@ -26,7 +26,8 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
-  let especial = "";
+  let especial = "👩🏻‍⚕‍ 👨🏻‍⚕‍ Tenemos a los siguientes Ginecólogos:\n\n";
+  especial += `👉  Escribe el código (las letras en negritas y minúsculas,  Ej. *1* ) del médico para ver su información y poder agendar tu cita:`
 // Itera a través de los datos de los médicos
 for (let i = 0; i < doctores.length; i++) {
   const doctor = doctores[i];
@@ -41,7 +42,7 @@ for (let i = 0; i < doctores.length; i++) {
   });
 
   // Agrega una línea al mensaje a mostrar
-  especial += `🏥 » ${indice}: ${doctor.nameDoc}\n${doctor.HospitalTorre}\n\n`;
+  especial += `🏥 » *${indice}*: ${doctor.nameDoc}\n${doctor.HospitalTorre}\n\n`;
 }
 
 
