@@ -56,7 +56,7 @@ await flowDynamic({ body:especial });
   for(let j = 0;j<doctors.length;j++){
     if(doctors[j].id == seleccion){
       await state.update({idDoc:seleccion})
-      namDoc= doctors[j].nameDoc
+      const namDoc= doctors[j].nameDoc
       break;
     }
   }
