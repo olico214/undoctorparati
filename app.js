@@ -27,11 +27,12 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕�
 const flowGetDataPaciente = addKeyword('getData').addAnswer(
   'Para brindarte la información que solicitas\n\n🩺 *¿Dime cual es el motivo de tu consulta?*',{capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
 await state.update({motivo:ctx.body})
-flowDynamic({body:`¿Es correcta la información?\n\n *${ctx.body}*\n\n 1️⃣ SI\n2️⃣ NO`})
+await flowDynamic({body:`¿Es correcta la información?\n\n *${ctx.body}*\n\n1️⃣ SI\n2️⃣ NO`})
 
 })
 .addAction({capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
   if(ctx.body === '2'){
+    flowDynamic({body:'opcion 2 seleccionada'})
     return fallBack()
   }
   return gotoFlow(flowGetDataPaciente)
