@@ -75,7 +75,7 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
   const hospitalSplit = hospital.split('/')
 
   let ajuste = "";
-  ajuste += `Seleccione una clinica por favor:`
+  ajuste += ``
   for(let i = 0 ;i<hospitalSplit.length;i++){
     let indice = 1 +i;
     ajuste += `\n\n🏥${indice} -> ${hospitalSplit[i]}\n${direccion[i]}\n\n`
@@ -83,7 +83,7 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
   }
 flowDynamic({body:ajuste})
 })
-.addAction({capture:true},async(ctx,{fallBack,state,gotoFlow})=>{
+.addAnswer('Seleccione una clinica por favor:',{capture:true},async(ctx,{fallBack,state,gotoFlow})=>{
   const seleccion = ctx.body;
   let estado = true
 for(let i = 0;i<selecciodeClinicas.length;i++){
