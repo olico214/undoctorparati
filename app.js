@@ -41,7 +41,7 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕�
 
     return gotoFlow(flowNombrePaciente)
   }
-  return gotoFlow(flowNombrePaciente)
+  return gotoFlow(flowEmail)
 })
 
 
