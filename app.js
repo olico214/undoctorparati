@@ -65,7 +65,7 @@ await state.update({motivo:ctx.body})
 
 const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const datosPaciente = state.getMyState()
-
+  return console.log(datosPaciente)
   const DireccionConsultorios = datosPaciente.DireccionConsultorios;
   const hospital = datosPaciente.hospital;
   
@@ -145,6 +145,7 @@ await flowDynamic({ body:especial });
   if(estatus){
     return fallBack({body:'Error en selección:'})
   }
+
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('/')){
     return gotoFlow(flowConsultorios)
