@@ -156,7 +156,7 @@ for (let j = 0; j < doctors.length; j++) {
     break; // Sal del bucle cuando se encuentra el médico
   }
 }
-await state.update({ hospital: hospital});
+await state.update({ torre: hospital});
 const datosPaciente = state.getMyState()
   console.log(datosPaciente)
   return;
