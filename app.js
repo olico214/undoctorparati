@@ -40,7 +40,8 @@ for (let i = 0; i < doctores.length; i++) {
     especialidad: doctor.EspecialidadCompleta,
     subEspecialidad: doctor.SubEspecialidad,
     hospital: doctor.HospitalTorre,
-    id:doctor.idDoc
+    id:doctor.idDoc,
+    idSeleccion :indice
   });
 
   // Agrega una línea al mensaje a mostrar
@@ -61,7 +62,7 @@ let hospital = "";
 
 console.log(doctors)
 for (let j = 0; j < doctors.length; j++) {
-  if (doctors[j].id == seleccion) {
+  if (doctors[j].idSeleccion == seleccion) {
     await state.update({ idDoc: seleccion });
     namDoc = doctors[j].name;
     especialidad = doctors[j].especialidad;
