@@ -26,7 +26,7 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
-
+  const especial = {}
 // Itera a través de los datos de los médicos
 for (let i = 0; i < doctores.length; i++) {
   const doctor = doctores[i];
@@ -44,18 +44,9 @@ for (let i = 0; i < doctores.length; i++) {
   especial += `⭐️ » ${indice}: ${doctor.nameDoc}\n🏥 ${doctor.HospitalTorre}\n\n`;
 }
 
-// Muestra el mensaje de los médicos
-await flowDynamic({
-  body: '¡Genial!\n_Por favor escribe el número de médico que necesitas/deseas conocer y a continuación te presentaremos la información de ese médico_\n\nPara regresar al menú principal escribe *Menu*',
-});
 
 await flowDynamic({ body: especial });
 
-// Ahora tienes los datos de los médicos en el array "doctors"
-
-
-  console.log(doctor)
-  //await state.update({doctor:cadena})
 })
 
 
