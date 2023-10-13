@@ -154,8 +154,8 @@ for (let j = 0; j < doctors.length; j++) {
   
 })
 .addAction(async(ctx,{state})=>{
-  const seleccion = ctx.body;
-
+  const datosPaciente = state.getMyState()
+  const seleccion = datosPaciente.id;
   let namDoc = "";
   let especialidad = "";
   let subEspecialidad = "";
@@ -172,8 +172,7 @@ for (let j = 0; j < doctors.length; j++) {
     }
   }
   
-  const datosPaciente = state.getMyState()
-  console.log(datosPaciente)
+
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('/')){
     return gotoFlow(flowConsultorios)
