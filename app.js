@@ -50,7 +50,7 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕�
 const flowGetDataPaciente = addKeyword('getData').addAnswer(
   'Para brindarte la información que solicitas\n\n🩺 *¿Dime cual es el motivo de tu consulta?*',{capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
 await state.update({motivo:ctx.body})
-await flowDynamic({body:`\n\n *${ctx.body}*`})
+
 
 })
 .addAnswer('¿Es correcta la información?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
