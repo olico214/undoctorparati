@@ -15,7 +15,7 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕�
 })
 .addAction({capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
   if(ctx.body === '2'){
-    return gotoFlow(flowGetDataPaciente)
+    return fallBack()
   }
   
 })
@@ -32,7 +32,7 @@ flowDynamic({body:`¿Es correcta la información?\n\n *${ctx.body}*\n\n 1️⃣ 
 })
 .addAction({capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
   if(ctx.body === '2'){
-    return fallBack(flowGetDataPaciente)
+    return fallBack()
   }
   return gotoFlow(flowGetDataPaciente)
 })
