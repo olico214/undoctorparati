@@ -14,7 +14,7 @@ async function getDoctor(es,city) {
   try {
     console.log(es,city)
     const apiUrl = 'https://undoctorparami.com/api/get/getCity.php';
-    const response = await axios.post(apiUrl,{especialidad:es,ciudad:city});
+    const response = await axios.get(apiUrl,{especialidad:es,ciudad:city});
     console.log(response.data)
     return response.data;
 
