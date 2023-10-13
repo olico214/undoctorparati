@@ -117,7 +117,7 @@ for (let i = 0; i < doctores.length; i++) {
     name: doctor.nameDoc,
     especialidad: doctor.EspecialidadCompleta,
     subEspecialidad: doctor.SubEspecialidad,
-    HospitalTorre: doctor.HospitalTorre,
+    hospital: doctor.HospitalTorre,
     DireccionConsultorios: doctor.DireccionConsultorios,
     id:doctor.idDoc,
     idSeleccion :indice
