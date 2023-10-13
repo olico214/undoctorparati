@@ -26,7 +26,7 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
-  let especial = {}
+  let especial = "";
 // Itera a través de los datos de los médicos
 for (let i = 0; i < doctores.length; i++) {
   const doctor = doctores[i];
