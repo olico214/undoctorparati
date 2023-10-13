@@ -88,7 +88,7 @@ await flowDynamic({ body:especial });
 
 })
 .addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
-  const seleccion = ctx.body; // Supongo que seleccion es el ID del médico que deseas encontrar
+  const seleccion = ctx.body;
 
 let namDoc = "";
 let especialidad = "";
@@ -107,7 +107,7 @@ for (let j = 0; j < doctors.length; j++) {
   }
 }
   flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
-  return gotoFlow({})
+  return gotoFlow(flowGetDataPaciente)
 })
 
 
