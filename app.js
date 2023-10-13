@@ -12,7 +12,9 @@ const city = 'Guadalajara'
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{flowDynamic,endFlow,state})=>{
 const datosPaciente = state.getMyState()
 flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
-✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}
+✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}\n\n
+🏥 Consultorio:\n ${datosPaciente.consultorio[0]} \n\n*Dirección:* ${datosPaciente.consultorio[1]}
+
 `})
 //idDoc en la base de datos
 })
