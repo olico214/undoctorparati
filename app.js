@@ -128,7 +128,7 @@ await flowDynamic({ body:especial });
 })
 .addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const idvalue= ctx.body
-  
+  console.log('id')
 for (let j = 0; j < doctors.length; j++) {
   if (doctors[j].idSeleccion == idvalue) {
     await state.update({ id: doctors[j].id });
@@ -157,11 +157,10 @@ for (let j = 0; j < doctors.length; j++) {
   const datosPaciente = state.getMyState()
   const seleccion = datosPaciente.id;
   let namDoc = "";
-  let especialidad = "";
   let subEspecialidad = "";
   let hospital = "";
   
-  
+  console.log('hospital')
   for (let j = 0; j < doctors.length; j++) {
     if (doctors[j].id == seleccion) {
       const hospital = doctors[j].hospital
