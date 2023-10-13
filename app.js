@@ -33,7 +33,7 @@ await flowDynamic({body:`\n\n *${ctx.body}*`})
 .addAnswer('¿Es correcta la información?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
   if(ctx.body === '2'){
     flowDynamic({body:'opcion 2 seleccionada'})
-    return fallBack()
+    return gotoFlow(flowGetDataPaciente)
   }
   return gotoFlow(flowGetDataPaciente)
 })
