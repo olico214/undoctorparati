@@ -117,7 +117,7 @@ for (let i = 0; i < doctores.length; i++) {
     name: doctor.nameDoc,
     especialidad: doctor.EspecialidadCompleta,
     subEspecialidad: doctor.SubEspecialidad,
-    hospital: doctor.HospitalTorre,
+    HospitalTorre: doctor.HospitalTorre,
     DireccionConsultorios: doctor.DireccionConsultorios,
     id:doctor.idDoc,
     idSeleccion :indice
@@ -142,10 +142,12 @@ let hospital = "";
 
 for (let j = 0; j < doctors.length; j++) {
   if (doctors[j].idSeleccion == seleccion) {
-    await state.update({ idDoc: seleccion });
-    await state.update({ DireccionConsultorios: doctors[j].DireccionConsultorios });
-    await state.update({ hospital: doctors[j].hospital });
+
     
+    await state.update({ DireccionConsultorios: doctors[j].DireccionConsultorios });
+    await state.update({ hospital: doctors[j].HospitalTorre });
+    await state.update({ idDoc: seleccion });
+    DireccionConsultorios = doctors[j].DireccionConsultorios
     namDoc = doctors[j].name;
     especialidad = doctors[j].especialidad;
     subEspecialidad = doctors[j].subEspecialidad;
@@ -153,7 +155,9 @@ for (let j = 0; j < doctors.length; j++) {
     break; // Sal del bucle cuando se encuentra el médico
   }
 }
-
+const datosPaciente = state.getMyState()
+  console.log(datosPaciente)
+  return;
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('/')){
     return gotoFlow(flowConsultorios)
