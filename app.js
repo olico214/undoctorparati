@@ -136,8 +136,9 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   let estadoTmp = true;
   if(doctores=='undefined' ||!doctores.length){
     await flowDynamic({body:'Disculpa las molestias, no contamos con doctor con esta especialidad'})
-    return gotoFlow(flowMenu)
     estadoTmp = false
+    return gotoFlow(flowMenu);
+    
   }
   let especial = `👩🏻‍⚕‍ 👨🏻‍⚕‍ Tenemos a los siguientes ${es}:\n\n`;
   especial += `👉  Escribe el código (las letras en negritas y minúsculas,  Ej. *1* ) del médico para ver su información y poder agendar tu cita:\n\n\n`
