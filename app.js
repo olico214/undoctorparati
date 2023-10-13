@@ -106,7 +106,7 @@ for (let j = 0; j < doctors.length; j++) {
     break; // Sal del bucle cuando se encuentra el médico
   }
 }
-  flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
+  await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   return gotoFlow(flowGetDataPaciente)
 })
 
