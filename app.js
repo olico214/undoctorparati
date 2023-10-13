@@ -8,18 +8,39 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 const city = 'Guadalajara' 
 
 
-//Inicio obtener Datos de pacientes///////////////////
-const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
-  await state.update({nombrePaciente:ctx.body})
-  flowDynamic({body:`¿Es correcta la información?\n\n *${ctx.body}*\n\n 1️⃣ SI\n2️⃣ NO`})
+
+const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{flowDynamic,endFlow,state})=>{
+const datosPaciente = state.getMyState()
+
+//idDoc en la base de datos
 })
-.addAction({capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
-  if(ctx.body === '2'){
-    return fallBack()
-  }
+//Inicio obtener Datos de pacientes///////////////////
+
+const flowEmail = addKeyword('emailpaciente').addAnswer('✉️  *¿Dime cual es tu email?*',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  await state.update({email:ctx.body})
   
 })
+.addAnswer('¿Tu correo es correcto?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
+  if(ctx.body === '2'){
 
+    return gotoFlow(flowEmail)
+  }
+  return gotoFlow(flowMostrainformacionDoctor)
+})
+
+
+
+const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  await state.update({nombrePaciente:ctx.body})
+  
+})
+.addAnswer('¿Tu nombre es correcto?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
+  if(ctx.body === '2'){
+
+    return gotoFlow(flowNombrePaciente)
+  }
+  return gotoFlow(flowNombrePaciente)
+})
 
 
 
@@ -252,7 +273,8 @@ const flowDocumento = addKeyword(EVENTS.DOCUMENT)
 
 const main = async () => {
 const adapterDB = new MockAdapter()
-const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente])
+const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,
+  flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
