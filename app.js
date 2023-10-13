@@ -11,10 +11,12 @@ const city = 'Guadalajara'
 
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{flowDynamic,endFlow,state})=>{
 const datosPaciente = state.getMyState()
-
+flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
+✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}
+`})
 //idDoc en la base de datos
 })
-//Inicio obtener Datos de pacientes///////////////////
+
 
 const flowEmail = addKeyword('emailpaciente').addAnswer('✉️  *¿Dime cual es tu email?*',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
   await state.update({email:ctx.body})
