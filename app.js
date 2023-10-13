@@ -60,6 +60,23 @@ await state.update({motivo:ctx.body})
   }
   return gotoFlow(flowNombrePaciente)
 })
+
+
+
+const flowConsultorios = addKeyword('getConsultorios').addAction({capture:true},(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
+  const datosPaciente = state.getMyState()
+  const DireccionConsultorios = datosPaciente.DireccionConsultorios;
+  const hospital = datosPaciente.hospital;
+  
+  const direccion = DireccionConsultorios.split('/')
+  const hospitalSplit = hospital.split('/')
+
+
+  console.log(direccion)
+  
+
+
+})
 //Fin obtener Datos de pacientes///////////////////
 
 
@@ -99,6 +116,7 @@ for (let i = 0; i < doctores.length; i++) {
     especialidad: doctor.EspecialidadCompleta,
     subEspecialidad: doctor.SubEspecialidad,
     hospital: doctor.HospitalTorre,
+    DireccionConsultorios: doctor.DireccionConsultorios,
     id:doctor.idDoc,
     idSeleccion :indice
   });
@@ -123,6 +141,9 @@ let hospital = "";
 for (let j = 0; j < doctors.length; j++) {
   if (doctors[j].idSeleccion == seleccion) {
     await state.update({ idDoc: seleccion });
+    await state.update({ DireccionConsultorios: doctors[j].DireccionConsultorios });
+    await state.update({ hospital: doctors[j].hospital });
+    
     namDoc = doctors[j].name;
     especialidad = doctors[j].especialidad;
     subEspecialidad = doctors[j].subEspecialidad;
@@ -130,7 +151,11 @@ for (let j = 0; j < doctors.length; j++) {
     break; // Sal del bucle cuando se encuentra el médico
   }
 }
+
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
+  if(hospital.includes('/')){
+    return gotoFlow(flowConsultorios)
+  }
   return gotoFlow(flowGetDataPaciente)
 })
 
@@ -276,7 +301,7 @@ const flowDocumento = addKeyword(EVENTS.DOCUMENT)
 const main = async () => {
 const adapterDB = new MockAdapter()
 const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,
-  flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor])
+  flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor,flowConsultorios])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
