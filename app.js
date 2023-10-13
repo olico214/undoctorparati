@@ -52,15 +52,23 @@ await flowDynamic({ body:especial });
 
 })
 .addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
-  const seleccion = ctx.body;
-  let  namDoc= ""; 
-  for(let j = 0;j<doctors.length;j++){
-    if(doctors[j].id == seleccion){
-      await state.update({idDoc:seleccion})
-      namDoc= doctors[j].nameDoc
-      break;
-    }
+  const seleccion = ctx.body; // Supongo que seleccion es el ID del médico que deseas encontrar
+
+let namDoc = "";
+let especialidad = "";
+let subEspecialidad = "";
+let hospital = "";
+
+for (let j = 0; j < doctors.length; j++) {
+  if (doctors[j].id == seleccion) {
+    await state.update({ idDoc: seleccion });
+    namDoc = doctors[j].name;
+    especialidad = doctors[j].especialidad;
+    subEspecialidad = doctors[j].subEspecialidad;
+    hospital = doctors[j].hospital;
+    break; // Sal del bucle cuando se encuentra el médico
   }
+}
   return flowDynamic({body:`Doctor Seleccionado: ${namDoc}`})
 })
 
