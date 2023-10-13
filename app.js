@@ -8,6 +8,41 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 const city = 'Guadalajara' 
 
 
+//Inicio obtener Datos de pacientes///////////////////
+const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  await state.update({nombrePaciente:ctx.body})
+  flowDynamic({body:`¿Es correcta la información?\n\n *${ctx.body}*\n\n 1️⃣ SI\n2️⃣ NO`})
+})
+.addAction({capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
+  if(ctx.body === '2'){
+    return gotoFlow(flowGetDataPaciente)
+  }
+  
+})
+
+
+
+
+
+const flowGetDataPaciente = addKeyword('getData').addAnswer(
+  'Para brindarte la información que solicitas\n\n🩺 *¿Dime cual es el motivo de tu consulta?*',{capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
+await state.update({motivo:ctx.body})
+flowDynamic({body:`¿Es correcta la información?\n\n *${ctx.body}*\n\n 1️⃣ SI\n2️⃣ NO`})
+
+})
+.addAction({capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
+  if(ctx.body === '2'){
+    return gotoFlow(flowGetDataPaciente)
+  }
+  return gotoFlow(flowGetDataPaciente)
+})
+//Fin obtener Datos de pacientes///////////////////
+
+
+
+//Inicio obtener especialistas lista de especialidad///////////////////
+
+
 
 async function getDoctor(es, city) {
   try {
@@ -71,7 +106,8 @@ for (let j = 0; j < doctors.length; j++) {
     break; // Sal del bucle cuando se encuentra el médico
   }
 }
-  return flowDynamic({body:`Doctor Seleccionado: ${namDoc}`})
+  flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
+  return gotoFlow({})
 })
 
 
@@ -215,7 +251,7 @@ const flowDocumento = addKeyword(EVENTS.DOCUMENT)
 
 const main = async () => {
 const adapterDB = new MockAdapter()
-const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,flowMenu,flowEspecialidad,flowEspecialistas])
+const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
