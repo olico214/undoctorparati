@@ -129,9 +129,8 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
-
   if(doctores.message =='Sin resultados'){
-    flowDynamic({body:'Lo sentimos, no contamos con doctores de esaa especialidad.'})
+    await flowDynamic({body:'Lo sentimos, no contamos con doctores de esaa especialidad.'})
     return await gotoFlow(flowMenu);
   }
   let especial = `👩🏻‍⚕‍ 👨🏻‍⚕‍ Tenemos a los siguientes ${es}:\n\n`;
