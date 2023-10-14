@@ -95,17 +95,13 @@ flowDynamic({body:ajuste})
 })
 .addAnswer('Seleccione una clinica por favor:',{capture:true},async(ctx,{fallBack,state,gotoFlow})=>{
   const seleccion = ctx.body;
-  let estado = true
 for(let i = 0;i<selecciodeClinicas.length;i++){
   if(selecciodeClinicas[i][0] == seleccion){
     await state.update({consultorio: [selecciodeClinicas[i][1],selecciodeClinicas[i][2]]})
-    estado = false
     break
   }
 }
-if(estado){
-  return fallBack()
-}
+
 return gotoFlow(flowGetDataPaciente)
 })
 //Fin obtener Datos de pacientes///////////////////
@@ -170,7 +166,7 @@ flowDynamic({body:'Selecciona un Doctor:'})
   let namDoc = "";
   let subEspecialidad = "";
   let hospital = "";
-
+  console.log('Seeleccion de doctor compoleto')
   for (let j = 0; j < doctors.length; j++) {
     if (doctors[j].idSeleccion == idvalue) {
       await state.update({ doctor: doctors[j]});
