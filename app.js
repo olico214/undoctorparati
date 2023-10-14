@@ -27,7 +27,14 @@ flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰�
 
 const flowValidate = addKeyword('validate').addAction((ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
   const estatus = state.getMyState()
-  const correo = (estatus.email = 0 ? 'Sin correo':estatus.email)
+  let correo = "";
+
+  if(estatus.email == 0 ){
+    correo = "Sin Correo"
+  }else{
+    correo = estatus.email;
+  }
+
   state.update({email:correo})
   flowDynamic({body:`Motivo:${estatus.motivo}\nNombre Paciente: ${estatus.nombrePaciente}\nCorreo: (${correo})`})
 })
