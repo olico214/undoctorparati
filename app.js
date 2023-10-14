@@ -27,49 +27,40 @@ flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰�
 
 })
 
-
-const flowEmail = addKeyword('emailpaciente').addAnswer('✉️  *¿Dime cual es tu email?*',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
-  await state.update({email:ctx.body})
-  
+const flowValidate = addKeyword('validate').addAction((ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  const estatus = state.getMyState()
+  flowDynamic({body:`Motivo:${estatus.motivo}\nNombre Paciente: ${estatus.nombrePaciente}\Correo Paciente: ${estatus.email}`})
 })
-.addAnswer('¿Tu correo es correcto?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
+.addAnswer('¿La informacion anterior es correcta?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow})=>{
   if(ctx.body === '2'){
 
-    return gotoFlow(flowEmail)
+    return gotoFlow(flowGetDataPaciente)
   }
   return gotoFlow(flowMostrainformacionDoctor)
+})
+
+
+const flowEmail = addKeyword('emailpaciente').addAnswer('✉️  *¿Dime cual es tu email?*\n\n "0"(Cero) si no cuentas con correo',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  await state.update({email:ctx.body})
+  return gotoFlow(flowValidate)
 })
 
 
 
 const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
   await state.update({nombrePaciente:ctx.body})
-  
-})
-.addAnswer('¿Tu nombre es correcto?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
-  if(ctx.body === '2'){
-
-    return gotoFlow(flowNombrePaciente)
-  }
   return gotoFlow(flowEmail)
 })
-
 
 
 
 const flowGetDataPaciente = addKeyword('getData').addAnswer(
   'Para brindarte la información que solicitas\n\n🩺 *¿Dime cual es el motivo de tu consulta?*',{capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
 await state.update({motivo:ctx.body})
-
+return gotoFlow(flowNombrePaciente)
 
 })
-.addAnswer('¿Es correcta la información?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow,fallBack,flowDynamic,state})=>{
-  if(ctx.body === '2'){
 
-    return gotoFlow(flowGetDataPaciente)
-  }
-  return gotoFlow(flowNombrePaciente)
-})
 
 
 let selecciodeClinicas = []
@@ -325,7 +316,7 @@ const flowDocumento = addKeyword(EVENTS.DOCUMENT)
 const main = async () => {
 const adapterDB = new MockAdapter()
 const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,
-  flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor,flowConsultorios])
+  flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor,flowConsultorios,flowValidate])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
