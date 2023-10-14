@@ -12,10 +12,11 @@ const city = 'Guadalajara'
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{flowDynamic,endFlow,state})=>{
 const datosPaciente = state.getMyState()
 const datadoc = datosPaciente.doctor
+console.log(datosPaciente)
 const mapa = datadoc.mapaGoogle
 const horario = datadoc.horarios
 const preciocon = datadoc.precioConsulta
-console.log(datosPaciente)
+
 
 flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
 ✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
