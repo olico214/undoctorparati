@@ -134,7 +134,7 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
   
-  
+
   let especial = `👩🏻‍⚕‍ 👨🏻‍⚕‍ Tenemos a los siguientes ${es}:\n\n`;
   especial += `👉  Escribe el código (las letras en negritas y minúsculas,  Ej. *1* ) del médico para ver su información y poder agendar tu cita:\n\n\n`
 // Itera a través de los datos de los médicos
@@ -170,21 +170,18 @@ flowDynamic({body:'Selecciona un Doctor:'})
   let namDoc = "";
   let subEspecialidad = "";
   let hospital = "";
-  let estatus = true
+
   for (let j = 0; j < doctors.length; j++) {
     if (doctors[j].idSeleccion == idvalue) {
       await state.update({ doctor: doctors[j]});
       hospital = doctors[j].hospital
       dirConsultorio = doctors[j].DireccionConsultorios
-      estatus = false
       namDoc = doctors[j].name;
       subEspecialidad = doctors[j].subEspecialidad;
       break; // Sal del bucle cuando se encuentra el médico
     }
   }
-  if(estatus){
-    return fallBack({body:'Error en selección:'})
-  }
+
 
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('/')){
