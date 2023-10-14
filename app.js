@@ -129,7 +129,7 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
-  
+  return console.log(doctores)
   if(!doctores){
     flowDynamic({body:'Lo sentimos, no contamos con doctores de esaa especialidad.'})
     return await endFlow();
