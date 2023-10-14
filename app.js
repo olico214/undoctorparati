@@ -16,7 +16,7 @@ const mapa = datadoc.mapaGoogle
 const horario = datadoc.horarios
 const preciocon = datadoc.precioConsulta
 
-
+console.log(datosPaciente)
 
 flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
 ✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
