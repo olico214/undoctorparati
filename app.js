@@ -16,8 +16,6 @@ const mapa = datadoc.mapaGoogle
 const horario = datadoc.horarios
 const preciocon = datadoc.precioConsulta
 
-console.log(datosPaciente)
-
 flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
 ✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
 🏥 Consultorio:\n ${datosPaciente.consultorio[0]} \n\n*Dirección:* ${datosPaciente.consultorio[1]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
@@ -29,7 +27,9 @@ flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰�
 
 const flowValidate = addKeyword('validate').addAction((ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
   const estatus = state.getMyState()
-  flowDynamic({body:`Motivo:${estatus.motivo}\nNombre Paciente: ${estatus.nombrePaciente}\Correo Paciente: ${estatus.email}`})
+  const correo = (estatus.motivo = 0 ? 'Sin correo':estatus.email)
+  state.update({email:correo})
+  flowDynamic({body:`Motivo:${estatus.motivo}\nNombre Paciente: ${estatus.nombrePaciente}\nCorreo: (${correo})`})
 })
 .addAnswer('¿La informacion anterior es correcta?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow})=>{
   if(ctx.body === '2'){
