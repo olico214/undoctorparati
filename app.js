@@ -166,7 +166,7 @@ flowDynamic({body:'Selecciona un Doctor:'})
   let namDoc = "";
   let subEspecialidad = "";
   let hospital = "";
-  console.log('Seeleccion de doctor compoleto')
+  console.log('Seeleccion de doctor completo')
   for (let j = 0; j < doctors.length; j++) {
     if (doctors[j].idSeleccion == idvalue) {
       await state.update({ doctor: doctors[j]});
@@ -244,7 +244,6 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
     const valorBuscado = ctx.body;
     const evaluate = valorBuscado.toLowerCase();
 
-    let estado = false;
 
     if (evaluate === "menu" || evaluate === "menú") {
       return gotoFlow(flowMenu);
@@ -260,14 +259,10 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
       if (valorBuscado === ban) {
         await state.update({especialidad:cadena})
         return gotoFlow(flowEspecialistas)
-        estado =true
+
       }
     }
 
-    if (!estado) {
-      await flowDynamic({ body: 'Seleccione un especialista válido' });
-      return fallBack();
-    }
   });
 //Fin de obtener especialidades/////////////////////////
 
