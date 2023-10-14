@@ -275,7 +275,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
       if (valorBuscado === ban) {
         await state.update({especialidad:cadena})
         return gotoFlow(flowEspecialistas)
-        
+        estado =true
       }
     }
 
