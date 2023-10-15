@@ -197,7 +197,7 @@ await flowDynamic({ body:especial });
   let telParallamadas = "";
   let telwhats = "";
   
-  console.log('Seeleccion de doctor completo')
+
   for (let j = 0; j < doctors.length; j++) {
     if (doctors[j].idSeleccion == idvalue) {
       await state.update({ doctor: doctors[j]});
