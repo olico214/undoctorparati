@@ -244,7 +244,7 @@ await flowDynamic({ body:especial });
       break; // Sal del bucle cuando se encuentra el médico
     }
   }
-console.log(namDoc)
+console.log(dirConsultorio)
 
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('--')){
