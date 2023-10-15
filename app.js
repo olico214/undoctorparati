@@ -13,6 +13,7 @@ const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{fl
 const datosPaciente = state.getMyState()
 const consultorio = datosPaciente.consultorio;
 
+
   //await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats]})
 
 flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
