@@ -187,7 +187,7 @@ await flowDynamic({ body:especial });
   let hospital = "";
   let mapagoogle = "";
   let horario = "";
-  let = precioConsulta;
+  let  precioConsulta ="";
   let telParallamadas = "";
   let telwhats = "";
   
