@@ -154,8 +154,10 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
+
+
   if(doctores.message =='Sin resultados'){
-    await flowDynamic({body:'Lo sentimos, no contamos con doctores de esaa especialidad.'})
+    await flowDynamic({body:'Lo sentimos, no contamos con doctores de esa especialidad.'})
     await endFlow()
     return gotoFlow(flowMenu);
   }
@@ -189,8 +191,9 @@ for (let i = 0; i < doctores.length; i++) {
 
 
 await flowDynamic({ body:especial });
+await flowDynamic({body:'Selecciona un Doctor:'})
 })
-.addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
+.addAnswer({capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const idvalue= ctx.body
   let namDoc = "";
   let subEspecialidad = "";
