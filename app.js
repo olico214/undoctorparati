@@ -82,9 +82,9 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
   const mapa = clinica.mapaGoogle;
   
   
-  const direccion = DireccionConsultorios.split('/')
-  const hospitalSplit = hospital.split('/')
-  const mapaSplit = mapa.split('/')
+  const direccion = DireccionConsultorios.split('--')
+  const hospitalSplit = hospital.split('--')
+  const mapaSplit = mapa.split('--')
   
 
   let ajuste = "";
@@ -95,20 +95,29 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
     selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i]])
   }
 flowDynamic({body:ajuste})
+console.log(selecciodeClinicas)
 })
 
 
 
 .addAnswer('Seleccione una clinica por favor:',{capture:true},async(ctx,{fallBack,state,gotoFlow})=>{
   const seleccion = ctx.body;
-for(let i = 0;i<selecciodeClinicas.length;i++){
+  //await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats]})
+let estado = true
+
+  for(let i = 0;i<selecciodeClinicas.length;i++){
   if(selecciodeClinicas[i][0] == seleccion){
     await state.update({consultorio: [selecciodeClinicas[i][1],selecciodeClinicas[i][2],selecciodeClinicas[i][3]]})
+    estado = false
     break
   }
 }
+if(estado){
+  return gotoFlow(flowGetDataPaciente)
+}else{
+  return fallBack()
+}
 
-return gotoFlow(flowGetDataPaciente)
 })
 //Fin obtener Datos de pacientes///////////////////
 
@@ -158,7 +167,10 @@ for (let i = 0; i < doctores.length; i++) {
     idSeleccion :indice,
     mapaGoogle:doctor.MapaGoogle,
     horarios:doctor.HorarioConsulta,
-    precioConsulta:doctor.CostoConsulta
+    precioConsulta:doctor.CostoConsulta,
+    telParallamadas : doctor.telRecepcion,
+    telwhatsapp	 : doctor.telwhatsapp
+    
   });
 
   // Agrega una línea al mensaje a mostrar
@@ -174,6 +186,10 @@ await flowDynamic({ body:especial });
   let subEspecialidad = "";
   let hospital = "";
   let mapagoogle = "";
+  let horario = "";
+  let = precioConsulta;
+  let telParallamadas = "";
+  let telwhats = "";
   
   console.log('Seeleccion de doctor completo')
   for (let j = 0; j < doctors.length; j++) {
@@ -184,6 +200,10 @@ await flowDynamic({ body:especial });
       namDoc = doctors[j].name;
       subEspecialidad = doctors[j].subEspecialidad;
       mapagoogle = doctors[j].mapaGoogle;
+      horario = doctors[j].horarios;
+      precioConsulta =doctors[j].precioConsulta; 
+      telParallamadas = doctors[j].telParallamadas;
+      telwhats = doctors[j].telwhatsapp;
       
       break; // Sal del bucle cuando se encuentra el médico
     }
@@ -194,7 +214,7 @@ const estatuscliente = state.getMyState()
   if(hospital.includes('/')){
     return gotoFlow(flowConsultorios)
   }
-  await state.update({consultorio: [hospital,dirConsultorio,mapagoogle]})
+  await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats]})
   return gotoFlow(flowGetDataPaciente)
 
 })
