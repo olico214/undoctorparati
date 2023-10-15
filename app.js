@@ -23,6 +23,7 @@ flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰�
 let telwhats = consultorio[6]
 
 console.log(provider)
+console.log(telwhats)
 await provider.sendText(`521${telwhats}@s.whatsapp.net`, `Hola, existe un nuevo registro con los siguientees datos:\nEspecialidad: ${datosPaciente.especialidad}\nNombre Doctor: ${consultorio[7]}
 Nombre Paciente: ${datosPaciente.nombrePaciente}\nMotivo: ${datosPaciente.motivo}\n
 Consultorio: ${consultorio[1]}`)
