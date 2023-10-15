@@ -111,6 +111,7 @@ await flowDynamic({body:ajuste})
 let estado = true
 
   for(let i = 0;i<selecciodeClinicas.length;i++){
+    console.log(selecciodeClinicas)
   if(selecciodeClinicas[i][0] == seleccion){
       
 
