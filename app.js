@@ -50,24 +50,45 @@ const flowValidate = addKeyword('validate').addAction((ctx,{flowDynamic,gotoFlow
 })
 
 
-const flowEmail = addKeyword('emailpaciente').addAnswer('✉️  *¿Dime cual es tu email?*\n\n "0"(Cero) si no cuentas con correo',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
-  await state.update({email:ctx.body})
+const flowEmail = addKeyword('emailpaciente').addAnswer('✉️  *¿Dime cual es tu email?*\n\n "0"(Cero) si no cuentas con correo\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  let seleccion = ctx.body;
+  const lowerseleccion = seleccion.toLowerCase()
+  if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
+    return endFlow
+  }else{
+    await state.update({email:ctx.body})
   return gotoFlow(flowValidate)
+  }
+  
 })
 
 
 
-const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
-  await state.update({nombrePaciente:ctx.body})
+const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  let seleccion = ctx.body;
+  const lowerseleccion = seleccion.toLowerCase()
+  if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
+    return endFlow
+  }else{
+    await state.update({nombrePaciente:ctx.body})
   return gotoFlow(flowEmail)
+  }
+  
 })
 
 
 
 const flowGetDataPaciente = addKeyword('getData').addAnswer(
-  'Para brindarte la información que solicitas\n\n🩺 *¿Dime cual es el motivo de tu consulta?*',{capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
-await state.update({motivo:ctx.body})
-return gotoFlow(flowNombrePaciente)
+  'Para brindarte la información que solicitas\n\n🩺 *¿Dime cual es el motivo de tu consulta?*\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
+    let seleccion = ctx.body;
+    const lowerseleccion = seleccion.toLowerCase()
+    if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
+      return endFlow
+    }else{
+      await state.update({motivo:ctx.body})
+      return gotoFlow(flowNombrePaciente)
+    }
+    
 
 })
 
