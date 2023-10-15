@@ -11,16 +11,14 @@ const city = 'Guadalajara'
 
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{flowDynamic,endFlow,state})=>{
 const datosPaciente = state.getMyState()
-const datadoc = datosPaciente.doctor
-const mapa = datosPaciente.consultorio[2]
-const horario = datadoc.horarios
-const preciocon = datadoc.precioConsulta
+const consultorio = datosPaciente.consultorio;
 
+  //await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats]})
 
 flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
-✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${datosPaciente.telefono}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
-🏥 Consultorio:\n ${datosPaciente.consultorio[0]} \n\n*Dirección:* ${datosPaciente.consultorio[1]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
-🌍 *Mapa en google:* ${mapa}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n⏰ *Horarios:* ${horario}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n💲*Precio de consulta :* ${preciocon}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio! 😀
+✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${consultorio[0]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
+🏥 Consultorio:\n ${consultorio[1]} \n\n*Dirección:* ${consultorio[2]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
+🌍 *Mapa en google:* ${consultorio[3]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n⏰ *Horarios:* ${consultorio[4]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n💲*Precio de consulta :* ${consultorio[5]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio! 😀
 
 `})
 
@@ -72,7 +70,7 @@ return gotoFlow(flowNombrePaciente)
 
 
 let selecciodeClinicas = []
-const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
+const flowConsultorios = addKeyword('getConsultorios').addAction(async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const datosPaciente = state.getMyState()
   console.log(datosPaciente)
   const clinica = datosPaciente.doctor;
@@ -85,6 +83,11 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
   const direccion = DireccionConsultorios.split('--')
   const hospitalSplit = hospital.split('--')
   const mapaSplit = mapa.split('--')
+
+  let telParallamadas=clinica.telParallamadas;
+  let horario=clinica.horarios;
+  let precioConsulta=clinica.precioConsulta;
+  let telwhats=clinica.telwhatsapp;
   
 
   let ajuste = "";
@@ -92,10 +95,10 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
   for(let i = 0 ;i<hospitalSplit.length;i++){
     let indice = 1 +i;
     ajuste += `\n\n🏥${indice} -> ${hospitalSplit[i]}\n${direccion[i]}\n\n`
-    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i]])
+    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i],telParallamadas,horario,precioConsulta,telwhats])
   }
   
-flowDynamic({body:ajuste})
+await flowDynamic({body:ajuste})
 
 })
 
@@ -108,7 +111,9 @@ let estado = true
 
   for(let i = 0;i<selecciodeClinicas.length;i++){
   if(selecciodeClinicas[i][0] == seleccion){
-    await state.update({consultorio: [selecciodeClinicas[i][1],selecciodeClinicas[i][2],selecciodeClinicas[i][3]]})
+      
+
+    await state.update({consultorio: [selecciodeClinicas[i][4],selecciodeClinicas[i][1],selecciodeClinicas[i][2],selecciodeClinicas[i][3],selecciodeClinicas[i][5],selecciodeClinicas[i][6],selecciodeClinicas[i][7]]})
     estado = false
     break
   }
