@@ -188,12 +188,9 @@ for (let i = 0; i < doctores.length; i++) {
   // Agrega una línea al mensaje a mostrar
   especial += `\n\n🩺 » *${indice}*: ${doctor.nameDoc}\n${doctor.EspecialidadCompleta} - ${doctor.HospitalTorre}\n\n`;
 }
-
-
 await flowDynamic({ body:especial });
-await flowDynamic({body:'Selecciona un Doctor:'})
 })
-.addAction({capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
+.addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const idvalue= ctx.body
   let namDoc = "";
   let subEspecialidad = "";
