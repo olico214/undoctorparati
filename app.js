@@ -41,12 +41,16 @@ const flowValidate = addKeyword('validate').addAction((ctx,{flowDynamic,gotoFlow
   state.update({email:correo})
   flowDynamic({body:`Motivo:${estatus.motivo}\nNombre Paciente: ${estatus.nombrePaciente}\nCorreo: (${correo})`})
 })
-.addAnswer('¿La informacion anterior es correcta?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},async(ctx,{gotoFlow})=>{
+.addAnswer('¿La informacion anterior es correcta?\n\n1️⃣ SI\n2️⃣ NO\n3️⃣ *Menu Principal*',{capture:true},async(ctx,{gotoFlow})=>{
   if(ctx.body === '2'){
 
     return gotoFlow(flowGetDataPaciente)
+  }else if(ctx.body == "3"){
+    return gotoFlow(flowMenu)
+  }else{
+    return gotoFlow(flowMostrainformacionDoctor)
   }
-  return gotoFlow(flowMostrainformacionDoctor)
+  
 })
 
 
@@ -54,7 +58,7 @@ const flowEmail = addKeyword('emailpaciente').addAnswer('✉️  *¿Dime cual es
   let seleccion = ctx.body;
   const lowerseleccion = seleccion.toLowerCase()
   if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
-    return endFlow
+    return gotoFlow(flowMenu)
   }else{
     await state.update({email:ctx.body})
   return gotoFlow(flowValidate)
@@ -68,7 +72,7 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕�
   let seleccion = ctx.body;
   const lowerseleccion = seleccion.toLowerCase()
   if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
-    return endFlow
+    return gotoFlow(flowMenu)
   }else{
     await state.update({nombrePaciente:ctx.body})
   return gotoFlow(flowEmail)
@@ -83,7 +87,7 @@ const flowGetDataPaciente = addKeyword('getData').addAnswer(
     let seleccion = ctx.body;
     const lowerseleccion = seleccion.toLowerCase()
     if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
-      return endFlow
+      return gotoFlow(flowMenu)
     }else{
       await state.update({motivo:ctx.body})
       return gotoFlow(flowNombrePaciente)
