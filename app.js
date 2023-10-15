@@ -73,7 +73,7 @@ return gotoFlow(flowNombrePaciente)
 let selecciodeClinicas = []
 const flowConsultorios = addKeyword('getConsultorios').addAction(async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const datosPaciente = state.getMyState()
-  console.log(datosPaciente)
+
   const clinica = datosPaciente.doctor;
 
   const DireccionConsultorios = clinica.DireccionConsultorios;
