@@ -119,7 +119,7 @@ let estado = true
   if(selecciodeClinicas[i][0] == seleccion){
       
 
-    await state.update({consultorio: [selecciodeClinicas[i][4],selecciodeClinicas[i][1],selecciodeClinicas[i][2],selecciodeClinicas[i][3],selecciodeClinicas[i][5],selecciodeClinicas[i][6],selecciodeClinicas[i][7]]})
+    await state.update({consultorio: [selecciodeClinicas[i][4],selecciodeClinicas[i][1],selecciodeClinicas[i][2],selecciodeClinicas[i][3],selecciodeClinicas[i][5],selecciodeClinicas[i][6],selecciodeClinicas[i][7],selecciodeClinicas[i][8]]})
     estado = false
     break
   }
