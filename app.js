@@ -189,7 +189,7 @@ await flowDynamic({ body:especial });
     }
   }
 const estatuscliente = state.getMyState()
-console.log(estatuscliente)
+
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('/')){
     return gotoFlow(flowConsultorios)
