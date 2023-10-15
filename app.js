@@ -9,12 +9,10 @@ const city = 'Guadalajara'
 
 
 
-const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{flowDynamic,endFlow,state})=>{
+const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction(async(ctx,{flowDynamic,endFlow,state,provider})=>{
 const datosPaciente = state.getMyState()
 const consultorio = datosPaciente.consultorio;
 
-
-  //await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats]})
 
 flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
 ✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${consultorio[0]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
@@ -22,6 +20,11 @@ flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰�
 🌍 *Mapa en google:* ${consultorio[3]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n⏰ *Horarios:* ${consultorio[4]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n💲*Precio de consulta :* ${consultorio[5]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio! 😀
 
 `})
+let telwhats = consultorio[6]
+await provider.sendText(`521${telwhats}@c.us`, `Hola, existe un nuevo registro con los siguientees datos:\nEspecialidad: ${datosPaciente.especialidad}\nNombre Doctor: ${consultorio[7]}
+Nombre Paciente: ${datosPaciente.nombrePaciente}\nMotivo: ${datosPaciente.motivo}\n
+Consultorio: ${consultorio[1]}\n 
+`)
 
 })
 
@@ -210,6 +213,7 @@ await flowDynamic({ body:especial });
       precioConsulta =doctors[j].precioConsulta; 
       telParallamadas = doctors[j].telParallamadas;
       telwhats = doctors[j].telwhatsapp;
+
       
       break; // Sal del bucle cuando se encuentra el médico
     }
@@ -220,7 +224,7 @@ const estatuscliente = state.getMyState()
   if(hospital.includes('--')){
     return gotoFlow(flowConsultorios)
   }
-  await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats]})
+  await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats,namDoc]})
   return gotoFlow(flowGetDataPaciente)
 
 })
