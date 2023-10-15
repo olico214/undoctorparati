@@ -21,8 +21,6 @@ flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰�
 
 `})
 let telwhats = consultorio[6]
-
-console.log(provider)
 console.log(telwhats)
 await provider.sendText(`521${telwhats}@s.whatsapp.net`, `Hola, existe un nuevo registro con los siguientees datos:\nEspecialidad: ${datosPaciente.especialidad}\nNombre Doctor: ${consultorio[7]}
 Nombre Paciente: ${datosPaciente.nombrePaciente}\nMotivo: ${datosPaciente.motivo}\n
@@ -94,6 +92,7 @@ const flowConsultorios = addKeyword('getConsultorios').addAction(async(ctx,{flow
   let horario=clinica.horarios;
   let precioConsulta=clinica.precioConsulta;
   let telwhats=clinica.telwhatsapp;
+  let name = clinica.name;
   
 
   let ajuste = "";
@@ -101,7 +100,7 @@ const flowConsultorios = addKeyword('getConsultorios').addAction(async(ctx,{flow
   for(let i = 0 ;i<hospitalSplit.length;i++){
     let indice = 1 +i;
     ajuste += `\n\n🏥${indice} -> ${hospitalSplit[i]}\n${direccion[i]}\n\n`
-    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i],telParallamadas,horario,precioConsulta,telwhats])
+    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i],telParallamadas,horario,precioConsulta,telwhats,name])
   }
   
 await flowDynamic({body:ajuste})
