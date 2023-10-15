@@ -74,7 +74,7 @@ return gotoFlow(flowNombrePaciente)
 let selecciodeClinicas = []
 const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
   const datosPaciente = state.getMyState()
-
+  console.log(datosPaciente)
   const clinica = datosPaciente.doctor;
 
   const DireccionConsultorios = clinica.DireccionConsultorios;
@@ -94,15 +94,16 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
     ajuste += `\n\n🏥${indice} -> ${hospitalSplit[i]}\n${direccion[i]}\n\n`
     selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i]])
   }
+  
 flowDynamic({body:ajuste})
-console.log(selecciodeClinicas)
+
 })
 
 
 
 .addAnswer('Seleccione una clinica por favor:',{capture:true},async(ctx,{fallBack,state,gotoFlow})=>{
   const seleccion = ctx.body;
-  //await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats]})
+
 let estado = true
 
   for(let i = 0;i<selecciodeClinicas.length;i++){
@@ -211,7 +212,7 @@ await flowDynamic({ body:especial });
 const estatuscliente = state.getMyState()
 
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
-  if(hospital.includes('/')){
+  if(hospital.includes('--')){
     return gotoFlow(flowConsultorios)
   }
   await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats]})
