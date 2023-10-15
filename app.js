@@ -119,11 +119,9 @@ let estado = true
     break
   }
 }
-if(estado){
+
   return gotoFlow(flowGetDataPaciente)
-}else{
-  return fallBack()
-}
+
 
 })
 //Fin obtener Datos de pacientes///////////////////
