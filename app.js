@@ -245,6 +245,7 @@ await flowDynamic({ body:especial });
     }
   }
 console.log(dirConsultorio)
+doctors=[]
 
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('--')){
