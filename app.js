@@ -12,8 +12,7 @@ const city = 'Guadalajara'
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction((ctx,{flowDynamic,endFlow,state})=>{
 const datosPaciente = state.getMyState()
 const datadoc = datosPaciente.doctor
-console.log(datosPaciente)
-const mapa = datadoc.mapaGoogle
+const mapa = datosPaciente.consultorio[2]
 const horario = datadoc.horarios
 const preciocon = datadoc.precioConsulta
 
@@ -80,24 +79,31 @@ const flowConsultorios = addKeyword('getConsultorios').addAction((ctx,{flowDynam
 
   const DireccionConsultorios = clinica.DireccionConsultorios;
   const hospital = clinica.hospital;
+  const mapa = clinica.mapaGoogle;
+  
   
   const direccion = DireccionConsultorios.split('/')
   const hospitalSplit = hospital.split('/')
+  const mapaSplit = mapa.split('/')
+  
 
   let ajuste = "";
   ajuste += ``
   for(let i = 0 ;i<hospitalSplit.length;i++){
     let indice = 1 +i;
     ajuste += `\n\n🏥${indice} -> ${hospitalSplit[i]}\n${direccion[i]}\n\n`
-    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i]])
+    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i]])
   }
 flowDynamic({body:ajuste})
 })
+
+
+
 .addAnswer('Seleccione una clinica por favor:',{capture:true},async(ctx,{fallBack,state,gotoFlow})=>{
   const seleccion = ctx.body;
 for(let i = 0;i<selecciodeClinicas.length;i++){
   if(selecciodeClinicas[i][0] == seleccion){
-    await state.update({consultorio: [selecciodeClinicas[i][1],selecciodeClinicas[i][2]]})
+    await state.update({consultorio: [selecciodeClinicas[i][1],selecciodeClinicas[i][2],selecciodeClinicas[i][3]]})
     break
   }
 }
@@ -167,6 +173,8 @@ await flowDynamic({ body:especial });
   let namDoc = "";
   let subEspecialidad = "";
   let hospital = "";
+  let mapagoogle = "";
+  
   console.log('Seeleccion de doctor completo')
   for (let j = 0; j < doctors.length; j++) {
     if (doctors[j].idSeleccion == idvalue) {
@@ -175,6 +183,8 @@ await flowDynamic({ body:especial });
       dirConsultorio = doctors[j].DireccionConsultorios
       namDoc = doctors[j].name;
       subEspecialidad = doctors[j].subEspecialidad;
+      mapagoogle = doctors[j].mapaGoogle;
+      
       break; // Sal del bucle cuando se encuentra el médico
     }
   }
@@ -184,7 +194,7 @@ console.log(estatuscliente)
   if(hospital.includes('/')){
     return gotoFlow(flowConsultorios)
   }
-  await state.update({consultorio: [hospital,dirConsultorio]})
+  await state.update({consultorio: [hospital,dirConsultorio,mapagoogle]})
   return gotoFlow(flowGetDataPaciente)
 
 })
