@@ -347,45 +347,14 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
       if (valorBuscado === ban) {
         await state.update({especialidad:cadena})
-        const nombrepx = state.getMyState()
-      if(!nombrepx.nombrePaciente){
-        return gotoFlow(flowNombrePaciente)
-      }else{
+        
         return gotoFlow(flowEspecialistas)
-      }
-
       }
     }
     
 
   });
 //Fin de obtener especialidades/////////////////////////
-
-
-
-
-const flowNombrePaciente = addKeyword('namepaciente').addAnswer('Para Continuar\n\n👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
-  let seleccion = ctx.body;
-  const lowerseleccion = seleccion.toLowerCase()
-  if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
-    return gotoFlow(flowMenu)
-  }else{
-    await state.update({nombrePaciente:ctx.body})
-
-  }
-  
-})
-.addAnswer('¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow,state})=>{
-if(ctx.body == '2'){
-  return gotoFlow(flowNombrePaciente)
-}else{
-  return gotoFlow(flowEspecialistas)
-}
-})
-
-
-
-
 
 async function findEspecilidad(city,es) {
   try {
@@ -403,12 +372,9 @@ async function findEspecilidad(city,es) {
 const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('1️⃣ SI\n2️⃣ NO',{capture:true},async (ctx,{flowDynamic,gotoFlow})=>{
 
   if(ctx.body == '1'){
-    const nombrepx = state.getMyState()
-    if(!nombrepx.nombrePaciente){
-      return gotoFlow(flowNombrePaciente)
-    }else{
+    
       return gotoFlow(flowEspecialistas)
-    }
+    
     
   }else{
     return gotoFlow(flowMenu)
@@ -477,12 +443,35 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynam
 `🦾 Soy una asistente Virtual por WhatsApp con respuestas programadas\n\n`+
 `🤳 Este es un servicio gratuito compártelo con quien creas que pueda necesitarlo,`+
 ` recuerda guardar este whatsapp para tener información de los mejores especialistas en tu ciudad rápidamente sin instalar ninguna app.\n`})
-  return gotoFlow(flowMenu)
+  const nombrepx = state.getMyState()
+      if(!nombrepx.nombrePaciente){
+        return gotoFlow(flowNombrePaciente)
+      }else{
+        return gotoFlow(flowMenu)
+      }
+  
 })
 
 
 
+const flowNombrePaciente = addKeyword('namepaciente').addAnswer('Para Continuar\n\n👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  let seleccion = ctx.body;
+  const lowerseleccion = seleccion.toLowerCase()
+  if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
+    return gotoFlow(flowMenu)
+  }else{
+    await state.update({nombrePaciente:ctx.body})
 
+  }
+  
+})
+.addAnswer('¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow,state})=>{
+if(ctx.body == '2'){
+  return gotoFlow(flowNombrePaciente)
+}else{
+  return gotoFlow(flowMenu)
+}
+})
     
 const flowRecibirMedia = addKeyword(EVENTS.MEDIA)
 .addAnswer('Por el momento no puedo recibir archivos multimedia, escribeme por favor, una disculpa')
