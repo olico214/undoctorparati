@@ -19,8 +19,6 @@ msgPX += `${namePX}\n\n`
 msgPX += `Hemos enviado un mensaje a la asistente de Dr(a). ${nameDoc} y te contactarán tan pronto los reciban.\n\n`
 msgPX += `Mientras esperas a que te contacten te envío información del doctor:\n\n`
 
-
-msgPX += `Tu cita con el Dr(a). ${nameDoc} ha sido registrada. Aquí tienes los detalles:\n\n`
 const especialidad = consultorio[8]
 msgPX += `🩺 Especialidad: ${especialidad}\n`
 msgPX += `👨‍⚕️ Doctor: Dr(a). ${nameDoc}\n`
@@ -32,7 +30,9 @@ const ubicacion =consultorio[2]
 msgPX += `📍 Ubicación: ${ubicacion}\n`
 const mapa =consultorio[3];
 msgPX += `🗺️ Mapa: ${mapa}\n\n`
-msgPX += `Por favor, si han pasado mas de 10 minutos y no te han marcado, te pedimos llames al número de consultorio proporcionado.`
+msgPX += `Por favor, si han pasado mas de 10 minutos y no te han marcado, te pedimos llames al número de consultorio proporcionado.\n`
+msgPX += `Si deseas saber más a cerca del doctor, por favor digital 1️⃣.\nDe lo contrario escribe Adios para finalizar nuestra conversación`
+
 
 
 flowDynamic({body:msgPX})
