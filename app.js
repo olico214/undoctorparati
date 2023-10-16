@@ -7,7 +7,13 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 const city = 'Guadalajara' 
 
-
+const flowVideo = addKeyword('Video').addAction((ctx,{flowDynamic})=> {
+  const datosPaciente = state.getMyState()
+  const consultorio = datosPaciente.consultorio;
+  const nameDoc = consultorio[7]
+  flowDynamic([{body:`Hola! Soy el/la doctor(a) ${nameDoc}, Te comparto un video para que conozcas un poco más de mi`, media: 'https://th.bing.com/th/id/R.d7e83c71c767346f83ebbdee82a3ce33?rik=%2ft5AU%2fDk8f6hPQ&pid=ImgRaw&r=0'}])
+  
+})
 
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction(async(ctx,{flowDynamic,endFlow,state,provider})=>{
 const datosPaciente = state.getMyState()
@@ -31,7 +37,7 @@ msgPX += `📍 Ubicación: ${ubicacion}\n`
 const mapa =consultorio[3];
 msgPX += `🗺️ Mapa: ${mapa}\n\n`
 msgPX += `Por favor, si han pasado mas de 10 minutos y no te han marcado, te pedimos llames al número de consultorio proporcionado.\n`
-msgPX += `Si deseas saber más a cerca del doctor, por favor digital 1️⃣.\nDe lo contrario escribe *Adios* para finalizar nuestra conversación`
+
 
 
 
@@ -54,6 +60,17 @@ _undoctorparati.com_`
 
 await provider.sendText(`521${telwhats}@s.whatsapp.net`, msgDoc)
 
+})
+.addAnswer('Si deseas saber más a cerca del doctor, por favor digital 1️⃣.\nDe lo contrario escribe *Adios* para finalizar nuestra conversación',{capture:true},(ctx,{gotoFlow, fallBack})=>{
+  const bye = ctx.body
+  const lowebye = bye.toLowerCase()
+  if(ctx.body == '1'){
+    return gotoFlow(flowVideo)
+  }else if(lowebye == 'adios'){
+    return gotoFlow(flowMenu)
+  }else{
+    return fallBack()
+  }
 })
 
 const flowValidate = addKeyword('validate').addAction((ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
@@ -533,7 +550,7 @@ const main = async () => {
 const adapterDB = new MockAdapter()
 const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,
   flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor,flowConsultorios,flowValidate,
-  flowConfirmEspecialidad,flowConfirmName])
+  flowConfirmEspecialidad,flowConfirmName,flowVideo])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
