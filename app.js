@@ -485,11 +485,12 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('🤖 Para brind
     return gotoFlow(flowMenu)
   }else{
     await state.update({nombrePaciente:ctx.body})
+    flowDynamic({body:'¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO'})
   }
   
   
 })
-.addAnswer('¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow,state})=>{
+.addAction({capture:true},(ctx,{flowDynamic,gotoFlow,state})=>{
 if(ctx.body == '2'){
   return gotoFlow(flowNombrePaciente)
 }else{
