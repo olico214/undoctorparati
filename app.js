@@ -388,7 +388,7 @@ const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('1�
   }
 })
 
-const flowMenu = addKeyword('Menu').addAction(async(ctx,{flowDynamic})=>{
+const flowMenu = addKeyword('Menu').addAction(async(ctx,{flowDynamic,state})=>{
   const nombrepx = state.getMyState()
   let name = "";
   if(!nombrepx.nombrePaciente){
@@ -397,7 +397,7 @@ const flowMenu = addKeyword('Menu').addAction(async(ctx,{flowDynamic})=>{
     name = nombrepx.nombrePaciente
   }
 
-  flowDynamic({body:`🤖 *¡Gracias! ${name}*\n\n» Puedes escribir 1️⃣ para conocer las especialidades que tenemos.\n
+  await flowDynamic({body:`🤖 *¡Gracias! ${name}*\n\n» Puedes escribir 1️⃣ para conocer las especialidades que tenemos.\n
   » También puedes escribir la especialidad del médico que buscas ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n
   » Si eres médico especialista y te gustaría formar parte de este directorio por WhatsApp escribe el número 9️⃣\n\n
   *Escribe la opción que deseas*`})
