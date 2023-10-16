@@ -446,12 +446,12 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynam
   const nombrepx = state.getMyState()
   try{
     if(!nombrepx.nombrePaciente){
-      return gotoFlow(flowNombrePaciente)
+      
     }else{
       return gotoFlow(flowMenu)
     }
   }catch{
-    
+    return gotoFlow(flowNombrePaciente)
   }
       
   
