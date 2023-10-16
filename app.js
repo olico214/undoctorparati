@@ -329,7 +329,7 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
   });
 
   await flowDynamic({
-    body: '¡Genial!\n_Por favor escribe el número de especialista que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menú principal escribe *Menu*',
+    body: '¡Genial!\n_Por favor escribe el número de la especialidad que necesitas/deseas conocer y a continuación te presentaremos un menú con los mejores en esa especialidad_\n\n para regresar al menú principal escribe *Menu*',
   });
 
   await flowDynamic({ body: especial });
