@@ -370,12 +370,31 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 //Fin de obtener especialidades/////////////////////////
 
 
+async function findEspecilidad(city,es) {
+  try {
 
+    const apiUrl = `https://undoctorparami.com/api/get/findEspecialista.php?city=${city}&es=${es}`;
+    const response = await axios.get(apiUrl);
+    const especialidades = response.data;
+
+    return especialidades;
+  } catch (error) {
+    console.error('Error al consultar la API:', error);
+  }
+}
+
+const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('¿Es correcta la Especialidad?\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
+  if(ctx.body == '1'){
+    return gotoFlow(flowEspecialistas)
+  }else{
+    return gotoFlow(flowMenu)
+  }
+})
 
 const flowMenu = addKeyword('Menu').addAnswer([
   `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
   `🔅 Escribe la especialidad del médico ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n`,
-  `☝️  Escribe Postularme  para formar parte de este Directorio Whatsapp\n\n`,
+  `☝️  Escribe 9  para formar parte de este Directorio Whatsapp\n\n`,
   `〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n`,
   `👉 📞 Si deseas agendar una cita por teléfono con algún médico\nLlama a este número  4775820455\n`,
   `⌚️ Nuestras agentes con gusto te atenderán en los siguientes horarios:\n*Lunes a Viernes*\n8:00 am - 8:00 pm\n`,
@@ -385,12 +404,32 @@ const flowMenu = addKeyword('Menu').addAnswer([
   ` ¡Te conectamos con los Doctores!`,
 ], { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow,state }) => {
     const seleccion = ctx.body;
+    // Convierte la primera letra a mayúscula y el resto a minúscula
+    const es = seleccion.charAt(0).toUpperCase() + seleccion.slice(1).toLowerCase();
+
     const phone = ctx.from;
     const tel = phone.slice(3);
     await state.update({telefono:tel})
     
     if (seleccion == '1') {
       return gotoFlow(flowEspecialidad);
+    }else if(seleccion == '9'){
+
+    }else{
+
+      let result = findEspecilidad(city,es)
+      if(!especiliadad){
+        flowDynamic({body:`Por el momento no contamos con este tipo de especialista\n\nTe avisaremos cuando tengamos alguno disponible 😉\n\n
+        〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio!\n\n
+        *Recuerda guardar este whatsapp para poder darte la información de los mejores especialistas en ${city}*\n\n
+        ¡Te conectamos con los Doctores!\n\n             👩🏻‍⚕️ 👨🏻‍⚕️`})
+        return fallBack()
+      }else{
+        
+        await state.update({especialidad:result.especialidad})
+        return gotoFlow(flowConfirmEspecialidad)
+
+      }
     }
 
   });
