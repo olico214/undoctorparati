@@ -249,7 +249,7 @@ const estado = state.getMyState()
 console.log(estado)
 doctors=[]
 
-if(estado.doctor==''){
+if(estado.doctor=='' || !estado.doctor){
   return gotoFlow(flowMenu)
 }else{
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
