@@ -98,13 +98,11 @@ const flowGetDataPaciente = addKeyword('getData').addAnswer(
       await state.update({motivo:ctx.body})
 
       const nombrepx = state.getMyState()
-    if(!nombrepx.nombrePaciente){
-      
-    }else{
-      return gotoFlow(flowEmail)
-    }
-
-
+      if(!nombrepx.nombrePaciente){
+        gotoFlow(flowNombrePaciente)
+      }else{
+        return gotoFlow(flowEmail)
+      }
       
     }
     
@@ -484,7 +482,7 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('Para Continuar\
 if(ctx.body == '2'){
   return gotoFlow(flowNombrePaciente)
 }else{
-  return gotoFlow(flowMenu)
+  return gotoFlow(flowEmail)
 }
 })
     
