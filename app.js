@@ -483,7 +483,7 @@ if(ctx.body == '2'){
   return gotoFlow(flowNombrePaciente)
 }else{
   const nombrepx = state.getMyState()
-  if(nombrepx.motivo){
+  if(nombrepx.email){
     return gotoFlow(flowEmail)
   }else{
     return gotoFlow(flowMenu)
