@@ -384,7 +384,8 @@ async function findEspecilidad(city,es) {
   }
 }
 
-const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
+const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('1️⃣ SI\n2️⃣ NO',{capture:true},async (ctx,{flowDynamic,gotoFlow})=>{
+
   if(ctx.body == '1'){
     return gotoFlow(flowEspecialistas)
   }else{
@@ -468,7 +469,8 @@ const flowDocumento = addKeyword(EVENTS.DOCUMENT)
 const main = async () => {
 const adapterDB = new MockAdapter()
 const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,
-  flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor,flowConsultorios,flowValidate])
+  flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor,flowConsultorios,flowValidate,
+  flowConfirmEspecialidad])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
