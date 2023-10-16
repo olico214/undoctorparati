@@ -1,4 +1,4 @@
-const { createBot, createProvider, createFlow, addKeyword } = require('@bot-whatsapp/bot')
+const { createBot, createProvider, createFlow, addKeyword, addAnswer } = require('@bot-whatsapp/bot')
 const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const MockAdapter = require('@bot-whatsapp/database/mock')
@@ -485,23 +485,24 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('🤖 Para brind
     return gotoFlow(flowMenu)
   }else{
     await state.update({nombrePaciente:ctx.body})
-    flowDynamic({body:'¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO'})
+    return gotoFlow(flowConfirmName)
   }
   
   
 })
-.addAction({capture:true},(ctx,{flowDynamic,gotoFlow,state})=>{
-if(ctx.body == '2'){
-  return gotoFlow(flowNombrePaciente)
-}else{
-  const nombrepx = state.getMyState()
-  if(nombrepx.email){
-    return gotoFlow(flowEmail)
+
+const flowConfirmName = addKeyword("ConfirmNombre").addAnswer('¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlowstate})=>{
+  if(ctx.body == '2'){
+    return gotoFlow(flowNombrePaciente)
   }else{
-    return gotoFlow(flowMenu)
+    const nombrepx = state.getMyState()
+    if(nombrepx.email){
+      return gotoFlow(flowEmail)
+    }else{
+      return gotoFlow(flowMenu)
+    }
+    
   }
-  
-}
 })
     
 const flowRecibirMedia = addKeyword(EVENTS.MEDIA)
