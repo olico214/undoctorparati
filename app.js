@@ -461,8 +461,8 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('Para Continuar\
     return gotoFlow(flowMenu)
   }else{
     await state.update({nombrePaciente:ctx.body})
-
   }
+  
   
 })
 .addAnswer('¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow,state})=>{
