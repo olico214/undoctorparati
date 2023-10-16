@@ -404,12 +404,11 @@ const flowMenu = addKeyword('Menu').addAction(async(ctx,{flowDynamic,state})=>{
 
   await flowDynamic({body:`🤖 *¡Gracias! ${name}*\n\n» Puedes escribir 1️⃣ para conocer las especialidades que tenemos.\n
   » También puedes escribir la especialidad del médico que buscas ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n
-  » Si eres médico especialista y te gustaría formar parte de este directorio por WhatsApp escribe el número 9️⃣\n\n
-  *Escribe la opción que deseas*`})
+  » Si eres médico especialista y te gustaría formar parte de este directorio por WhatsApp escribe el número 9️`})
 })
   
 
-.addAction( { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow,state }) => {
+.addAnswer('*Escribe la opción que deseas*', { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow,state }) => {
     const seleccion = ctx.body;
     // Convierte la primera letra a mayúscula y el resto a minúscula
     const es = seleccion.charAt(0).toUpperCase() + seleccion.slice(1).toLowerCase();
