@@ -418,7 +418,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
     }else{
 
       const result = await findEspecilidad(city,es)
-      console.log(result)
+      
       if(!result){
         await flowDynamic({body:`Por el momento no contamos con este tipo de especialista\n\nTe avisaremos cuando tengamos alguno disponible 😉\n\n
         〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio!\n\n
@@ -426,9 +426,9 @@ const flowMenu = addKeyword('Menu').addAnswer([
         ¡Te conectamos con los Doctores!\n\n             👩🏻‍⚕️ 👨🏻‍⚕️`})
         return fallBack()
       }else{
-        
-        await state.update({especialidad:result.especialidad})
-        await flowDynamic({body:`¿Es correcta la Especialidad?\n\n*${result.especialidad}*\n\n1️⃣ SI\n2️⃣ NO`})
+        console.log(result)
+        await state.update({especialidad:result[0].especialidad})
+        await flowDynamic({body:`¿Es correcta la Especialidad?\n\n*${result[0].especialidad}*\n\n1️⃣ SI\n2️⃣ NO`})
         return gotoFlow(flowConfirmEspecialidad)
 
       }
