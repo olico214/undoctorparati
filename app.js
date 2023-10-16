@@ -527,7 +527,7 @@ const main = async () => {
 const adapterDB = new MockAdapter()
 const adapterFlow = createFlow([flowBienvenida,flowRecibirMedia,flowLocation,flowNotaDeVoz,flowDocumento,
   flowMenu,flowEspecialidad,flowEspecialistas,flowGetDataPaciente,flowNombrePaciente,flowEmail,flowMostrainformacionDoctor,flowConsultorios,flowValidate,
-  flowConfirmEspecialidad])
+  flowConfirmEspecialidad,flowConfirmName])
 const adapterProvider = createProvider(BaileysProvider)
 
 createBot({
