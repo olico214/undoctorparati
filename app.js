@@ -140,7 +140,6 @@ await flowDynamic({body:ajuste})
 let estado = true
 
   for(let i = 0;i<selecciodeClinicas.length;i++){
-    console.log(selecciodeClinicas)
   if(selecciodeClinicas[i][0] == seleccion){
       
 
@@ -183,8 +182,8 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
 
   if(doctores.message =='Sin resultados'){
     await flowDynamic({body:'Lo sentimos, no contamos con doctores de esa especialidad.'})
-    await endFlow()
-    return gotoFlow(flowMenu);
+    return await endFlow()
+
   }
   let especial = `👩🏻‍⚕‍ 👨🏻‍⚕‍ Tenemos a los siguientes ${es}:\n\n`;
   especial += `👉  Escribe el código (las letras en negritas y minúsculas,  Ej. *1* ) del médico para ver su información y poder agendar tu cita:\n\n\n`
@@ -214,6 +213,7 @@ for (let i = 0; i < doctores.length; i++) {
   especial += `\n\n🩺 » *${indice}*: ${doctor.nameDoc}\n${doctor.EspecialidadCompleta} - ${doctor.HospitalTorre}\n\n`;
 }
 await flowDynamic({ body:especial });
+await state.update({ doctor: ""});
 })
 .addAnswer('Selecciona un Doctor:',{capture:true},async(ctx,{flowDynamic,state,gotoFlow})=>{
   const idvalue= ctx.body
@@ -244,7 +244,9 @@ await flowDynamic({ body:especial });
       break; // Sal del bucle cuando se encuentra el médico
     }
   }
-console.log(dirConsultorio)
+
+const estado = state.getMyState()
+console.log(estado)
 doctors=[]
 
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
