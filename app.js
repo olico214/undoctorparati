@@ -454,10 +454,10 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynam
 
 
 
-const flowNombrePaciente = addKeyword('namepaciente').addAnswer('Para Continuar\n\n👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+const flowNombrePaciente = addKeyword('namepaciente').addAnswer('Para Continuar\n\n👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*\n\n*1* para Ir al Menu Principal',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
   let seleccion = ctx.body;
   const lowerseleccion = seleccion.toLowerCase()
-  if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
+  if(lowerseleccion == '1'){
     return gotoFlow(flowMenu)
   }else{
     await state.update({nombrePaciente:ctx.body})
