@@ -321,7 +321,7 @@ async function getData(city) {
 }
 
 // Llama a getData solo una vez al inicio para llenar nombresEspecialidades
-getData();
+getData(city);
 
 const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flowDynamic }) => {
   const especialidades = {};
