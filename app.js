@@ -391,11 +391,16 @@ const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('1�
 const flowMenu = addKeyword('Menu').addAction(async(ctx,{flowDynamic,state})=>{
   const nombrepx = state.getMyState()
   let name = "";
-  if(!nombrepx.nombrePaciente){
-    name = "Amigo"
-  }else{
+  try{
+    if(!nombrepx.nombrePaciente){
+      name = "Amigo"
+    }else{
+      name = nombrepx.nombrePaciente
+    }
+  }catch{
     name = nombrepx.nombrePaciente
   }
+  
 
   await flowDynamic({body:`🤖 *¡Gracias! ${name}*\n\n» Puedes escribir 1️⃣ para conocer las especialidades que tenemos.\n
   » También puedes escribir la especialidad del médico que buscas ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n
