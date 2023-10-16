@@ -491,7 +491,7 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('🤖 Para brind
   
 })
 
-const flowConfirmName = addKeyword("ConfirmNombre").addAnswer('¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlowstate})=>{
+const flowConfirmName = addKeyword("ConfirmNombre").addAnswer('¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow, state})=>{
   if(ctx.body == '2'){
     return gotoFlow(flowNombrePaciente)
   }else{
