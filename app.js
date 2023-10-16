@@ -418,7 +418,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
     }else{
 
       let result = findEspecilidad(city,es)
-      if(!especiliadad){
+      if(!result){
         flowDynamic({body:`Por el momento no contamos con este tipo de especialista\n\nTe avisaremos cuando tengamos alguno disponible 😉\n\n
         〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio!\n\n
         *Recuerda guardar este whatsapp para poder darte la información de los mejores especialistas en ${city}*\n\n
