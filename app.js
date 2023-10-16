@@ -88,21 +88,6 @@ const flowEmail = addKeyword('emailpaciente').addAnswer('✉️  *¿Dime cual es
 })
 
 
-
-const flowNombrePaciente = addKeyword('namepaciente').addAnswer('👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
-  let seleccion = ctx.body;
-  const lowerseleccion = seleccion.toLowerCase()
-  if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
-    return gotoFlow(flowMenu)
-  }else{
-    await state.update({nombrePaciente:ctx.body})
-  return gotoFlow(flowEmail)
-  }
-  
-})
-
-
-
 const flowGetDataPaciente = addKeyword('getData').addAnswer(
   'Para brindarte la información que solicitas\n\n🩺 *¿Dime cual es el motivo de tu consulta?*\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,endFlow,gotoFlow,state})=>{
     let seleccion = ctx.body;
@@ -111,7 +96,7 @@ const flowGetDataPaciente = addKeyword('getData').addAnswer(
       return gotoFlow(flowMenu)
     }else{
       await state.update({motivo:ctx.body})
-      return gotoFlow(flowNombrePaciente)
+      return gotoFlow(flowEmail)
     }
     
 
@@ -362,13 +347,44 @@ const flowEspecialidad = addKeyword('especialidad1').addAction(async (ctx, { flo
 
       if (valorBuscado === ban) {
         await state.update({especialidad:cadena})
+        const nombrepx = state.getMyState()
+      if(!nombrepx.nombrePaciente){
+        return gotoFlow(flowNombrePaciente)
+      }else{
         return gotoFlow(flowEspecialistas)
+      }
 
       }
     }
+    
 
   });
 //Fin de obtener especialidades/////////////////////////
+
+
+
+
+const flowNombrePaciente = addKeyword('namepaciente').addAnswer('Para Continuar\n\n👨🏻‍⚕️ *¿Cuál es tu nombre o el nombre del paciente?*\n\n*Menu* para Regresar al inicio',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+  let seleccion = ctx.body;
+  const lowerseleccion = seleccion.toLowerCase()
+  if(lowerseleccion == 'menu' || lowerseleccion == 'menú'){
+    return gotoFlow(flowMenu)
+  }else{
+    await state.update({nombrePaciente:ctx.body})
+
+  }
+  
+})
+.addAction('¿Es correcto el nombre?\n\n1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow,state})=>{
+if(ctx.body == '2'){
+  return gotoFlow(flowNombrePaciente)
+}else{
+  return gotoFlow(flowEspecialistas)
+}
+})
+
+
+
 
 
 async function findEspecilidad(city,es) {
@@ -387,7 +403,13 @@ async function findEspecilidad(city,es) {
 const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('1️⃣ SI\n2️⃣ NO',{capture:true},async (ctx,{flowDynamic,gotoFlow})=>{
 
   if(ctx.body == '1'){
-    return gotoFlow(flowEspecialistas)
+    const nombrepx = state.getMyState()
+    if(!nombrepx.nombrePaciente){
+      return gotoFlow(flowNombrePaciente)
+    }else{
+      return gotoFlow(flowEspecialistas)
+    }
+    
   }else{
     return gotoFlow(flowMenu)
   }
@@ -414,7 +436,10 @@ const flowMenu = addKeyword('Menu').addAnswer([
     await state.update({telefono:tel})
     
     if (seleccion == '1') {
-      return gotoFlow(flowEspecialidad);
+      
+        return gotoFlow(flowEspecialidad);
+      
+      
     }else if(seleccion == '9'){
 
     }else{
@@ -431,7 +456,13 @@ const flowMenu = addKeyword('Menu').addAnswer([
 
         await state.update({especialidad:result[0].especialidad})
         await flowDynamic({body:`¿Es correcta la Especialidad?\n\n*${result[0].especialidad}*`})
-        return gotoFlow(flowConfirmEspecialidad)
+
+        
+        
+          return gotoFlow(flowConfirmEspecialidad)
+        
+
+        
 
       }
     }
