@@ -14,11 +14,12 @@ const datosPaciente = state.getMyState()
 const consultorio = datosPaciente.consultorio;
 let msgPX =""
 const namePX =`Hola! ${datosPaciente.nombrePaciente}`
+const nameDoc = consultorio[7]
 msgPX += `${namePX}\n\n`
 msgPX += `Hemos enviado un mensaje a la asistente de Dr(a). ${nameDoc} y te contactarán tan pronto los reciban.\n\n`
 msgPX += `Mientras esperas a que te contacten te envío información del doctor:\n\n`
 
-const nameDoc = consultorio[7]
+
 msgPX += `Tu cita con el Dr(a). ${nameDoc} ha sido registrada. Aquí tienes los detalles:\n\n`
 const especialidad = consultorio[8]
 msgPX += `🩺 Especialidad: ${especialidad}\n`
