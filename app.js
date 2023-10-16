@@ -12,7 +12,7 @@ const city = 'Guadalajara'
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction(async(ctx,{flowDynamic,endFlow,state,provider})=>{
 const datosPaciente = state.getMyState()
 const consultorio = datosPaciente.consultorio;
-
+console.log(datosPaciente)
 let msgPX =""
 const namePX =`Hola! ${datosPaciente.nombrePaciente}`
 msgPX += `${namePX}\n\n`
