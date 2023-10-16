@@ -15,6 +15,9 @@ const consultorio = datosPaciente.consultorio;
 let msgPX =""
 const namePX =`Hola! ${datosPaciente.nombrePaciente}`
 msgPX += `${namePX}\n\n`
+msgPX += `Hemos enviado un mensaje a la asistente de Dr(a). ${nameDoc} y te contactarán tan pronto los reciban.\n\n`
+msgPX += `Mientras esperas a que te contacten te envío información del doctor:\n\n`
+
 const nameDoc = consultorio[7]
 msgPX += `Tu cita con el Dr(a). ${nameDoc} ha sido registrada. Aquí tienes los detalles:\n\n`
 const especialidad = consultorio[8]
@@ -28,7 +31,7 @@ const ubicacion =consultorio[2]
 msgPX += `📍 Ubicación: ${ubicacion}\n`
 const mapa =consultorio[3];
 msgPX += `🗺️ Mapa: ${mapa}\n\n`
-msgPX += `Por favor, no olvides llegar con 10 minutos de anticipación. Si tienes alguna pregunta o necesitas cambiar la cita, no dudes en comunicarte.`
+msgPX += `Por favor, si han pasado mas de 10 minutos y no te han marcado, te pedimos llames al número de consultorio proporcionado.`
 
 
 flowDynamic({body:msgPX})
@@ -38,12 +41,15 @@ let telwhats = consultorio[6]
 let msgDoc = ""
 
 msgDoc+= `Hola Dr(a). ${nameDoc} 👋\n\n`
-msgDoc+= `Hemos recibido un nuevo registro con los siguientes detalles:\n\n`
+msgDoc+= `Soy el Whatsapp Bot de undoctorparati.com tenemos un registro de paciente con los siguientes datos:\n\n`
 msgDoc+=`😷 Nombre Paciente: ${datosPaciente.nombrePaciente}\n`
 msgDoc+=`⚕ Motivo de consulta: ${motivoconsulta}\n`
 const tel = datosPaciente.telefono
 msgDoc+= `📞 Teléfono Paciente: ${tel}\n\n`
-msgDoc+= `Por favor, contactarse con el paciente.`
+msgDoc+= `Por favor, le pedimos contactarse con el paciente y concretar la cita que esta buscando
+Le recuerdo que este número es solo para enviarle notificaciones automatizadas y no hay nadie quien lo conteste.\n\n`
+msgDoc+=`Gracias por usar nuestro servicio\n
+_undoctorparati.com_`
 
 await provider.sendText(`521${telwhats}@s.whatsapp.net`, msgDoc)
 
@@ -60,7 +66,7 @@ const flowValidate = addKeyword('validate').addAction((ctx,{flowDynamic,gotoFlow
   }
 
   state.update({email:correo})
-  flowDynamic({body:`Motivo:${estatus.motivo}\nNombre Paciente: ${estatus.nombrePaciente}\nCorreo: (${correo})`})
+  flowDynamic({body:`Motivo: ${estatus.motivo}\nNombre Paciente: ${estatus.nombrePaciente}\nCorreo: (${correo})`})
 })
 .addAnswer('¿La informacion anterior es correcta?\n\n1️⃣ SI\n2️⃣ NO\n3️⃣ *Menu Principal*',{capture:true},async(ctx,{gotoFlow})=>{
   if(ctx.body === '2'){
@@ -139,7 +145,7 @@ const flowConsultorios = addKeyword('getConsultorios').addAction(async(ctx,{flow
   ajuste += ``
   for(let i = 0 ;i<hospitalSplit.length;i++){
     let indice = 1 +i;
-    ajuste += `\n\n🏥${indice} -> ${hospitalSplit[i]}\n${direccion[i]}\n\n`
+    ajuste += `\n\n🏥${indice} -> *${hospitalSplit[i]}*\n${direccion[i]}\n\n`
     selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i],telParallamadas,horario,precioConsulta,telwhats,name,especialidadBuscada])
   }
   
@@ -149,7 +155,7 @@ await flowDynamic({body:ajuste})
 
 
 
-.addAnswer('Seleccione una clinica por favor:',{capture:true},async(ctx,{fallBack,state,gotoFlow})=>{
+.addAnswer('*Seleccione el número del consultorio que desea por favor:*',{capture:true},async(ctx,{fallBack,state,gotoFlow})=>{
   const seleccion = ctx.body;
 
 let estado = true
