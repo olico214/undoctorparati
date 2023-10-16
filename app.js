@@ -420,7 +420,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
       let result = await findEspecilidad(city,es)
       console.log(result)
       if(!result){
-        flowDynamic({body:`Por el momento no contamos con este tipo de especialista\n\nTe avisaremos cuando tengamos alguno disponible 😉\n\n
+        await flowDynamic({body:`Por el momento no contamos con este tipo de especialista\n\nTe avisaremos cuando tengamos alguno disponible 😉\n\n
         〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio!\n\n
         *Recuerda guardar este whatsapp para poder darte la información de los mejores especialistas en ${city}*\n\n
         ¡Te conectamos con los Doctores!\n\n             👩🏻‍⚕️ 👨🏻‍⚕️`})
