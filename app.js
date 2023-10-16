@@ -12,13 +12,12 @@ const city = 'Guadalajara'
 const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction(async(ctx,{flowDynamic,endFlow,state,provider})=>{
 const datosPaciente = state.getMyState()
 const consultorio = datosPaciente.consultorio;
-console.log(datosPaciente)
 let msgPX =""
 const namePX =`Hola! ${datosPaciente.nombrePaciente}`
 msgPX += `${namePX}\n\n`
 const nameDoc = consultorio[7]
 msgPX += `Tu cita con el Dr(a). ${nameDoc} ha sido registrada. Aquí tienes los detalles:\n\n`
-const especialidad = datosPaciente.especialidad
+const especialidad = consultorio[8]
 msgPX += `🩺 Especialidad: ${especialidad}\n`
 msgPX += `👨‍⚕️ Doctor: Dr(a). ${nameDoc}\n`
 const motivoconsulta =datosPaciente.motivo
@@ -140,6 +139,7 @@ const flowConsultorios = addKeyword('getConsultorios').addAction(async(ctx,{flow
   let precioConsulta=clinica.precioConsulta;
   let telwhats=clinica.telwhatsapp;
   let name = clinica.name;
+  let especialidadBuscada = clinica.especialidadBuscada
 
   
 
@@ -148,7 +148,7 @@ const flowConsultorios = addKeyword('getConsultorios').addAction(async(ctx,{flow
   for(let i = 0 ;i<hospitalSplit.length;i++){
     let indice = 1 +i;
     ajuste += `\n\n🏥${indice} -> ${hospitalSplit[i]}\n${direccion[i]}\n\n`
-    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i],telParallamadas,horario,precioConsulta,telwhats,name])
+    selecciodeClinicas.push([indice,hospitalSplit[i],direccion[i],mapaSplit[i],telParallamadas,horario,precioConsulta,telwhats,name,especialidadBuscada])
   }
   
 await flowDynamic({body:ajuste})
@@ -227,7 +227,8 @@ for (let i = 0; i < doctores.length; i++) {
     horarios:doctor.HorarioConsulta,
     precioConsulta:doctor.CostoConsulta,
     telParallamadas : doctor.telRecepcion,
-    telwhatsapp	 : doctor.telwhatsapp
+    telwhatsapp	 : doctor.telwhatsapp,
+    especialidadBuscada: es
     
   });
 
@@ -249,7 +250,7 @@ await state.update({ doctor: ""});
   let  precioConsulta ="";
   let telParallamadas = "";
   let telwhats = "";
-  
+  let especialidadBuscada = ""
 
   for (let j = 0; j < doctors.length; j++) {
     if (doctors[j].idSeleccion == idvalue) {
@@ -263,6 +264,7 @@ await state.update({ doctor: ""});
       precioConsulta =doctors[j].precioConsulta; 
       telParallamadas = doctors[j].telParallamadas;
       telwhats = doctors[j].telwhatsapp;
+      especialidadBuscada = doctors[j].especialidadBuscada;
 
       
       break; // Sal del bucle cuando se encuentra el médico
@@ -280,7 +282,7 @@ if(estado.doctor=='' || !estado.doctor){
   if(hospital.includes('--')){
     return gotoFlow(flowConsultorios)
   }
-  await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats,namDoc]})
+  await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats,namDoc,especialidadBuscada]})
   return gotoFlow(flowGetDataPaciente)
 }
 
