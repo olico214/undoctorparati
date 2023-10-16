@@ -185,7 +185,7 @@ let estado = true
 
 async function getDoctor(es, city) {
   try {
-    const apiUrl = `https://undoctorparami.com/api/get/getCity.php?ciudad=${city}&especialidad=${es}`;
+    const apiUrl = `https://undoctorparami.com/api/get/getDoctors.php?ciudad=${city}&especialidad=${es}`;
     const response = await axios.get(apiUrl);
     return response.data;
   } catch (error) {
