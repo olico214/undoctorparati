@@ -305,10 +305,8 @@ let nombresEspecialidades = [];
 
 async function getData(city) {
   try {
-    const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
-    const response = await axios.get(apiUrl, {
-      params: { city: city } // Pasa el parámetro "city" de esta manera
-    });
+    const apiUrl = `https://undoctorparami.com/api/get/getSpecialist.php?city=${city}`;
+    const response = await axios.get(apiUrl);
     const especialidades = response.data;
 
     console.log(especialidades)
