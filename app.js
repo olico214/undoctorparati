@@ -311,6 +311,7 @@ async function getData(city) {
     });
     const especialidades = response.data;
 
+    console.log(especialidades)
     for (const especialidad of especialidades) {
       nombresEspecialidades.push(especialidad.especialidad);
     }
