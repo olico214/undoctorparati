@@ -482,7 +482,13 @@ const flowNombrePaciente = addKeyword('namepaciente').addAnswer('🤖 *Para brin
 if(ctx.body == '2'){
   return gotoFlow(flowNombrePaciente)
 }else{
-  return gotoFlow(flowEmail)
+  const nombrepx = state.getMyState()
+  if(nombrepx.motivo){
+    return gotoFlow(flowEmail)
+  }else{
+    return gotoFlow(flowMenu)
+  }
+  
 }
 })
     
