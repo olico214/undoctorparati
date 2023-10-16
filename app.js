@@ -31,7 +31,7 @@ msgPX += `📍 Ubicación: ${ubicacion}\n`
 const mapa =consultorio[3];
 msgPX += `🗺️ Mapa: ${mapa}\n\n`
 msgPX += `Por favor, si han pasado mas de 10 minutos y no te han marcado, te pedimos llames al número de consultorio proporcionado.\n`
-msgPX += `Si deseas saber más a cerca del doctor, por favor digital 1️⃣.\nDe lo contrario escribe Adios para finalizar nuestra conversación`
+msgPX += `Si deseas saber más a cerca del doctor, por favor digital 1️⃣.\nDe lo contrario escribe *Adios* para finalizar nuestra conversación`
 
 
 
