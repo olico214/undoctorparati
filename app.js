@@ -7,7 +7,7 @@ const { EVENTS } = require('@bot-whatsapp/bot')
 
 const city = 'Guadalajara' 
 
-const flowVideo = addKeyword('Video').addAction((ctx,{flowDynamic})=> {
+const flowVideo = addKeyword('Video').addAction((ctx,{flowDynamic,state})=> {
   const datosPaciente = state.getMyState()
   const consultorio = datosPaciente.consultorio;
   const nameDoc = consultorio[7]
