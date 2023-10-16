@@ -444,11 +444,16 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynam
 `🤳 Este es un servicio gratuito compártelo con quien creas que pueda necesitarlo,`+
 ` recuerda guardar este whatsapp para tener información de los mejores especialistas en tu ciudad rápidamente sin instalar ninguna app.\n`})
   const nombrepx = state.getMyState()
-      if(!nombrepx.nombrePaciente){
-        return gotoFlow(flowNombrePaciente)
-      }else{
-        return gotoFlow(flowMenu)
-      }
+  try{
+    if(!nombrepx.nombrePaciente){
+      return gotoFlow(flowNombrePaciente)
+    }else{
+      return gotoFlow(flowMenu)
+    }
+  }catch{
+    
+  }
+      
   
 })
 
