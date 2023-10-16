@@ -388,18 +388,23 @@ const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('1�
   }
 })
 
-const flowMenu = addKeyword('Menu').addAnswer([
-  `💥 Escribe 1️⃣ para conocer las especialidades que tenemos\n`,
-  `🔅 Escribe la especialidad del médico ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n`,
-  `☝️  Escribe 9  para formar parte de este Directorio Whatsapp\n\n`,
-  `〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n`,
-  `👉 📞 Si deseas agendar una cita por teléfono con algún médico\nLlama a este número  4775820455\n`,
-  `⌚️ Nuestras agentes con gusto te atenderán en los siguientes horarios:\n*Lunes a Viernes*\n8:00 am - 8:00 pm\n`,
-  `*Sábado*\n9:00 am - 3:00 pm\n`,
-  `〰️〰️〰️〰️〰️〰️〰️〰️〰️`,
-  ` www.undoctorparati.com`,
-  ` ¡Te conectamos con los Doctores!`,
-], { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow,state }) => {
+const flowMenu = addKeyword('Menu').addAction(async(ctx,{flowDynamic})=>{
+  const nombrepx = state.getMyState()
+  let name = "";
+  if(!nombrepx.nombrePaciente){
+    name = "Amigo"
+  }else{
+    name = nombrepx.nombrePaciente
+  }
+
+  flowDynamic({body:`🤖 *¡Gracias! ${name}*\n\n» Puedes escribir 1️⃣ para conocer las especialidades que tenemos.\n
+  » También puedes escribir la especialidad del médico que buscas ( Ejemplo: Cardiólogo, Ginecólogo, etc. )\n
+  » Si eres médico especialista y te gustaría formar parte de este directorio por WhatsApp escribe el número 9️⃣\n\n
+  *Escribe la opción que deseas*`})
+})
+  
+
+.addAction( { capture: true }, async (ctx, { fallBack, flowDynamic, gotoFlow,state }) => {
     const seleccion = ctx.body;
     // Convierte la primera letra a mayúscula y el resto a minúscula
     const es = seleccion.charAt(0).toUpperCase() + seleccion.slice(1).toLowerCase();
