@@ -303,14 +303,16 @@ if(estado.doctor=='' || !estado.doctor){
 const dataEspecialidades = {};
 let nombresEspecialidades = [];
 
-async function getData() {
+async function getData(city) {
   try {
     const apiUrl = 'https://undoctorparami.com/api/get/getSpecialist.php';
-    const response = await axios.get(apiUrl);
+    const response = await axios.get(apiUrl, {
+      params: { city: city } // Pasa el parámetro "city" de esta manera
+    });
     const especialidades = response.data;
 
     for (const especialidad of especialidades) {
-      nombresEspecialidades.push(especialidad.specialty);
+      nombresEspecialidades.push(especialidad.especialidad);
     }
   } catch (error) {
     console.error('Error al consultar la API:', error);
