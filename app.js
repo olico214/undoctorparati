@@ -417,7 +417,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
 
     }else{
 
-      let result = await findEspecilidad(city,es)
+      const result = await findEspecilidad(city,es)
       console.log(result)
       if(!result){
         await flowDynamic({body:`Por el momento no contamos con este tipo de especialista\n\nTe avisaremos cuando tengamos alguno disponible 😉\n\n
