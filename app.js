@@ -40,6 +40,7 @@ let msgDoc = ""
 
 msgDoc+= `Hola Dr(a). ${nameDoc} 👋\n\n`
 msgDoc+= `Hemos recibido un nuevo registro con los siguientes detalles:\n\n`
+msgDoc+=`😷 Nombre Paciente: ${datosPaciente.nombrePaciente}\n`
 msgDoc+=`⚕ Motivo de consulta: ${motivoconsulta}\n`
 const tel = datosPaciente.telefono
 msgDoc+= `📞 Teléfono Paciente: ${tel}\n\n`
@@ -269,7 +270,7 @@ await state.update({ doctor: ""});
   }
 
 const estado = state.getMyState()
-console.log(estado)
+
 doctors=[]
 
 if(estado.doctor=='' || !estado.doctor){
