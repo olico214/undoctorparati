@@ -96,7 +96,16 @@ const flowGetDataPaciente = addKeyword('getData').addAnswer(
       return gotoFlow(flowMenu)
     }else{
       await state.update({motivo:ctx.body})
+
+      const nombrepx = state.getMyState()
+    if(!nombrepx.nombrePaciente){
+      
+    }else{
       return gotoFlow(flowEmail)
+    }
+
+
+      
     }
     
 
@@ -443,8 +452,9 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynam
 `🦾 Soy una asistente Virtual por WhatsApp con respuestas programadas\n\n`+
 `🤳 Este es un servicio gratuito compártelo con quien creas que pueda necesitarlo,`+
 ` recuerda guardar este whatsapp para tener información de los mejores especialistas en tu ciudad rápidamente sin instalar ninguna app.\n`})
-  const nombrepx = state.getMyState()
+  
   try{
+    const nombrepx = state.getMyState()
     if(!nombrepx.nombrePaciente){
       
     }else{
