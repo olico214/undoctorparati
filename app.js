@@ -496,7 +496,7 @@ const flowConfirmName = addKeyword("ConfirmNombre").addAnswer('¿Es correcto el 
     return gotoFlow(flowNombrePaciente)
   }else{
     try{
-      const nombrepx = state.getMyState()
+    const nombrepx = state.getMyState()
     if(nombrepx.email){
       return gotoFlow(flowEmail)
     }else{
