@@ -467,7 +467,8 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynam
 
 
 
-const flowNombrePaciente = addKeyword('namepaciente').addAnswer('🤖 *Para brindarte una mejor experiencia de atencion me gustaria saber ¿Cual es tu nombre?*\n\n*1* para Ir al Menu Principal',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
+const flowNombrePaciente = addKeyword('namepaciente').addAnswer('🤖 Para brindarte una mejor experiencia de atencion me gustaria saber ¿Cual es tu nombre?'+
+'\n\nO si lo prefieres envía 1 para Ir al Menú Principal',{capture:true},async(ctx,{flowDynamic,gotoFlow,endFlow,state})=>{
   let seleccion = ctx.body;
   const lowerseleccion = seleccion.toLowerCase()
   if(lowerseleccion == '1'){
