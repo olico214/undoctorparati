@@ -383,7 +383,7 @@ async function findEspecilidad(city,es) {
   }
 }
 
-const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAction({capture:true},(ctx,{flowDynamic,gotoFlow})=>{
+const flowConfirmEspecialidad = addKeyword('ConfirmEspecialidad').addAnswer('1️⃣ SI\n2️⃣ NO',{capture:true},(ctx,{flowDynamic,gotoFlow})=>{
   if(ctx.body == '1'){
     return gotoFlow(flowEspecialistas)
   }else{
@@ -428,7 +428,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
       }else{
         console.log(result)
         await state.update({especialidad:result[0].especialidad})
-        await flowDynamic({body:`¿Es correcta la Especialidad?\n\n*${result[0].especialidad}*\n\n1️⃣ SI\n2️⃣ NO`})
+        await flowDynamic({body:`¿Es correcta la Especialidad?\n\n*${result[0].especialidad}*`})
         return gotoFlow(flowConfirmEspecialidad)
 
       }
