@@ -436,7 +436,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
   });
 
 
-const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynamic,gotoFlow})=>{
+const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async(ctx,{flowDynamic,gotoFlow,state})=>{
   const ciudad = 'Guadalajara'
   await flowDynamic({body:`💊  ¡Hola!  Soy la asistente virtual de undoctorparati.com en ${ciudad} y estoy disponible 24/7 para poder ayudarte\n\n〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n`+
   `🚫  Este WhatsApp, no es de urgencias\n\n`+
