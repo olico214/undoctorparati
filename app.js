@@ -305,13 +305,11 @@ let nombresEspecialidades = [];
 
 async function getData(city) {
   try {
-    console.log(city)
+
     const apiUrl = `https://undoctorparami.com/api/get/getSpecialist.php?city=${city}`;
     const response = await axios.get(apiUrl);
     const especialidades = response.data;
-    console.log(city)
-    console.log(especialidades);
-    
+
     for (const especialidad of especialidades) {
       nombresEspecialidades.push(especialidad.especialidad);
     }
