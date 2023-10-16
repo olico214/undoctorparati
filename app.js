@@ -13,18 +13,39 @@ const flowMostrainformacionDoctor  = addKeyword('infoDoctor').addAction(async(ct
 const datosPaciente = state.getMyState()
 const consultorio = datosPaciente.consultorio;
 
+let msgPX =""
+const namePX =`Hola! ${datosPaciente.nombrePaciente}`
+msgPX += `${namePX}\n\n`
+const nameDoc = consultorio[7]
+msgPX += `Tu cita con el Dr(a). ${nameDoc} ha sido registrada. Aquí tienes los detalles:\n\n`
+const especialidad = datosPaciente.especialidad
+msgPX += `🩺 Especialidad: ${especialidad}\n`
+msgPX += `👨‍⚕️ Doctor: Dr(a). ${nameDoc}\n`
+const motivoconsulta =datosPaciente.motivo
+msgPX += `⚕ Motivo de consulta: ${motivoconsulta}\n`
+const telDoc =consultorio[0]
+msgPX += `📞 Teléfono del Doctor: ${telDoc}\n`
+const ubicacion =consultorio[2]
+msgPX += `📍 Ubicación: ${ubicacion}\n`
+const mapa =consultorio[3];
+msgPX += `🗺️ Mapa: ${mapa}\n\n`
+msgPX += `Por favor, no olvides llegar con 10 minutos de anticipación. Si tienes alguna pregunta o necesitas cambiar la cita, no dudes en comunicarte.`
 
-flowDynamic({body:`👌 ¡ Muchas gracias ${datosPaciente.nombrePaciente}!\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
-✍🏻 Ahora puedes agenda tu cita:\n📞 Puedes llamar al consultorio al siguiente numero:\n${consultorio[0]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
-🏥 Consultorio:\n ${consultorio[1]} \n\n*Dirección:* ${consultorio[2]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n
-🌍 *Mapa en google:* ${consultorio[3]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n⏰ *Horarios:* ${consultorio[4]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n💲*Precio de consulta :* ${consultorio[5]}\n〰️〰️〰️〰️〰️〰️〰️〰️〰️〰️\n\n¡Gracias por utilizar nuestro servicio! 😀
 
-`})
+flowDynamic({body:msgPX})
+
 let telwhats = consultorio[6]
-console.log(telwhats)
-await provider.sendText(`521${telwhats}@s.whatsapp.net`, `Hola, existe un nuevo registro con los siguientees datos:\n*Especialidad: ${datosPaciente.especialidad}*\n*Nombre Doctor: ${consultorio[7]}*
-*Nombre Paciente: ${datosPaciente.nombrePaciente}*\n*Motivo: ${datosPaciente.motivo}*\n
-*Consultorio: ${consultorio[1]}*`)
+
+let msgDoc = ""
+
+msgDoc+= `Hola Dr(a). ${nameDoc} 👋\n\n`
+msgDoc+= `Hemos recibido un nuevo registro con los siguientes detalles:\n\n`
+msgDoc+=`⚕ Motivo de consulta: ${motivoconsulta}\n`
+const tel = datosPaciente.telefono
+msgDoc+= `📞 Teléfono Paciente: ${tel}\n\n`
+msgDoc+= `Por favor, contactarse con el paciente.`
+
+await provider.sendText(`521${telwhats}@s.whatsapp.net`, msgDoc)
 
 })
 
@@ -118,6 +139,7 @@ const flowConsultorios = addKeyword('getConsultorios').addAction(async(ctx,{flow
   let precioConsulta=clinica.precioConsulta;
   let telwhats=clinica.telwhatsapp;
   let name = clinica.name;
+
   
 
   let ajuste = "";
