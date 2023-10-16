@@ -249,12 +249,18 @@ const estado = state.getMyState()
 console.log(estado)
 doctors=[]
 
+if(estado.doctor==''){
+  return gotoFlow(flowMenu)
+}else{
   await flowDynamic({body:`👌 Hola!, Soy la asistente virtual del Dr(a). ${namDoc} » ${subEspecialidad}. `})
   if(hospital.includes('--')){
     return gotoFlow(flowConsultorios)
   }
   await state.update({consultorio: [telParallamadas,hospital,dirConsultorio,mapagoogle,horario,precioConsulta,telwhats,namDoc]})
   return gotoFlow(flowGetDataPaciente)
+}
+
+  
 
 })
 
