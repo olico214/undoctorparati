@@ -398,7 +398,7 @@ const flowMenu = addKeyword('Menu').addAction(async(ctx,{flowDynamic,state})=>{
       name = nombrepx.nombrePaciente
     }
   }catch{
-    name = nombrepx.nombrePaciente
+    name = 'Amigo'
   }
   
 
