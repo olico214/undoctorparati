@@ -201,6 +201,7 @@ const flowEspecialistas = addKeyword('especialista').addAction(async(ctx,{flowDy
   const myState = state.getMyState()
   const es = myState.especialidad
   const doctores = await getDoctor(es,city)
+  console.log(es)
 
 
   if(doctores.message =='Sin resultados'){
@@ -426,7 +427,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
         ¡Te conectamos con los Doctores!\n\n             👩🏻‍⚕️ 👨🏻‍⚕️`})
         return fallBack()
       }else{
-        console.log(result)
+
         await state.update({especialidad:result[0].especialidad})
         await flowDynamic({body:`¿Es correcta la Especialidad?\n\n*${result[0].especialidad}*`})
         return gotoFlow(flowConfirmEspecialidad)
