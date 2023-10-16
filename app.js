@@ -428,7 +428,7 @@ const flowMenu = addKeyword('Menu').addAnswer([
       }else{
         
         await state.update({especialidad:result.especialidad})
-        await flowDynamic({`¿Es correcta la Especialidad?\n\n*${result.especialidad}*\n\n1️⃣ SI\n2️⃣ NO`})
+        await flowDynamic({body:`¿Es correcta la Especialidad?\n\n*${result.especialidad}*\n\n1️⃣ SI\n2️⃣ NO`})
         return gotoFlow(flowConfirmEspecialidad)
 
       }
