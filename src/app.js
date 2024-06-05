@@ -5,7 +5,7 @@ import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 
 
 const PORT = process.env.PORT ?? 3008
-
+const ciudad = 'Monterrey'
 async function savespecity(data) {
 
   try {
@@ -112,7 +112,7 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async (ctx, { flowDy
     }
   }
   const dataIni = await findPhone(ctx.from);
-  const ciudad = 'Monterrey'
+
 
   if (!dataIni) {
 
@@ -724,10 +724,10 @@ const main = async () => {
     
     const adapterProvider = createProvider(Provider)
     const adapterDB = new Database({
-        host: process.env.MYSQL_DB_HOST,
-        user: process.env.MYSQL_DB_USER,
-        database: process.env.MYSQL_DB_NAME,
-        password: process.env.MYSQL_DB_PASSWORD,
+        host: '195.179.239.51',
+        user: 'u124569701_WhatsAuto',
+        database: 'u124569701_WhatsAuto',
+        password:'Undoctorparati1!',
     })
 
     const { handleCtx, httpServer } = await createBot({
