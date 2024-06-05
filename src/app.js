@@ -4,7 +4,6 @@ import { MysqlAdapter as Database } from '@builderbot/database-mysql'
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 import axios from 'axios'
 
-
 const PORT = process.env.PORT ?? 3008
 const ciudad = 'Monterrey'
 async function savespecity(data) {
