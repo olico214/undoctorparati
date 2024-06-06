@@ -125,17 +125,23 @@ async function saveName(data) {
 async function saveinfofinal(data) {
   const { doc, consultorio, motivo, email, telID, city } = data;
 
+  const newDate = new Date();
+
+  // Formatear la fecha como 'YYYY-MM-DD'
+  const formattedDate = newDate.toISOString().split("T")[0];
+
   const connection = await pool.getConnection();
   try {
     const sql =
       "INSERT INTO consultas (doctor, motivo, fecha, email, telID, city, consultorio) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const [rows, fields] = await connection.query(sql, [
       doc,
-      consultorio,
       motivo,
+      formattedDate,
       email,
       telID,
       city,
+      consultorio,
     ]);
 
     return rows;
