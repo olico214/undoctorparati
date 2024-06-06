@@ -97,7 +97,7 @@ async function getConsultorios(id) {
 
 async function saveName(data) {
   const { name, phone } = data;
-  console.log(name, phone);
+
   const connection = await pool.getConnection();
   try {
     const sql = "UPDATE TelData SET name = ? WHERE phone = ?";
@@ -111,7 +111,7 @@ async function saveName(data) {
 
 async function saveinfofinal(data) {
   const { doc, consultorio, motivo, email, telID, city } = data;
-  console.log(doc, consultorio, motivo, email, telID, city);
+
 
   const connection = await pool.getConnection();
   try {
@@ -172,8 +172,6 @@ async function savespecity(data) {
 
 async function savePhone(phone) {
 
-  
-  console.log(phone);
   const connection = await pool.getConnection();
   try {
     const sql = "INSERT INTO TelData (phone) VALUES (?)";
