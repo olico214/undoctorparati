@@ -385,7 +385,7 @@ const flowDoctores = addKeyword("##GetEspecialidades##").addAction(
 const flowSelectDoctores = addKeyword("##GetEspecialidades##").addAction(
   { capture: true },
   async (ctx, { flowDynamic, state, gotoFlow, fallBack }) => {
-    const estado = await state.getMyState();
+    const estado = state.getMyState();
     const doctores = estado.doctores;
 
     let indice = 1;
@@ -417,7 +417,7 @@ const flowGetConsultorios = addKeyword("##flowGetConsultorios##").addAction(
   async (ctx, { flowDynamic, state, gotoFlow }) => {
     const estado = state.getMyState();
     const doctores = estado.selectedDoct;
-
+console.log(doctores)
     let indice = 0;
     let msg = "";
     for (const doctor of doctores) {
