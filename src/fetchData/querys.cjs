@@ -11,6 +11,7 @@ async function getCity() {
 
     console.log(rows);
     console.log(fields);
+    return rows
   } catch (err) {
     console.log(err);
   }
@@ -28,12 +29,24 @@ async function getEspecialidades() {
   }
 }
 
-async function getDoctor(espe) {
+async function getDoctor(info) {
   const connection = await pool.getConnection();
+  let rows, fields;
+
   try {
-    const sql =
-      "SELECT t0.id as docID, t0.especialidad, t0.SubEspecialidad, t0.nameDoc,t0.prefijo, t1.* FROM `DocInformation` t0 INNER JOIN consultorios t1 ON t0.id = t1.idDoc WHERE t0.city = ? AND t0.especialidad = ? AND t0.estatus = 0 AND t0.botActive = 0 ORDER BY fecharegister ASC";
-    const [rows, fields] = await connection.query(sql, [ciudad, espe]);
+    const regexNumber = /^\d+$/; // Expresión regular para verificar si es un número
+
+    if (regexNumber.test(info)) {
+      // Si info es un número
+      const sql =
+        "SELECT t0.id as docID, t0.especialidad, t0.SubEspecialidad, t0.nameDoc,t0.prefijo, t1.* FROM `DocInformation` t0 INNER JOIN consultorios t1 ON t0.id = t1.idDoc WHERE t0.id=? AND t0.estatus = 0 AND t0.botActive = 0 ORDER BY fecharegister ASC";
+      [rows, fields] = await connection.query(sql, [info]);
+    } else {
+      // Si info no es un número
+      const sql =
+        "SELECT t0.id as docID, t0.especialidad, t0.SubEspecialidad, t0.nameDoc,t0.prefijo, t1.* FROM `DocInformation` t0 INNER JOIN consultorios t1 ON t0.id = t1.idDoc WHERE t0.city = ? AND t0.especialidad = ? AND t0.estatus = 0 AND t0.botActive = 0 ORDER BY fecharegister ASC";
+      [rows, fields] = await connection.query(sql, [ciudad, info]);
+    }
 
     // Mapear los resultados en un objeto JSON
     const doctorsMap = new Map(); // Usar un mapa para agrupar consultorios por doctor
@@ -112,7 +125,6 @@ async function saveName(data) {
 async function saveinfofinal(data) {
   const { doc, consultorio, motivo, email, telID, city } = data;
 
-
   const connection = await pool.getConnection();
   try {
     const sql =
@@ -171,7 +183,6 @@ async function savespecity(data) {
 }
 
 async function savePhone(phone) {
-
   const connection = await pool.getConnection();
   try {
     const sql = "INSERT INTO TelData (phone) VALUES (?)";
@@ -183,15 +194,10 @@ async function savePhone(phone) {
   }
 }
 
-
-
 async function findPhone(phone) {
-
-
   const connection = await pool.getConnection();
   try {
-    const sql =
-      "SELECT * FROM TelData WHERE phone = ?";
+    const sql = "SELECT * FROM TelData WHERE phone = ?";
     const [rows, fields] = await connection.query(sql, [phone]);
     console.log(rows);
     return rows;
@@ -201,11 +207,37 @@ async function findPhone(phone) {
   } finally {
     connection.release();
   }
-
 }
 
+async function getPalabraClave(clave) {
+  const connection = await pool.getConnection();
+  try {
+    const sql = "Select * from DocInformation where lookup = ?";
+    const [rows, fields] = await connection.query(sql, [clave]);
 
+    return rows;
+  } catch (err) {
+    console.log(err);
+    return null;
+  } finally {
+    connection.release();
+  }
+}
 
+async function getCiudadEspe(clave) {
+  const connection = await pool.getConnection();
+  try {
+    const sql = "Select * from busqueda_Ciudades where Hastag = ?";
+    const [rows, fields] = await connection.query(sql, [clave]);
+
+    return rows;
+  } catch (err) {
+    console.log(err);
+    return null;
+  } finally {
+    connection.release();
+  }
+}
 
 module.exports = {
   getCity,
@@ -218,4 +250,6 @@ module.exports = {
   savespecity,
   savePhone,
   findPhone,
+  getPalabraClave,
+  getCiudadEspe,
 };

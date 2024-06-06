@@ -7,8 +7,8 @@ import {
 } from "@builderbot/bot";
 import { MysqlAdapter as Database } from "@builderbot/database-mysql";
 import { BaileysProvider as Provider } from "@builderbot/provider-baileys";
-import axios from "axios";
-import pkg, { findPhone, getinfoFinal, saveName, savePhone, saveinfofinal, savespecity } from "./fetchData/querys.cjs";
+
+import pkg, { findPhone, getCiudadEspe, getPalabraClave, getinfoFinal, saveName, savePhone, saveinfofinal, savespecity } from "./fetchData/querys.cjs";
 const { getCity, getDoctor, getEspecialidades } = pkg;
 
 import dotenv from "dotenv";
@@ -19,44 +19,26 @@ const ciudad = process.env.city
 
 
 
-async function getPalabraClave(clave) {
-  try {
-    const apiUrl = `https://undoctorparami.com/test/botApi/palabraClave.php?clave=${clave}`;
-    const response = await axios.get(apiUrl);
-    const especialidades = response.data;
-    return especialidades;
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-  }
-}
 
-async function getCiudadEspe(clave) {
-  try {
-    const apiUrl = `https://undoctorparami.com/test/botApi/getciudadespe.php?clave=${clave}`;
-    const response = await axios.get(apiUrl);
-    const especialidades = response.data;
-    return especialidades;
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-  }
-}
+
 
 
 
 const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(
   async (ctx, { flowDynamic, gotoFlow, state }) => {
     const response = ctx.body;
-    console.log(response);
+    
     let swit = 0;
     const match = response.match(/#(\w+)/);
     if (match) {
       const palabraDespuesDeHashtag = match[1];
       const respuesta = await getPalabraClave(palabraDespuesDeHashtag);
-
+      const selectedDoct = await getDoctor(respuesta[0].id)
       try {
         await state.update({
           selecCity: respuesta[0].city,
           idDoc: respuesta[0].id,
+          selectedDoct:selectedDoct[0]
         });
 
         swit = 1;
@@ -67,6 +49,7 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(
       }
       if (swit == 0) {
         const respuesta2 = await getCiudadEspe(palabraDespuesDeHashtag);
+
         try {
           await state.update({
             selecCity: respuesta2[0].ciudad,
@@ -180,9 +163,12 @@ const flowHastag = addKeyword("##Seleccion").addAnswer(
       const palabraDespuesDeHashtag = match[1];
       const respuesta = await getPalabraClave(palabraDespuesDeHashtag);
       try {
+
+        const selectedDoct = await getDoctor(respuesta[0].id)
         await state.update({
           selecCity: respuesta[0].city,
           idDoc: respuesta[0].id,
+          selectedDoct: selectedDoct[0]
         });
         return gotoFlow(flowGetConsultorios);
       } catch {
@@ -380,7 +366,7 @@ const flowGetConsultorios = addKeyword("##flowGetConsultorios##").addAction(
   async (ctx, { flowDynamic, state, gotoFlow }) => {
     const estado = state.getMyState();
     const doctor = estado.selectedDoct;
-
+    console.log(doctor)
     let indice = 0;
     let msg = "";
 
