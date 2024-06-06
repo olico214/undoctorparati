@@ -8,7 +8,7 @@ import {
 import { MysqlAdapter as Database } from "@builderbot/database-mysql";
 import { BaileysProvider as Provider } from "@builderbot/provider-baileys";
 import axios from "axios";
-import pkg from "./fetchData/querys.cjs";
+import pkg, { getConsultorios } from "./fetchData/querys.cjs";
 const { getCity, getDoctor, getEspecialidades } = pkg;
 
 import dotenv from "dotenv";
@@ -395,7 +395,7 @@ const flowSelectDoctores = addKeyword("##GetEspecialidades##").addAction(
     for (const doctor of doctores) {
       if (indice == response) {
       
-        await state.update({ selectedDoct: doctor });
+        await state.update({ selectedDoct: doctor.docID });
         validation = 1;
         return gotoFlow(flowGetConsultorios);
       }
@@ -416,30 +416,44 @@ const flowSelectDoctores = addKeyword("##GetEspecialidades##").addAction(
 const flowGetConsultorios = addKeyword("##flowGetConsultorios##").addAction(
   async (ctx, { flowDynamic, state, gotoFlow }) => {
     const estado = state.getMyState();
-    const doctores = estado.selectedDoct;
-console.log(doctores)
+    const id = estado.selectedDoct;
+    
+    const doctor = await getConsultorios(id)
+    console.log(doctor)
+    return
     let indice = 0;
     let msg = "";
-    for (const doctor of doctores) {
+  
       msg += `¡Hola! 👋 soy la asistente virtual de ${doctor.prefijo} ${
         doctor.nameDoc
       }\n» ${doctor.especialidad} ${
         doctor.SubEspecialidad ? "- " + doctor.SubEspecialidad : ""
       }\n\n`;
       msg += `*Te comparto los consultorios del doctor:*\n\n`;
-      for (const consultorio in doctor.consultorios) {
-        if (consultorio === "hosp" || consultorio === "dir") {
-          msg += `*${indice + 1} > ${consultorio.hosp}*\n${
-            consultorio.dir
-          }\n\n`;
-          indice += 1;
+
+
+      for (const consultorio of doctor.consultorios) {
+        console.log(`Doctor ID: ${consultorio.id}`);
+        for (const key in consultorio) {
+          if (key === "hosp") {
+            msg += `*${indice + 1} > ${consultorio[key]}*\n`;
+            indice += 1;
+          }
+        
+          if (key === "dir") {
+            msg += `${consultorio[key]}\n\n`;
+            indice += 1;
+          }
         }
+       
       }
+      
+
 
       msg += `\n\n👉 Escribe el número del consultorio que deseas por favor:`;
       await flowDynamic([{ body: msg, delay: 1500 }]);
       return gotoFlow(flowSelectConsultorio);
-    }
+    
   }
 );
 const flowSelectConsultorio = addKeyword("##flowGetConsultorios##").addAction(
@@ -459,25 +473,29 @@ const flowSelectConsultorio = addKeyword("##flowGetConsultorios##").addAction(
     }
 
     const estado = state.getMyState();
-    const doctores = estado.selectedDoct;
-    console.log(doctores)
+    const doctor = estado.selectedDoct;
+
 
     let indice = 0;
     let validation = true;
     let idConsultorio = "";
-    for (const doctor of doctores) {
-      for (const consultorio in doctor.consultorios) {
-        if (consultorio === "id") {
-          idConsultorio = consultorio.id;
-        }
-        if (consultorio === "hosp" || consultorio === "dir") {
+
+
+    for (const consultorio of doctor.consultorios) {
+      console.log(`Doctor ID: ${consultorio.id}`);
+      for (const key in consultorio) {
+        if (key === "id") {
+          idConsultorio = consultorio[key];
           let option = `${indice + 1}`;
           if (response == option) {
             validation = false;
           }
         }
       }
+     
     }
+
+
 
     if (validation) {
       await flowDynamic(
@@ -508,7 +526,7 @@ async function saveName(data) {
 const flowGetName = addKeyword("##flowGetConsultorios##").addAnswer(
   "✍️ *¿Cual es tu nombre completo?*",
   { capture: true },
-  async (ctx, { flowDynamic, state, gotoFlow, fallBack, endFlow }) => {
+  async (ctx, {  state, gotoFlow }) => {
     await state.update({ namePaciente: ctx.body });
     const response = ctx.body;
 
@@ -532,7 +550,7 @@ const flowGetName = addKeyword("##flowGetConsultorios##").addAnswer(
 const flowGetMotivo = addKeyword("##flowGetConsultorios##").addAnswer(
   "🩺 *¿Comparteme el motivo de tu consulta?*",
   { capture: true },
-  async (ctx, { flowDynamic, state, gotoFlow, fallBack, endFlow }) => {
+  async (ctx, { state, gotoFlow}) => {
     await state.update({ motivoConsulta: ctx.body });
     return gotoFlow(flowGetEmail);
   }
@@ -541,7 +559,7 @@ const flowGetMotivo = addKeyword("##flowGetConsultorios##").addAnswer(
 const flowGetEmail = addKeyword("##flowGetConsultorios##").addAnswer(
   '✉️  *¿Cuál es tu email?*\n\no escribe  "0" (Cero) si no cuentas o no quieres compartirlo',
   { capture: true },
-  async (ctx, { flowDynamic, state, gotoFlow, fallBack, endFlow }) => {
+  async (ctx, {  state, gotoFlow }) => {
     let email;
     if (ctx.body == "0") {
       email = "Sin Correo";
@@ -554,7 +572,7 @@ const flowGetEmail = addKeyword("##flowGetConsultorios##").addAnswer(
 );
 
 const flowConfirmData = addKeyword("##flowGetConsultorios##").addAction(
-  async (ctx, { flowDynamic, state, gotoFlow, fallBack, endFlow }) => {
+  async (ctx, { flowDynamic, state, gotoFlow }) => {
     const estado = state.getMyState();
     let msg = "⚠️ ¿La información anterior es correcta?\n\n";
     msg += `*Nombre:* ${estado.namePaciente}\n`;
@@ -604,7 +622,7 @@ const flowSelectConfirmData = addKeyword("##flowGetConsultorios##").addAction(
       await saveinfofinal(uploadData);
       const datainfo = await getinfoFinal(idConsultori);
 
-      msg = `👍 ${estado.namePaciente} , *Hemos enviado un mensaje a la asistente de ${datainfo[0].prefijo} ${datainfo[0].nameDoc}*, para que te contacten por favor espera su llamada o mensaje o bien puedes marcar directamente:\n`;
+      let msg = `👍 ${estado.namePaciente} , *Hemos enviado un mensaje a la asistente de ${datainfo[0].prefijo} ${datainfo[0].nameDoc}*, para que te contacten por favor espera su llamada o mensaje o bien puedes marcar directamente:\n`;
       msg += `\n\n📞 *Teléfono del consultorio:* ${datainfo[0].telConsu}`;
       msg += `\n\n👨‍⚕️ *${datainfo[0].prefijo} ${datainfo[0].nameDoc}*`;
       msg += `\n🩺 *Especialidad:* ${datainfo[0].especialidad}`;
@@ -676,7 +694,7 @@ const flowFinalmsg = addKeyword("##flowGetConsultorios##").addAction(
   { capture: true },
   async (
     ctx,
-    { flowDynamic, state, gotoFlow, fallBack, endFlow, provider }
+    {  gotoFlow,  endFlow }
   ) => {
     const response = ctx.body;
     if (
