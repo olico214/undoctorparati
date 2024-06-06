@@ -5,8 +5,8 @@ import {
   addKeyword,
   EVENTS,
 } from "@builderbot/bot";
-import { MysqlAdapter as Database } from "@builderbot/database-mysql";
-import { BaileysProvider as Provider } from "@builderbot/provider-baileys";
+import { MemoryDB as Database } from '@builderbot/bot'
+import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 
 import pkg, { findPhone, getCiudadEspe, getPalabraClave, getinfoFinal, saveName, savePhone, saveinfofinal, savespecity } from "./fetchData/querys.cjs";
 const { getCity, getDoctor, getEspecialidades } = pkg;
@@ -648,19 +648,15 @@ const main = async () => {
     flowConfirmData,
   ]);
 
-  const adapterProvider = createProvider(Provider);
-  const adapterDB = new Database({
-    host: process.env.HOST,
-    user: process.env.USER,
-    database: process.env.DATABASE,
-    password: process.env.PASSWORD,
-  });
+  
+  const adapterProvider = createProvider(Provider)
+  const adapterDB = new Database()
 
   const { handleCtx, httpServer } = await createBot({
-    flow: adapterFlow,
-    provider: adapterProvider,
-    database: adapterDB,
-  });
+      flow: adapterFlow,
+      provider: adapterProvider,
+      database: adapterDB,
+  })
 
   adapterProvider.server.post(
     "/v1/messages",
