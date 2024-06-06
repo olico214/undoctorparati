@@ -78,7 +78,7 @@ async function savePhone(data) {
 const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(async (ctx, { flowDynamic, gotoFlow, state }) => {
   const fullPhone = ctx.from
   const response = ctx.body;
-
+console.log(response)
   let swit = 0;
   const match = response.match(/#(\w+)/);
   if (match) {
