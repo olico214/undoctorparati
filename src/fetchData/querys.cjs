@@ -36,14 +36,24 @@ async function getDoctor(espe) {
     const [rows, fields] = await connection.query(sql, [ciudad, espe]);
 
     // Mapear los resultados en un objeto JSON
-    const doctors = rows.map((row) => ({
-      docID: row.docID,
-      especialidad: row.especialidad,
-      SubEspecialidad: row.SubEspecialidad,
-      nameDoc: row.nameDoc,
-      prefijo: row.prefijo,
+    const doctorsMap = new Map(); // Usar un mapa para agrupar consultorios por doctor
 
-      consultorios: {
+    rows.forEach((row) => {
+      const doctorID = row.docID;
+      // Verificar si ya hemos encontrado este doctor antes
+      if (!doctorsMap.has(doctorID)) {
+        // Si es un doctor nuevo, inicializar su información
+        doctorsMap.set(doctorID, {
+          docID: row.docID,
+          especialidad: row.especialidad,
+          SubEspecialidad: row.SubEspecialidad,
+          nameDoc: row.nameDoc,
+          prefijo: row.prefijo,
+          consultorios: [],
+        });
+      }
+      // Agregar el consultorio al doctor correspondiente
+      doctorsMap.get(doctorID).consultorios.push({
         id: row.id,
         idDoc: row.idDoc,
         hosp: row.hosp,
@@ -58,8 +68,11 @@ async function getDoctor(espe) {
         nameGroup: row.nameGroup,
         urlGroup: row.urlGroup,
         notes: row.notes,
-      },
-    }));
+      });
+    });
+
+    // Convertir el mapa a un array para retornar
+    const doctors = Array.from(doctorsMap.values());
 
     return doctors;
   } catch (err) {
@@ -82,4 +95,129 @@ async function getConsultorios(id) {
   }
 }
 
-module.exports = { getCity, getEspecialidades, getDoctor, getConsultorios };
+async function saveName(data) {
+  const { name, phone } = data;
+  console.log(name, phone);
+  const connection = await pool.getConnection();
+  try {
+    const sql = "UPDATE TelData SET name = ? WHERE phone = ?";
+    const [rows, fields] = await connection.query(sql, [name, phone]);
+    console.log(rows);
+    return rows;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function saveinfofinal(data) {
+  const { doc, consultorio, motivo, email, telID, city } = data;
+  console.log(doc, consultorio, motivo, email, telID, city);
+
+  const connection = await pool.getConnection();
+  try {
+    const sql =
+      "INSERT INTO consultas (doctor, motivo, fecha, email, telID, city, consultorio) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const [rows, fields] = await connection.query(sql, [
+      doc,
+      consultorio,
+      motivo,
+      email,
+      telID,
+      city,
+    ]);
+
+    return rows;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getinfoFinal(id) {
+  const connection = await pool.getConnection();
+  try {
+    const sql =
+      "select * from consultorios t0 INNER JOIN DocInformation t1 on t0.idDoc = t1.id where t0.id = ?";
+    const [rows, fields] = await connection.query(sql, [id]);
+    return rows;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function savespecity(data) {
+  const { ciudad, especialidad } = data;
+  const newDate = new Date();
+
+  // Formatear la fecha como 'YYYY-MM-DD'
+  const formattedDate = newDate.toISOString().split("T")[0];
+
+  const connection = await pool.getConnection();
+  try {
+    const sql =
+      "INSERT INTO datacity (city, especialidad, date) VALUES (?, ?, ?)";
+    const [rows, fields] = await connection.query(sql, [
+      ciudad,
+      especialidad,
+      formattedDate,
+    ]);
+    console.log(rows);
+    return rows;
+  } catch (err) {
+    console.log(err);
+    return null;
+  } finally {
+    connection.release();
+  }
+}
+
+async function savePhone(phone) {
+
+  
+  console.log(phone);
+  const connection = await pool.getConnection();
+  try {
+    const sql = "INSERT INTO TelData (phone) VALUES (?)";
+    const [rows, fields] = await connection.query(sql, [phone]);
+    console.log(rows);
+    return rows;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+
+async function findPhone(phone) {
+
+
+  const connection = await pool.getConnection();
+  try {
+    const sql =
+      "SELECT * FROM TelData WHERE phone = ?";
+    const [rows, fields] = await connection.query(sql, [phone]);
+    console.log(rows);
+    return rows;
+  } catch (err) {
+    console.log(err);
+    return null;
+  } finally {
+    connection.release();
+  }
+
+}
+
+
+
+
+module.exports = {
+  getCity,
+  getEspecialidades,
+  getDoctor,
+  getConsultorios,
+  saveName,
+  saveinfofinal,
+  getinfoFinal,
+  savespecity,
+  savePhone,
+  findPhone,
+};

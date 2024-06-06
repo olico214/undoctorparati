@@ -8,27 +8,16 @@ import {
 import { MysqlAdapter as Database } from "@builderbot/database-mysql";
 import { BaileysProvider as Provider } from "@builderbot/provider-baileys";
 import axios from "axios";
-import pkg, { getConsultorios } from "./fetchData/querys.cjs";
+import pkg, { findPhone, getinfoFinal, saveName, savePhone, saveinfofinal, savespecity } from "./fetchData/querys.cjs";
 const { getCity, getDoctor, getEspecialidades } = pkg;
 
 import dotenv from "dotenv";
 dotenv.config();
 
 const PORT = process.env.PORT ?? 3008;
-const ciudad = process.env.city;
-async function savespecity(data) {
-  try {
-    const apiUrl = "https://undoctorparami.com/test/botApi/savecity.php";
+const ciudad = process.env.city
 
-    const response = await axios.post(apiUrl, data);
 
-    const especialidades = response.data;
-    return especialidades;
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-    throw error; // Re-lanzar el error para que pueda ser manejado por el llamador si es necesario
-  }
-}
 
 async function getPalabraClave(clave) {
   try {
@@ -52,29 +41,7 @@ async function getCiudadEspe(clave) {
   }
 }
 
-async function findPhone(phone) {
-  try {
-    const apiUrl = `https://undoctorparami.com/test/botApi/findPhone.php?phone=${phone}`;
 
-    const response = await axios.get(apiUrl);
-    const telefono = response.data;
-
-    return telefono;
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-  }
-}
-
-async function savePhone(data) {
-  try {
-    const apiUrl = "https://undoctorparami.com/test/botApi/savePhone.php";
-    const response = await axios.post(apiUrl, data);
-    return response.data;
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-    throw error; // Propaga el error para que pueda ser manejado fuera de esta función
-  }
-}
 
 const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(
   async (ctx, { flowDynamic, gotoFlow, state }) => {
@@ -118,8 +85,9 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(
       }
     }
     const dataIni = await findPhone(ctx.from);
+    
 
-    if (!dataIni) {
+    if (dataIni.length==0) {
       await flowDynamic(
         `👋 ¡Hola! Bienvenido(a) al *Directorio de Médicos especialistas por WhatsApp de* 
       https://Undoctorparati.com/
@@ -130,15 +98,12 @@ const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(
   
     😁 Soy un Asistente Virtual con respuestas programadas, ten paciencia, si no contesto lo que estás buscando.`
       );
-      //await verifiNumber({ phone: ctx.from, body: `Nuevo Mensaje del numero: ${ctx.from} \n\n${response}` }, 'incoming');
-      const data = {
-        tel: ctx.from,
-      };
 
-      await savePhone(data);
+
+      await savePhone(ctx.from);
     }
 
-    await state.update({ selecCity: ciudad });
+    await state.update({ selecCity: process.env.city });
     return gotoFlow(flowSeleccionMedium);
   }
 );
@@ -364,11 +329,9 @@ const flowDoctores = addKeyword("##GetEspecialidades##").addAction(
         msg += `\n*${indice}) ${doctor.nameDoc}* 🩺 ${contraccion}\n\n🏥 *Atiende en:*\n`;
 
         // Iterar sobre los consultorios del doctor y agregarlos al mensaje
-        for (const consultorio in doctor.consultorios) {
-          if (consultorio === "hosp") {
-            // Excluir las propiedades "id" y "idDoc"
-            msg += `» ${doctor.consultorios[consultorio]}\n`;
-          }
+        for (const consultorio of doctor.consultorios) {
+          // Utilizar la variable "consultorio" en lugar de la propiedad "doctor.consultorios"
+          msg += `» ${consultorio.hosp}\n`;
         }
 
         msg += `\n••••••••••••••••••••••••••••••••••••••••••\n\n`;
@@ -394,8 +357,9 @@ const flowSelectDoctores = addKeyword("##GetEspecialidades##").addAction(
 
     for (const doctor of doctores) {
       if (indice == response) {
-      
-        await state.update({ selectedDoct: doctor.docID });
+        await state.update({ selectedDoct: doctor, idDoc:doctor.docID });
+        console.log(doctor.docID)
+       
         validation = 1;
         return gotoFlow(flowGetConsultorios);
       }
@@ -412,50 +376,42 @@ const flowSelectDoctores = addKeyword("##GetEspecialidades##").addAction(
 );
 
 //////////////asitente y Consultorios
-
 const flowGetConsultorios = addKeyword("##flowGetConsultorios##").addAction(
   async (ctx, { flowDynamic, state, gotoFlow }) => {
     const estado = state.getMyState();
-    const id = estado.selectedDoct;
-    
-    const doctor = await getConsultorios(id)
-    console.log(doctor)
-    return
+    const doctor = estado.selectedDoct;
+
     let indice = 0;
     let msg = "";
-  
-      msg += `¡Hola! 👋 soy la asistente virtual de ${doctor.prefijo} ${
-        doctor.nameDoc
-      }\n» ${doctor.especialidad} ${
-        doctor.SubEspecialidad ? "- " + doctor.SubEspecialidad : ""
-      }\n\n`;
-      msg += `*Te comparto los consultorios del doctor:*\n\n`;
 
+    msg += `¡Hola! 👋 soy la asistente virtual de ${doctor.prefijo} ${
+      doctor.nameDoc
+    }\n» ${doctor.especialidad} ${
+      doctor.SubEspecialidad ? "- " + doctor.SubEspecialidad : ""
+    }\n\n`;
+    msg += `*Te comparto los consultorios del doctor:*\n\n`;
 
-      for (const consultorio of doctor.consultorios) {
-        console.log(`Doctor ID: ${consultorio.id}`);
-        for (const key in consultorio) {
-          if (key === "hosp") {
-            msg += `*${indice + 1} > ${consultorio[key]}*\n`;
-            indice += 1;
-          }
-        
-          if (key === "dir") {
-            msg += `${consultorio[key]}\n\n`;
-            indice += 1;
-          }
+    const consultoriosArray = Object.values(doctor.consultorios);
+
+    for (const consultorio of consultoriosArray) {
+      for (const key in consultorio) {
+        if (key === "hosp") {
+          msg += `*${indice + 1} > ${consultorio[key]}*\n`;
         }
-       
+
+        if (key === "dir") {
+          msg += `${consultorio[key]}\n\n`;
+          indice += 1;
+        }
       }
-      
+    }
 
-
-      msg += `\n\n👉 Escribe el número del consultorio que deseas por favor:`;
-      await flowDynamic([{ body: msg, delay: 1500 }]);
-      return gotoFlow(flowSelectConsultorio);
-    
+    msg += `\n\n👉 Escribe el número del consultorio que deseas por favor:`;
+    await flowDynamic([{ body: msg, delay: 1500 }]);
+    return gotoFlow(flowSelectConsultorio);
   }
 );
+
 const flowSelectConsultorio = addKeyword("##flowGetConsultorios##").addAction(
   { capture: true },
   async (ctx, { flowDynamic, state, gotoFlow, fallBack }) => {
@@ -475,58 +431,38 @@ const flowSelectConsultorio = addKeyword("##flowGetConsultorios##").addAction(
     const estado = state.getMyState();
     const doctor = estado.selectedDoct;
 
-
-    let indice = 0;
     let validation = true;
     let idConsultorio = "";
+    const consultoriosArray = Object.values(doctor.consultorios);
 
-
-    for (const consultorio of doctor.consultorios) {
-      console.log(`Doctor ID: ${consultorio.id}`);
+    for (const consultorio of consultoriosArray) {
       for (const key in consultorio) {
         if (key === "id") {
+          validation = false
           idConsultorio = consultorio[key];
-          let option = `${indice + 1}`;
-          if (response == option) {
-            validation = false;
-          }
+          await state.update({ idConsultorio: idConsultorio });
+          await flowDynamic(
+            "👌 *Para continuar necesito tomarte unos datos, recuerda que si deseas cambiar de consultorio puedes escribir regresar*"
+          );
+          return gotoFlow(flowGetName);
         }
       }
-     
     }
-
-
 
     if (validation) {
       await flowDynamic(
         "😞 Creo que estás escribiendo algo diferente a las opciones que te brinde, *por favor escribe la opción correcta*"
       );
       return fallBack();
-    } else {
-      await state.update({ idConsultorio: idConsultorio });
-      await flowDynamic(
-        "👌 *Para continuar necesito tomarte unos datos, recuerda que si deseas cambiar de consultorio puedes escribir regresar*"
-      );
-      return gotoFlow(flowGetName);
-    }
+    } 
   }
 );
 
-async function saveName(data) {
-  try {
-    const apiUrl = "https://undoctorparami.com/test/botApi/saveName.php";
-    const response = await axios.post(apiUrl, data);
-    return response.data;
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-    throw error; // Propaga el error para que pueda ser manejado fuera de esta función
-  }
-}
 
 const flowGetName = addKeyword("##flowGetConsultorios##").addAnswer(
   "✍️ *¿Cual es tu nombre completo?*",
   { capture: true },
-  async (ctx, {  state, gotoFlow }) => {
+  async (ctx, { state, gotoFlow }) => {
     await state.update({ namePaciente: ctx.body });
     const response = ctx.body;
 
@@ -539,7 +475,7 @@ const flowGetName = addKeyword("##flowGetConsultorios##").addAnswer(
     } else {
       const data = {
         name: response,
-        tel: ctx.from,
+        phone: ctx.from,
       };
       await saveName(data);
       return gotoFlow(flowGetMotivo);
@@ -547,10 +483,11 @@ const flowGetName = addKeyword("##flowGetConsultorios##").addAnswer(
   }
 );
 
+
 const flowGetMotivo = addKeyword("##flowGetConsultorios##").addAnswer(
   "🩺 *¿Comparteme el motivo de tu consulta?*",
   { capture: true },
-  async (ctx, { state, gotoFlow}) => {
+  async (ctx, { state, gotoFlow }) => {
     await state.update({ motivoConsulta: ctx.body });
     return gotoFlow(flowGetEmail);
   }
@@ -559,7 +496,7 @@ const flowGetMotivo = addKeyword("##flowGetConsultorios##").addAnswer(
 const flowGetEmail = addKeyword("##flowGetConsultorios##").addAnswer(
   '✉️  *¿Cuál es tu email?*\n\no escribe  "0" (Cero) si no cuentas o no quieres compartirlo',
   { capture: true },
-  async (ctx, {  state, gotoFlow }) => {
+  async (ctx, { state, gotoFlow }) => {
     let email;
     if (ctx.body == "0") {
       email = "Sin Correo";
@@ -585,17 +522,6 @@ const flowConfirmData = addKeyword("##flowGetConsultorios##").addAction(
   }
 );
 
-async function saveinfofinal(data) {
-  try {
-    const apiUrl =
-      "https://undoctorparami.com/test/botApi/uploadNuevaConsulta.php";
-    const response = await axios.post(apiUrl, data);
-    return response.data;
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-    throw error; // Propaga el error para que pueda ser manejado fuera de esta función
-  }
-}
 
 const flowSelectConfirmData = addKeyword("##flowGetConsultorios##").addAction(
   { capture: true },
@@ -692,10 +618,7 @@ const flowSelectConfirmData = addKeyword("##flowGetConsultorios##").addAction(
 
 const flowFinalmsg = addKeyword("##flowGetConsultorios##").addAction(
   { capture: true },
-  async (
-    ctx,
-    {  gotoFlow,  endFlow }
-  ) => {
+  async (ctx, { gotoFlow, endFlow }) => {
     const response = ctx.body;
     if (
       response === "menu" ||
@@ -716,17 +639,7 @@ const flowFinalmsg = addKeyword("##flowGetConsultorios##").addAction(
   }
 );
 
-async function getinfoFinal(id) {
-  try {
-    const apiUrl = `https://undoctorparami.com/test/botApi/getConsultoriodocinfo.php?id=${id}`;
 
-    const response = await axios.get(apiUrl);
-    const especialidades = response.data;
-    return especialidades;
-  } catch (error) {
-    console.error("Error al consultar la API:", error);
-  }
-}
 const main = async () => {
   const adapterFlow = createFlow([
     flowBienvenida,
