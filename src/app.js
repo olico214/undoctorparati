@@ -312,19 +312,19 @@ const flowDoctores = addKeyword("##GetEspecialidades##").addAction(
           contraccion += ` - ${doctor.SubEspecialidad}`;
         }
 
-        msg += `\n*${indice}) ${doctor.nameDoc}* 🩺 ${contraccion}\n\n🏥 *Atiende en:*\n`;
+        msg += `\n*${indice})  ${datainfo[0].prefijo} ${doctor.nameDoc}* 🩺 ${contraccion}\n\n🏥 *Atiende en:*\n`;
 
         // Iterar sobre los consultorios del doctor y agregarlos al mensaje
         for (const consultorio of doctor.consultorios) {
           // Utilizar la variable "consultorio" en lugar de la propiedad "doctor.consultorios"
-          msg += `» ${consultorio.hosp}\n`;
+          msg += `\n » ${consultorio.hosp}\n`;
         }
 
         msg += `\n••••••••••••••••••••••••••••••••••••••••••\n\n`;
 
         indice += 1;
       }
-
+      msg += `\n⭕ Escribe *Menu* para regresar`;
       await state.update({ doctores: doctores });
       await flowDynamic([{ body: msg, delay: 1500 }]);
       return gotoFlow(flowSelectDoctores);
@@ -403,7 +403,8 @@ const flowGetConsultorios = addKeyword("##flowGetConsultorios##").addAction(
       }
     }
 
-    msg += `\n\n👉 Escribe el número del consultorio que deseas por favor:`;
+    msg += `\n\n👉 *Escribe el número* del consultorio que deseas por favor:`;
+    msg += `\n⭕ o escribe *Menu* para regresar`;
     await flowDynamic([{ body: msg, delay: 1500 }]);
     return gotoFlow(flowSelectConsultorio);
   }
