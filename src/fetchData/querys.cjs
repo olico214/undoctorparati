@@ -245,6 +245,27 @@ async function getCiudadEspe(clave) {
   }
 }
 
+
+async function findphone(phone) {
+  const connection = await pool.getConnection();
+  try {
+    const sql = "Select * from whatsBlock where Telefono = ?";
+    const [rows, fields] = await connection.query(sql, [phone]);
+
+    if (rows.length >0){
+      return true
+    }else{
+      return false
+    }
+    
+  } catch (err) {
+    console.log(err);
+    return null;
+  } finally {
+    connection.release();
+  }
+}
+
 module.exports = {
   getCity,
   getEspecialidades,
@@ -258,4 +279,5 @@ module.exports = {
   findPhone,
   getPalabraClave,
   getCiudadEspe,
+  findphone
 };
