@@ -253,7 +253,7 @@ async function noresponse(phone) {
   try {
     const sql = "Select * from whatsBlock where Telefono like ?";
     const [rows, fields] = await connection.query(sql, [tel]);
-    console.log(rows)
+  
     if (rows.length >0){
       return true
     }else{
