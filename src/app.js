@@ -316,7 +316,7 @@ const flowDoctores = addKeyword("##GetEspecialidades##").addAction(
           contraccion += ` - ${doctor.SubEspecialidad}`;
         }
 
-        msg += `\n*${indice})  ${datainfo[0].prefijo} ${doctor.nameDoc}* 🩺 ${contraccion}\n\n🏥 *Atiende en:*\n`;
+        msg += `\n*${indice})  ${doctor.prefijo} ${doctor.nameDoc}* 🩺 ${contraccion}\n\n🏥 *Atiende en:*\n`;
 
         // Iterar sobre los consultorios del doctor y agregarlos al mensaje
         for (const consultorio of doctor.consultorios) {
