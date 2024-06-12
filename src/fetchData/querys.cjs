@@ -248,7 +248,8 @@ async function getCiudadEspe(clave) {
 
 async function noresponse(phone) {
   const connection = await pool.getConnection();
-  let tel = `%${phone}%` 
+  const subphone = phone.substring(3);
+  let tel = `%${subphone}%` 
   try {
     const sql = "Select * from whatsBlock where Telefono like ?";
     const [rows, fields] = await connection.query(sql, [tel]);
