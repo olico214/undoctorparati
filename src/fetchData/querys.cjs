@@ -246,12 +246,13 @@ async function getCiudadEspe(clave) {
 }
 
 
-async function findphone(phone) {
+async function noresponse(phone) {
   const connection = await pool.getConnection();
+  let tel = `%${phone}%` 
   try {
-    const sql = "Select * from whatsBlock where Telefono = ?";
-    const [rows, fields] = await connection.query(sql, [phone]);
-
+    const sql = "Select * from whatsBlock where Telefono like ?";
+    const [rows, fields] = await connection.query(sql, [tel]);
+    console.log(rows)
     if (rows.length >0){
       return true
     }else{
@@ -279,5 +280,5 @@ module.exports = {
   findPhone,
   getPalabraClave,
   getCiudadEspe,
-  findphone
+  noresponse
 };

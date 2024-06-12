@@ -8,7 +8,7 @@ import {
 import { MemoryDB as Database } from '@builderbot/bot'
 import { BaileysProvider as Provider } from '@builderbot/provider-baileys'
 
-import pkg, { findPhone, findphone, getCiudadEspe, getPalabraClave, getinfoFinal, saveName, savePhone, saveinfofinal, savespecity } from "./fetchData/querys.cjs";
+import pkg, { findPhone,  getCiudadEspe, getPalabraClave, getinfoFinal, noresponse, saveName, savePhone, saveinfofinal, savespecity } from "./fetchData/querys.cjs";
 const { getCity, getDoctor, getEspecialidades } = pkg;
 
 import dotenv from "dotenv";
@@ -27,7 +27,8 @@ const ciudad = process.env.city
 const flowBienvenida = addKeyword(EVENTS.WELCOME).addAction(
   async (ctx, { flowDynamic, gotoFlow, state,endFlow }) => {
     const response = ctx.body;
-    const validate = await findphone()
+    const validate = await noresponse(ctx.from)
+    console.log(validate)
     if(validate){
       return endFlow()
     }
